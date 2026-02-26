@@ -1,275 +1,387 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from 'react'
 
-/* ───── Photo mapping guide ─────
-When deploying to Vercel, create /public/photos/ and add these files:
-  1. lake-sunset.jpg         → 481084563...n.jpeg  (Sun Moon Lake golden hour)
-  2. hotel-aerial-mist.jpg   → 568750566...n.jpeg  (misty aerial, hotel + lake)
-  3. ceremony-hall.jpg        → 487278758...n.jpeg  (banquet hall with round tables & lake view)
-  4. hotel-aerial-green.jpg   → 486459009...n.jpeg  (bright aerial, hotel on peninsula)
-  5. lake-morning.jpg         → 534489555...n.jpeg  (calm blue lake panorama)
-  6. lobby-fireplace.jpg      → 585875276...n.jpeg  (lobby with sunburst mirror + fireplace)
-  7. lobby-wide.jpg           → 478060379...n.jpeg  (grand lobby wide angle)
-  8. hallway-3f.jpg           → IMG_0190.jpeg       (3F corridor with lake view)
-  9. hotel-blue-sky.jpg       → IMG_0189.jpeg       (hotel exterior, blue sky + flowers)
-  10. hotel-dusk-fountain.jpg → 488210228...n.jpeg  (entrance at twilight with fountains)
-  11. lake-dock-mist.jpg      → 488483192...n.jpeg  (misty lake with dock)
-  12. hotel-drone.jpg         → 61790754...n.jpeg   (aerial green hillside)
-───── */
+const GALLERY = [
+  { url: '/photos/lake-sunset.jpg', label: 'Sun Moon Lake at Sunset', span: 2 },
+  { url: '/photos/ceremony-hall.jpg', label: 'Soaring Cloud Hall — Ceremony', span: 1 },
+  { url: '/photos/hotel-aerial-mist.jpg', label: 'Fleur de Chine — Misty Morning', span: 1 },
+  { url: '/photos/lobby-fireplace.jpg', label: 'Hotel Lobby', span: 1 },
+  { url: '/photos/hotel-entrance-dusk.jpg', label: 'Hotel Entrance at Twilight', span: 1 },
+  { url: '/photos/lake-misty.jpg', label: 'Morning on the Lake', span: 2 },
+  { url: '/photos/hotel-aerial-green.jpg', label: 'Aerial View — Sun Moon Lake', span: 1 },
+  { url: '/photos/hallway-3f.jpg', label: 'Banquet Wing Hallway', span: 1 },
+]
 
-const GALLERY_ITEMS = [
-  { file: "lake-sunset.jpg", label: "Sun Moon Lake at Sunset", span: 2 },
-  { file: "ceremony-hall.jpg", label: "Reception Hall — Lake View", span: 1 },
-  { file: "hotel-aerial-mist.jpg", label: "Fleur de Chine — Misty Morning", span: 1 },
-  { file: "lobby-fireplace.jpg", label: "Hotel Lobby", span: 1 },
-  { file: "hotel-dusk-fountain.jpg", label: "Hotel Entrance at Twilight", span: 1 },
-  { file: "lake-dock-mist.jpg", label: "Morning on the Lake", span: 2 },
-];
-
-const content = {
+const T = {
   en: {
-    langLabel: "中文",
-    nav: ["Home", "Our Story", "Schedule", "Venue", "RSVP", "FAQ"],
-    hero: { date: "December 19, 2026", dateDay: "Saturday", venue: "Fleur de Chine Hotel · Sun Moon Lake, Taiwan", tagline: "Join us to celebrate", cta: "RSVP Now" },
-    noGift: { title: "Your Presence Is Our Gift", body: "We kindly ask for no gifts, red envelopes, or monetary contributions. We simply want to share this joyful day with the people we love most. Your presence and your blessing are more than enough." },
-    gallery: { title: "The Venue", subtitle: "Fleur de Chine · Sun Moon Lake" },
+    langLabel: '中文',
+    nav: ['Home', 'Our Story', 'Schedule', 'Venue', 'RSVP', 'FAQ'],
+    hero: { date: 'December 19, 2026', dateDay: 'Saturday', venue: 'Fleur de Chine Hotel · Sun Moon Lake, Taiwan', tagline: 'Join us to celebrate', cta: 'RSVP Now' },
+    noGift: { title: 'Your Presence Is Our Gift', body: "We kindly ask for no gifts, red envelopes, or monetary contributions. We simply want to share this joyful day with the people we love most. Your presence and your blessing are more than enough." },
+    gallery: { title: 'The Venue', subtitle: 'Fleur de Chine · Sun Moon Lake' },
     story: {
-      title: "Our Story", subtitle: "Two lives, two cultures, one love",
-      p1: "What began as a connection across the Pacific grew into a love rooted in faith, family, and a shared vision for the future. Steven, from New Jersey, and Bonnie, from Taichung, found in each other a partner for life's greatest journey.",
-      p2: "We were legally married in Taiwan and are overjoyed to celebrate our union with the people who matter most — at Sun Moon Lake, one of Taiwan's most beautiful places.",
-      p3: "We believe marriage is a gift, and we are grateful for every person who has been part of our story. We look forward to celebrating with you.",
+      title: 'Our Story', subtitle: 'Two lives, two cultures, one love',
+      p1: "What began as a connection across the Pacific grew into a love rooted in faith, family, and a shared vision for the future. Steven, from New Jersey, and Bonnie, from Taichung, found in each other a partner for life\u2019s greatest journey.",
+      p2: "We were legally married in Taiwan and are overjoyed to celebrate our union with the people who matter most \u2014 at Sun Moon Lake, one of Taiwan\u2019s most beautiful places.",
+      p3: "We believe marriage is a gift, and we are grateful for every person who has been part of our story. We look forward to celebrating with you."
     },
     schedule: {
-      title: "Wedding Day", subtitle: "December 19, 2026 · Saturday",
+      title: 'Wedding Day', subtitle: 'December 19, 2026 · Saturday',
       events: [
-        { time: "10:00 AM", name: "Wedding Ceremony", venue: "Soaring Cloud Hall (雲揚廳)", detail: "Lobby level — enter the hotel and follow the hallway to the banquet wing. Refreshments served beforehand." },
-        { time: "12:00 PM", name: "Ceremony Concludes", venue: "", detail: "Short walk to the reception hall right next door" },
-        { time: "12:30 PM", name: "Wedding Reception & Banquet", venue: "Cosmos Cloud B Hall (雲翰B廳)", detail: "Chinese banquet, celebration, and fellowship" },
-        { time: "3:00 PM", name: "Farewell", venue: "", detail: "Send-off with gratitude and joy" },
-      ],
+        { time: '10:00 AM', name: 'Wedding Ceremony', venue: 'Soaring Cloud Hall (\u96F2\u63DA\u5EF3)', detail: 'Lobby level \u2014 enter the hotel and follow the hallway to the banquet wing. Refreshments served beforehand.' },
+        { time: '12:00 PM', name: 'Ceremony Concludes', venue: '', detail: 'Short walk to the reception hall right next door' },
+        { time: '12:30 PM', name: 'Wedding Reception & Banquet', venue: 'Cosmos Cloud B Hall (\u96F2\u7FF0B\u5EF3)', detail: 'Chinese banquet, celebration, and fellowship' },
+        { time: '3:00 PM', name: 'Farewell', venue: '', detail: 'Send-off with gratitude and joy' }
+      ]
     },
     venue: {
-      title: "Getting There", subtitle: "Fleur de Chine Hotel · Sun Moon Lake",
-      address: "No. 23, Zhongzheng Rd, Yuchi Township, Nantou County 555, Taiwan",
+      title: 'Getting There', subtitle: 'Fleur de Chine Hotel · Sun Moon Lake',
+      address: 'No. 23, Zhongzheng Rd, Yuchi Township, Nantou County 555, Taiwan',
+      addressZh: '\u5357\u6295\u7E23\u9B5A\u6C60\u9109\u65E5\u6708\u6F6D\u4E2D\u6B63\u8DEF23\u865F',
       domestic: {
-        title: "From Within Taiwan",
-        steps: [
-          "Drive to Sun Moon Lake (~1.5 hrs from Taichung), or",
-          "Take Nantou Bus (南投客運) from Taichung HSR Station directly to Sun Moon Lake",
-          "Free parking at the hotel for all wedding guests",
-        ],
-        note: "We may arrange a shuttle from Taichung HSR — please indicate on the RSVP if interested.",
+        title: 'From Within Taiwan',
+        steps: ['Drive to Sun Moon Lake (~1.5 hrs from Taichung), or', 'Take Nantou Bus (\u5357\u6295\u5BA2\u904B) from Taichung HSR Station directly to Sun Moon Lake', 'Free parking at the hotel for all wedding guests'],
+        note: 'We may arrange a shuttle from Taichung HSR \u2014 please indicate on the RSVP if interested.'
       },
       overseas: {
-        title: "From Overseas",
+        title: 'From Overseas',
         steps: [
-          { icon: "✈", label: "Fly into Taoyuan International Airport (TPE)" },
-          { icon: "🚄", label: "Take HSR from Taoyuan Station → Taichung Station (40 min)" },
-          { icon: "🚌", label: "Bus or car from Taichung HSR → Sun Moon Lake (1.5 hrs)" },
-          { icon: "🏨", label: "Check in at Fleur de Chine Hotel" },
+          { icon: '\u2708', label: 'Fly into Taoyuan International Airport (TPE)' },
+          { icon: '\uD83D\uDE84', label: 'Take HSR from Taoyuan Station \u2192 Taichung Station (40 min)' },
+          { icon: '\uD83D\uDE8C', label: 'Bus or car from Taichung HSR \u2192 Sun Moon Lake (1.5 hrs)' },
+          { icon: '\uD83C\uDFE8', label: 'Check in at Fleur de Chine Hotel' }
         ],
-        note: "We recommend arriving at least one day before the wedding to settle in and enjoy the area.",
-      },
-      hotel: {
-        title: "Accommodation",
-        body: "Wedding guests receive 10% off room rates at Fleur de Chine (Cloud Holiday room type). Sunday–Thursday: up to 8 rooms. Friday–Saturday: up to 5 rooms.",
-        cta: "Call 049-285-6788 and mention \"Steven & Bonnie Wedding\" to book.",
+        note: 'We recommend arriving at least one day before the wedding to settle in and enjoy the area.'
       },
     },
     rsvp: {
-      title: "RSVP", subtitle: "Please respond by November 19, 2026",
-      fields: {
-        name: "Full Name", namePh: "Your full name", email: "Email", emailPh: "your@email.com",
-        phone: "Phone Number", phonePh: "Your phone number", guests: "Total Guests in Your Party",
-        attending: "Attending", attendOpts: ["Ceremony & Reception", "Ceremony Only", "Reception Only", "Unable to Attend"],
-        dietary: "Dietary Requirements", dietaryOpts: ["None", "Vegetarian (素食)", "Other"], dietaryOther: "Please specify",
-        transport: "Transportation", transportOpts: ["Driving myself", "Interested in shuttle from Taichung HSR", "Coming from overseas — need travel guidance"],
-        hotel: "Interested in room block? (10% off)", hotelOpts: ["Yes", "No"],
-        notes: "Anything else we should know?", notesPh: "Allergies, accessibility needs, etc.",
-        submit: "Open RSVP Form", submitted: "Thank you! We've received your RSVP and can't wait to celebrate with you.",
-      },
+      title: 'RSVP', subtitle: 'Please respond by November 19, 2026',
+      desc: "Let us know if you can make it! Our RSVP form takes about 2 minutes and helps us plan seating, meals, and transportation.",
+      submit: 'Open RSVP Form'
     },
     faq: {
-      title: "FAQ",
+      title: 'FAQ',
       items: [
-        { q: "Do I need to bring a gift or red envelope?", a: "No — please don't! We mean it. No gifts, no red envelopes (紅包), no monetary contributions. Your presence is truly the only gift we want." },
-        { q: "What should I wear?", a: "Formal attire. December at Sun Moon Lake is cool — around 12–18°C (54–64°F) — so bring a warm coat or wrap." },
-        { q: "What about the weather?", a: "Expect cool, crisp weather with possible morning mist. Layers are your friend. The ceremony and reception are both indoors with full climate control, but you'll want warmth for any time outdoors." },
-        { q: "Are children welcome?", a: "Yes! Children are welcome at both the ceremony and reception." },
-        { q: "What language will the ceremony be in?", a: "Both English and Mandarin Chinese." },
-        { q: "Where exactly is the ceremony?", a: "All banquet spaces are on the lobby level (the floor you enter on). Walk in and follow the hallway toward the banquet wing. Soaring Cloud Hall (ceremony) is at the end of the hallway, and Cosmos Cloud B Hall (reception) is nearby. There will be signage." },
-        { q: "I'm coming from overseas. How do I get there?", a: "Fly into Taoyuan Airport (TPE), take the HSR to Taichung (40 min), then bus or car to Sun Moon Lake (1.5 hrs). We recommend arriving the day before. See the Getting There section for the full step-by-step." },
-        { q: "Can I stay at the hotel?", a: "Yes! 10% off for wedding guests. Call 049-285-6788 and mention our wedding. Book early — rooms are limited." },
-      ],
+        { q: 'Do I need to bring a gift or red envelope?', a: "No \u2014 please don\u2019t! We mean it. No gifts, no red envelopes (\u7D05\u5305), no monetary contributions. Your presence is truly the only gift we want." },
+        { q: 'What should I wear?', a: "Formal attire. December at Sun Moon Lake is cool \u2014 around 12\u201318\u00B0C (54\u201364\u00B0F) \u2014 so bring a warm coat or wrap." },
+        { q: 'What about the weather?', a: "Expect cool, crisp weather with possible morning mist. Layers are your friend. The ceremony and reception are both indoors with full climate control, but you\u2019ll want warmth for any time outdoors." },
+        { q: 'Are children welcome?', a: 'Yes! Children are welcome at both the ceremony and reception.' },
+        { q: 'What language will the ceremony be in?', a: 'Both English and Mandarin Chinese.' },
+        { q: 'Where exactly is the ceremony?', a: "All banquet spaces are on the lobby level (the floor you enter on). Walk in and follow the hallway toward the banquet wing. Soaring Cloud Hall (ceremony) is at the end of the hallway, and Cosmos Cloud B Hall (reception) is nearby. There will be signage." },
+        { q: "I\u2019m coming from overseas. How do I get there?", a: "Fly into Taoyuan Airport (TPE), take the HSR to Taichung (40 min), then bus or car to Sun Moon Lake (1.5 hrs). We recommend arriving the day before. See the Getting There section for the full step-by-step." }
+      ]
     },
     explore: {
-      title: "While You're Here", subtitle: "Things to do around Sun Moon Lake",
+      title: "While You\u2019re Here", subtitle: 'Things to do around Sun Moon Lake',
       items: [
-        { name: "Sun Moon Lake Cycling Path", desc: "One of the world's most beautiful bike paths, circling the entire lake." },
-        { name: "Wenwu Temple", desc: "Grand lakeside Taoist temple with stunning panoramic views, just 1km away." },
-        { name: "Sun Moon Lake Ropeway", desc: "Cable car offering aerial views of the lake and mountains." },
-        { name: "Ita Thao Village", desc: "Indigenous Thao tribal village — local cuisine, crafts, and cultural experiences." },
-        { name: "Hotel Hot Springs", desc: "Fleur de Chine has natural hot springs. Perfect for unwinding after the celebration." },
-      ],
+        { name: 'Sun Moon Lake Cycling Path', desc: "One of the world\u2019s most beautiful bike paths, circling the entire lake." },
+        { name: 'Wenwu Temple', desc: 'Grand lakeside Taoist temple with stunning panoramic views, just 1km away.' },
+        { name: 'Sun Moon Lake Ropeway', desc: 'Cable car offering aerial views of the lake and mountains.' },
+        { name: 'Ita Thao Village', desc: 'Indigenous Thao tribal village \u2014 local cuisine, crafts, and cultural experiences.' },
+        { name: 'Hotel Hot Springs', desc: 'Fleur de Chine has natural hot springs. Perfect for unwinding after the celebration.' }
+      ]
     },
-    footer: "Steven & Bonnie", footerDate: "December 19, 2026",
-    footerSub: "Sun Moon Lake, Taiwan",
-    footerVerse: "\"Two are better than one, because they have a good return for their labor.\"",
-    footerRef: "Ecclesiastes 4:9",
+    footer: 'Steven & Bonnie', footerDate: 'December 19, 2026', footerSub: 'Sun Moon Lake, Taiwan',
+    footerVerse: '\u201CTwo are better than one, because they have a good return for their labor.\u201D', footerRef: 'Ecclesiastes 4:9'
   },
   zh: {
-    langLabel: "EN",
-    nav: ["首頁", "我們的故事", "婚禮流程", "交通住宿", "出席回覆", "常見問題"],
-    hero: { date: "2026年12月19日", dateDay: "星期六", venue: "日月潭 · 雲品溫泉酒店", tagline: "誠摯邀請您一同見證", cta: "立即回覆" },
-    noGift: { title: "您的到來就是最好的禮物", body: "我們懇請不收任何禮物、紅包或禮金。我們只希望與最愛的人一起分享這喜樂的一天。您的到來與祝福，就是對我們最大的恩典。" },
-    gallery: { title: "婚禮場地", subtitle: "雲品溫泉酒店 · 日月潭" },
+    langLabel: 'EN',
+    nav: ['\u9996\u9801', '\u6211\u5011\u7684\u6545\u4E8B', '\u5A5A\u79AE\u6D41\u7A0B', '\u4EA4\u901A\u4F4F\u5BBF', '\u51FA\u5E2D\u56DE\u8986', '\u5E38\u898B\u554F\u984C'],
+    hero: { date: '2026\u5E7412\u670819\u65E5', dateDay: '\u661F\u671F\u516D', venue: '\u65E5\u6708\u6F6D \u00B7 \u96F2\u54C1\u6EAB\u6CC9\u9152\u5E97', tagline: '\u8AA0\u647F\u9080\u8ACB\u60A8\u4E00\u540C\u898B\u8B49', cta: '\u7ACB\u5373\u56DE\u8986' },
+    noGift: { title: '\u60A8\u7684\u5230\u4F86\u5C31\u662F\u6700\u597D\u7684\u79AE\u7269', body: '\u6211\u5011\u61C7\u8ACB\u4E0D\u6536\u4EFB\u4F55\u79AE\u7269\u3001\u7D05\u5305\u6216\u79AE\u91D1\u3002\u6211\u5011\u53EA\u5E0C\u671B\u8207\u6700\u611B\u7684\u4EBA\u4E00\u8D77\u5206\u4EAB\u9019\u559C\u6A02\u7684\u4E00\u5929\u3002\u60A8\u7684\u5230\u4F86\u8207\u795D\u798F\uFF0C\u5C31\u662F\u5C0D\u6211\u5011\u6700\u5927\u7684\u6069\u5178\u3002' },
+    gallery: { title: '\u5A5A\u79AE\u5834\u5730', subtitle: '\u96F2\u54C1\u6EAB\u6CC9\u9152\u5E97 \u00B7 \u65E5\u6708\u6F6D' },
     story: {
-      title: "我們的故事", subtitle: "兩個生命、兩種文化、一份愛",
-      p1: "一段跨越太平洋的緣分，成長為以信仰、家庭和共同願景為根基的愛情。Steven來自美國紐澤西，子芸來自台中，兩人在彼此身上找到了人生旅途中最好的夥伴。",
-      p2: "我們已在台灣完成結婚登記，現在無比喜悅地邀請對我們最重要的人，一同在美麗的日月潭慶祝我們的結合。",
-      p3: "我們相信婚姻是恩賜，感謝每一位在我們生命中留下足跡的人。期待與您一同歡慶。",
+      title: '\u6211\u5011\u7684\u6545\u4E8B', subtitle: '\u5169\u500B\u751F\u547D\u3001\u5169\u7A2E\u6587\u5316\u3001\u4E00\u4EFD\u611B',
+      p1: '\u4E00\u6BB5\u8DE8\u8D8A\u592A\u5E73\u6D0B\u7684\u7DE3\u5206\uFF0C\u6210\u9577\u70BA\u4EE5\u4FE1\u4EF0\u3001\u5BB6\u5EAD\u548C\u5171\u540C\u9858\u666F\u70BA\u6839\u57FA\u7684\u611B\u60C5\u3002Steven\u4F86\u81EA\u7F8E\u570B\u7D10\u6FA4\u897F\uFF0C\u5B50\u82B8\u4F86\u81EA\u53F0\u4E2D\uFF0C\u5169\u4EBA\u5728\u5F7C\u6B64\u8EAB\u4E0A\u627E\u5230\u4E86\u4EBA\u751F\u65C5\u9014\u4E2D\u6700\u597D\u7684\u5925\u4F34\u3002',
+      p2: '\u6211\u5011\u5DF2\u5728\u53F0\u7063\u5B8C\u6210\u7D50\u5A5A\u767B\u8A18\uFF0C\u73FE\u5728\u7121\u6BD4\u559C\u6085\u5730\u9080\u8ACB\u5C0D\u6211\u5011\u6700\u91CD\u8981\u7684\u4EBA\uFF0C\u4E00\u540C\u5728\u7F8E\u9E97\u7684\u65E5\u6708\u6F6D\u6176\u795D\u6211\u5011\u7684\u7D50\u5408\u3002',
+      p3: '\u6211\u5011\u76F8\u4FE1\u5A5A\u59FB\u662F\u6069\u8CDE\uFF0C\u611F\u8B1D\u6BCF\u4E00\u4F4D\u5728\u6211\u5011\u751F\u547D\u4E2D\u7559\u4E0B\u8DB3\u8DE1\u7684\u4EBA\u3002\u671F\u5F85\u8207\u60A8\u4E00\u540C\u6B61\u6176\u3002'
     },
     schedule: {
-      title: "婚禮流程", subtitle: "2026年12月19日（六）",
+      title: '\u5A5A\u79AE\u6D41\u7A0B', subtitle: '2026\u5E7412\u670819\u65E5\uFF08\u516D\uFF09',
       events: [
-        { time: "上午 10:00", name: "證婚儀式", venue: "雲揚廳", detail: "大廳樓層——進入酒店後沿走廊前往宴會區。儀式前提供輕食及飲品。" },
-        { time: "中午 12:00", name: "儀式結束", venue: "", detail: "步行至隔壁宴會廳" },
-        { time: "中午 12:30", name: "喜宴", venue: "雲翰B廳", detail: "中式喜宴、歡慶與團契" },
-        { time: "下午 3:00", name: "禮成", venue: "", detail: "歡送賓客，感恩與喜樂" },
-      ],
+        { time: '\u4E0A\u5348 10:00', name: '\u8B49\u5A5A\u5100\u5F0F', venue: '\u96F2\u63DA\u5EF3', detail: '\u5927\u5EF3\u6A13\u5C64\u2014\u2014\u9032\u5165\u9152\u5E97\u5F8C\u6CBF\u8D70\u5ECA\u524D\u5F80\u5BB4\u6703\u5340\u3002\u5100\u5F0F\u524D\u63D0\u4F9B\u8F15\u98DF\u53CA\u98F2\u54C1\u3002' },
+        { time: '\u4E2D\u5348 12:00', name: '\u5100\u5F0F\u7D50\u675F', venue: '', detail: '\u6B65\u884C\u81F3\u96A8\u58C1\u5BB4\u6703\u5EF3' },
+        { time: '\u4E2D\u5348 12:30', name: '\u559C\u5BB4', venue: '\u96F2\u7FF0B\u5EF3', detail: '\u4E2D\u5F0F\u559C\u5BB4\u3001\u6B61\u6176\u8207\u5718\u5951' },
+        { time: '\u4E0B\u5348 3:00', name: '\u79AE\u6210', venue: '', detail: '\u6B61\u9001\u8CD3\u5BA2\uFF0C\u611F\u6069\u8207\u559C\u6A02' }
+      ]
     },
     venue: {
-      title: "交通指南", subtitle: "雲品溫泉酒店 · 日月潭",
-      address: "南投縣魚池鄉日月潭中正路23號",
+      title: '\u4EA4\u901A\u6307\u5357', subtitle: '\u96F2\u54C1\u6EAB\u6CC9\u9152\u5E97 \u00B7 \u65E5\u6708\u6F6D',
+      address: '\u5357\u6295\u7E23\u9B5A\u6C60\u9109\u65E5\u6708\u6F6D\u4E2D\u6B63\u8DEF23\u865F',
       domestic: {
-        title: "台灣國內交通",
-        steps: [
-          "自行開車至日月潭（從台中出發約1.5小時），或",
-          "從台中高鐵站搭乘南投客運直達日月潭",
-          "酒店提供婚禮賓客免費停車",
-        ],
-        note: "我們可能安排從台中高鐵站出發的接駁車——請在回覆表單中告知是否需要。",
+        title: '\u53F0\u7063\u570B\u5167\u4EA4\u901A',
+        steps: ['\u81EA\u884C\u958B\u8ECA\u81F3\u65E5\u6708\u6F6D\uFF08\u5F9E\u53F0\u4E2D\u51FA\u767C\u7D041.5\u5C0F\u6642\uFF09\uFF0C\u6216', '\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u642D\u4E58\u5357\u6295\u5BA2\u904B\u76F4\u9054\u65E5\u6708\u6F6D', '\u9152\u5E97\u63D0\u4F9B\u5A5A\u79AE\u8CD3\u5BA2\u514D\u8CBB\u505C\u8ECA'],
+        note: '\u6211\u5011\u53EF\u80FD\u5B89\u6392\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u51FA\u767C\u7684\u63A5\u99C1\u8ECA\u2014\u2014\u8ACB\u5728\u56DE\u8986\u8868\u55AE\u4E2D\u544A\u77E5\u662F\u5426\u9700\u8981\u3002'
       },
       overseas: {
-        title: "海外賓客交通",
+        title: '\u6D77\u5916\u8CD3\u5BA2\u4EA4\u901A',
         steps: [
-          { icon: "✈", label: "飛抵桃園國際機場（TPE）" },
-          { icon: "🚄", label: "搭乘高鐵：桃園站 → 台中站（約40分鐘）" },
-          { icon: "🚌", label: "從台中高鐵站搭客運或包車至日月潭（約1.5小時）" },
-          { icon: "🏨", label: "入住雲品溫泉酒店" },
+          { icon: '\u2708', label: '\u98DB\u62B5\u6843\u5712\u570B\u969B\u6A5F\u5834\uFF08TPE\uFF09' },
+          { icon: '\uD83D\uDE84', label: '\u642D\u4E58\u9AD8\u9435\uFF1A\u6843\u5712\u7AD9 \u2192 \u53F0\u4E2D\u7AD9\uFF08\u7D0440\u5206\u9418\uFF09' },
+          { icon: '\uD83D\uDE8C', label: '\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u642D\u5BA2\u904B\u6216\u5305\u8ECA\u81F3\u65E5\u6708\u6F6D\uFF08\u7D041.5\u5C0F\u6642\uFF09' },
+          { icon: '\uD83C\uDFE8', label: '\u5165\u4F4F\u96F2\u54C1\u6EAB\u6CC9\u9152\u5E97' }
         ],
-        note: "建議於婚禮前一天抵達，可順便享受日月潭的美景。",
-      },
-      hotel: {
-        title: "住宿資訊",
-        body: "婚禮賓客享雲品假期房型浮動房價九折優惠。週日至週四限8間，週五至週六限5間。",
-        cta: "請撥打 049-285-6788，告知「Steven & Bonnie Wedding」即可預訂。",
+        note: '\u5EFA\u8B70\u65BC\u5A5A\u79AE\u524D\u4E00\u5929\u62B5\u9054\uFF0C\u53EF\u9806\u4FBF\u4EAB\u53D7\u65E5\u6708\u6F6D\u7684\u7F8E\u666F\u3002'
       },
     },
     rsvp: {
-      title: "出席回覆", subtitle: "請於2026年11月19日前回覆",
-      fields: {
-        name: "姓名", namePh: "您的全名", email: "電子郵件", emailPh: "your@email.com",
-        phone: "電話號碼", phonePh: "您的電話號碼", guests: "出席人數（含本人）",
-        attending: "出席項目", attendOpts: ["證婚儀式及喜宴", "僅出席證婚儀式", "僅出席喜宴", "無法出席"],
-        dietary: "飲食需求", dietaryOpts: ["無特殊需求", "素食", "其他"], dietaryOther: "請說明",
-        transport: "交通方式", transportOpts: ["自行開車", "有興趣搭乘台中高鐵站接駁車", "從海外前來——需要交通指引"],
-        hotel: "是否需要住宿？（享九折優惠）", hotelOpts: ["是", "否"],
-        notes: "其他我們需要知道的事？", notesPh: "過敏、無障礙需求等",
-        submit: "前往回覆表單", submitted: "感謝您！我們已收到您的回覆，期待與您一同歡慶。",
-      },
+      title: '\u51FA\u5E2D\u56DE\u8986', subtitle: '\u8ACB\u65BC2026\u5E7411\u670819\u65E5\u524D\u56DE\u8986',
+      desc: '\u8ACB\u544A\u8A34\u6211\u5011\u60A8\u662F\u5426\u80FD\u51FA\u5E2D\uFF01\u586B\u5BEB\u56DE\u8986\u8868\u55AE\u50C5\u9700\u7D042\u5206\u9418\uFF0C\u6709\u52A9\u65BC\u6211\u5011\u5B89\u6392\u5EA7\u4F4D\u3001\u9910\u9EDE\u53CA\u4EA4\u901A\u3002',
+      submit: '\u524D\u5F80\u56DE\u8986\u8868\u55AE'
     },
     faq: {
-      title: "常見問題",
+      title: '\u5E38\u898B\u554F\u984C',
       items: [
-        { q: "需要送禮或包紅包嗎？", a: "不需要！我們是認真的。請不要準備禮物、紅包或禮金。您的到來就是最好的禮物。" },
-        { q: "穿著要求？", a: "請著正式服裝。十二月的日月潭氣溫較涼（約12–18°C），請攜帶保暖外套。" },
-        { q: "天氣如何？", a: "預計涼爽清新，早晨可能有薄霧。建議穿著多層次。證婚儀式及喜宴皆在室內，但戶外活動需注意保暖。" },
-        { q: "可以攜帶小朋友嗎？", a: "歡迎！證婚儀式及喜宴皆歡迎小朋友參加。" },
-        { q: "儀式使用什麼語言？", a: "中英雙語進行。" },
-        { q: "儀式在哪裡？", a: "所有宴會場地都在大廳樓層（即您進入酒店的那一層）。進入酒店後沿走廊前往宴會區，雲揚廳（證婚儀式）在走廊盡頭，雲翰B廳（喜宴）在附近。現場會有指示標誌。" },
-        { q: "我從海外前來，怎麼到達？", a: "飛抵桃園機場（TPE），搭高鐵至台中（40分鐘），再轉乘客運或包車至日月潭（1.5小時）。建議婚禮前一天抵達。詳情請參閱交通指南。" },
-        { q: "可以住在酒店嗎？", a: "可以！婚禮賓客享九折優惠。請撥打049-285-6788並告知我們的婚禮名稱。房間有限，請盡早預訂。" },
-      ],
+        { q: '\u9700\u8981\u9001\u79AE\u6216\u5305\u7D05\u5305\u55CE\uFF1F', a: '\u4E0D\u9700\u8981\uFF01\u6211\u5011\u662F\u8A8D\u771F\u7684\u3002\u8ACB\u4E0D\u8981\u6E96\u5099\u79AE\u7269\u3001\u7D05\u5305\u6216\u79AE\u91D1\u3002\u60A8\u7684\u5230\u4F86\u5C31\u662F\u6700\u597D\u7684\u79AE\u7269\u3002' },
+        { q: '\u7A7F\u8457\u8981\u6C42\uFF1F', a: '\u8ACB\u8457\u6B63\u5F0F\u670D\u88DD\u3002\u5341\u4E8C\u6708\u7684\u65E5\u6708\u6F6D\u6C23\u6EAB\u8F03\u6DBC\uFF08\u7D0412\u201318\u00B0C\uFF09\uFF0C\u8ACB\u651C\u5E36\u4FDD\u6696\u5916\u5957\u3002' },
+        { q: '\u5929\u6C23\u5982\u4F55\uFF1F', a: '\u9810\u8A08\u6DBC\u723D\u6E05\u65B0\uFF0C\u65E9\u6668\u53EF\u80FD\u6709\u8584\u9727\u3002\u5EFA\u8B70\u7A7F\u8457\u591A\u5C64\u6B21\u3002\u8B49\u5A5A\u5100\u5F0F\u53CA\u559C\u5BB4\u7686\u5728\u5BA4\u5167\uFF0C\u4F46\u6236\u5916\u6D3B\u52D5\u9700\u6CE8\u610F\u4FDD\u6696\u3002' },
+        { q: '\u53EF\u4EE5\u651C\u5E36\u5C0F\u670B\u53CB\u55CE\uFF1F', a: '\u6B61\u8FCE\uFF01\u8B49\u5A5A\u5100\u5F0F\u53CA\u559C\u5BB4\u7686\u6B61\u8FCE\u5C0F\u670B\u53CB\u53C3\u52A0\u3002' },
+        { q: '\u5100\u5F0F\u4F7F\u7528\u4EC0\u9EBC\u8A9E\u8A00\uFF1F', a: '\u4E2D\u82F1\u96D9\u8A9E\u9032\u884C\u3002' },
+        { q: '\u5100\u5F0F\u5728\u54EA\u88E1\uFF1F', a: '\u6240\u6709\u5BB4\u6703\u5834\u5730\u90FD\u5728\u5927\u5EF3\u6A13\u5C64\u3002\u9032\u5165\u9152\u5E97\u5F8C\u6CBF\u8D70\u5ECA\u524D\u5F80\u5BB4\u6703\u5340\uFF0C\u96F2\u63DA\u5EF3\uFF08\u8B49\u5A5A\u5100\u5F0F\uFF09\u5728\u8D70\u5ECA\u76E1\u982D\uFF0C\u96F2\u7FF0B\u5EF3\uFF08\u559C\u5BB4\uFF09\u5728\u9644\u8FD1\u3002\u73FE\u5834\u6703\u6709\u6307\u793A\u6A19\u8A8C\u3002' },
+        { q: '\u6211\u5F9E\u6D77\u5916\u524D\u4F86\uFF0C\u600E\u9EBC\u5230\u9054\uFF1F', a: '\u98DB\u62B5\u6843\u5712\u6A5F\u5834\uFF08TPE\uFF09\uFF0C\u642D\u9AD8\u9435\u81F3\u53F0\u4E2D\uFF0840\u5206\u9418\uFF09\uFF0C\u518D\u8F49\u4E58\u5BA2\u904B\u6216\u5305\u8ECA\u81F3\u65E5\u6708\u6F6D\uFF081.5\u5C0F\u6642\uFF09\u3002\u5EFA\u8B70\u5A5A\u79AE\u524D\u4E00\u5929\u62B5\u9054\u3002\u8A73\u60C5\u8ACB\u53C3\u95B1\u4EA4\u901A\u6307\u5357\u3002' },
+        { q: '\u53EF\u4EE5\u4F4F\u5728\u9152\u5E97\u55CE\uFF1F', a: '\u53EF\u4EE5\uFF01\u5A5A\u79AE\u8CD3\u5BA2\u4EAB\u4E5D\u6298\u512A\u60E0\u3002\u8ACB\u64A5\u6253049-285-6788\u4E26\u544A\u77E5\u6211\u5011\u7684\u5A5A\u79AE\u540D\u7A31\u3002\u623F\u9593\u6709\u9650\uFF0C\u8ACB\u76E1\u65E9\u9810\u8A02\u3002' }
+      ]
     },
     explore: {
-      title: "日月潭推薦景點", subtitle: "來都來了，順便走走",
+      title: '\u65E5\u6708\u6F6D\u63A8\u85A6\u666F\u9EDE', subtitle: '\u4F86\u90FD\u4F86\u4E86\uFF0C\u9806\u4FBF\u8D70\u8D70',
       items: [
-        { name: "日月潭環湖自行車道", desc: "全球最美自行車道之一，環繞整個湖畔。" },
-        { name: "文武廟", desc: "壯觀的湖畔道教廟宇，距離酒店僅1公里。" },
-        { name: "日月潭纜車", desc: "空中纜車欣賞湖景及周圍山景。" },
-        { name: "伊達邵部落", desc: "邵族原住民部落——在地美食、手工藝品及文化體驗。" },
-        { name: "酒店溫泉", desc: "雲品本身就有天然溫泉，慶祝後最適合放鬆身心。" },
-      ],
+        { name: '\u65E5\u6708\u6F6D\u74B0\u6E56\u81EA\u884C\u8ECA\u9053', desc: '\u5168\u7403\u6700\u7F8E\u81EA\u884C\u8ECA\u9053\u4E4B\u4E00\uFF0C\u74B0\u7E5E\u6574\u500B\u6E56\u7554\u3002' },
+        { name: '\u6587\u6B66\u5EDF', desc: '\u58EF\u89C0\u7684\u6E56\u7554\u9053\u6559\u5EDF\u5B87\uFF0C\u8DDD\u96E2\u9152\u5E97\u50C51\u516C\u91CC\u3002' },
+        { name: '\u65E5\u6708\u6F6D\u7E9C\u8ECA', desc: '\u7A7A\u4E2D\u7E9C\u8ECA\u6B23\u8CDE\u6E56\u666F\u53CA\u5468\u570D\u5C71\u666F\u3002' },
+        { name: '\u4F0A\u9054\u90B5\u90E8\u843D', desc: '\u90B5\u65CF\u539F\u4F4F\u6C11\u90E8\u843D\u2014\u2014\u5728\u5730\u7F8E\u98DF\u3001\u624B\u5DE5\u85DD\u54C1\u53CA\u6587\u5316\u9AD4\u9A57\u3002' },
+        { name: '\u9152\u5E97\u6EAB\u6CC9', desc: '\u96F2\u54C1\u672C\u8EAB\u5C31\u6709\u5929\u7136\u6EAB\u6CC9\uFF0C\u6176\u795D\u5F8C\u6700\u9069\u5408\u653E\u9B06\u8EAB\u5FC3\u3002' }
+      ]
     },
-    footer: "Steven & Bonnie", footerDate: "2026年12月19日",
-    footerSub: "台灣 日月潭",
-    footerVerse: "「兩個人總比一個人好，因為二人勞碌同得美好的果效。」",
-    footerRef: "傳道書 4:9",
-  },
-};
+    footer: 'Steven & Bonnie', footerDate: '2026\u5E7412\u670819\u65E5', footerSub: '\u53F0\u7063 \u65E5\u6708\u6F6D',
+    footerVerse: '\u300C\u5169\u500B\u4EBA\u7E3D\u6BD4\u4E00\u500B\u4EBA\u597D\uFF0C\u56E0\u70BA\u4E8C\u4EBA\u52DE\u7922\u540C\u5F97\u7F8E\u597D\u7684\u679C\u6548\u3002\u300D', footerRef: '\u50B3\u9053\u66F8 4:9'
+  }
+}
 
-function useFadeIn() {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+function useReveal() {
+  const ref = useRef(null)
+  const [vis, setVis] = useState(false)
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return { ref, style: { opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)", transition: "opacity 0.8s ease, transform 0.8s ease" } };
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect() } }, { threshold: 0.15 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+  return { ref, style: { opacity: vis ? 1 : 0, transform: vis ? 'translateY(0)' : 'translateY(24px)', transition: 'opacity 0.8s ease, transform 0.8s ease' } }
 }
 
 function Countdown({ lang }) {
-  const [d, setD] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 })
   useEffect(() => {
-    const t = new Date("2026-12-19T10:00:00+08:00");
-    const tick = () => { const ms = t - new Date(); if (ms <= 0) return setD({ d: 0, h: 0, m: 0, s: 0 }); setD({ d: Math.floor(ms/864e5), h: Math.floor(ms%864e5/36e5), m: Math.floor(ms%36e5/6e4), s: Math.floor(ms%6e4/1e3) }); };
-    tick(); const id = setInterval(tick, 1000); return () => clearInterval(id);
-  }, []);
-  const l = lang === "en" ? ["Days","Hours","Min","Sec"] : ["天","時","分","秒"];
-  return (<div className="cd">{[d.d,d.h,d.m,d.s].map((v,i)=>(<div key={i} className="cu"><div className="cn">{v}</div><div className="cl">{l[i]}</div></div>))}</div>);
+    const target = new Date('2026-12-19T10:00:00+08:00')
+    const tick = () => {
+      const diff = target - new Date()
+      if (diff <= 0) return setT({ d: 0, h: 0, m: 0, s: 0 })
+      setT({ d: Math.floor(diff / 864e5), h: Math.floor(diff % 864e5 / 36e5), m: Math.floor(diff % 36e5 / 6e4), s: Math.floor(diff % 6e4 / 1e3) })
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
+  const labels = lang === 'en' ? ['Days', 'Hours', 'Min', 'Sec'] : ['\u5929', '\u6642', '\u5206', '\u79D2']
+  return (
+    <div className="cd">
+      {[t.d, t.h, t.m, t.s].map((v, i) => (
+        <div className="cu" key={i}><div className="cn">{v}</div><div className="cl">{labels[i]}</div></div>
+      ))}
+    </div>
+  )
 }
 
 function Gallery({ title, subtitle }) {
-  const f = useFadeIn();
-  const colors = [
-    "linear-gradient(135deg,#3a5a7c,#8b4a5e)","linear-gradient(135deg,#b89a6a,#7a5c2e)",
-    "linear-gradient(135deg,#2c4e5e,#6aaf80)","linear-gradient(135deg,#9a8060,#5a3a1a)",
-    "linear-gradient(135deg,#4a5a7a,#3a4a6a)","linear-gradient(135deg,#3a6a86,#5a8aae)",
-  ];
+  const r = useReveal()
   return (
-    <section className="gal" ref={f.ref} style={f.style}>
+    <section className="gal" ref={r.ref} style={r.style}>
       <div className="gal-inner">
-        <div className="st" style={{color:"#faf8f4"}}>{title}</div>
-        <div className="ss" style={{color:"#8a7b6a",marginBottom:40}}>{subtitle}</div>
+        <div className="st" style={{ color: '#faf8f4' }}>{title}</div>
+        <div className="ss" style={{ color: '#8a7b6a', marginBottom: 40 }}>{subtitle}</div>
         <div className="gg">
-          {GALLERY_ITEMS.map((p,i) => (
-            <div key={i} className={`gi ${p.span===2?"gs":""}`} style={{background:colors[i]}}>
-              <span className="gl">{p.label}</span>
-              <div className="gph">↑ {p.file}</div>
+          {GALLERY.map((item, i) => (
+            <div key={i} className={`gi ${item.span === 2 ? 'gs' : ''}`} style={{ backgroundImage: `url(${item.url})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+              <span className="gl">{item.label}</span>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }
 
-export default function WeddingSite() {
-  const [lang, setLang] = useState("en");
-  const [mob, setMob] = useState(false);
-  const t = content[lang];
-  const refs = useRef([]);
-  const go = i => { refs.current[i]?.scrollIntoView({behavior:"smooth"}); setMob(false); };
-  const RSVP_URL = "https://www.notion.so/tgre/3121cfcfd40f80b3a9f6d8e0251df083?pvs=106";
+const RSVP_URL = 'https://www.notion.so/tgre/3121cfcfd40f80b3a9f6d8e0251df083?pvs=106'
 
-  const f1=useFadeIn(),f2=useFadeIn(),f3=useFadeIn(),f4=useFadeIn(),f5=useFadeIn(),f6=useFadeIn(),f7=useFadeIn();
+export default function App() {
+  const [lang, setLang] = useState('zh')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const l = T[lang]
+  const secs = useRef([])
+  const scrollTo = (i) => { secs.current[i]?.scrollIntoView({ behavior: 'smooth' }); setMenuOpen(false) }
+
+  const r1 = useReveal(), r2 = useReveal(), r3 = useReveal(), r4 = useReveal(), r5 = useReveal(), r6 = useReveal()
 
   return (
     <div className="root">
-      <style>{`
+      <style>{CSS}</style>
+
+      {/* NAV */}
+      <nav className="nf">
+        <div className="ni">
+          <span style={{ fontFamily: "'Josefin Sans',sans-serif", fontSize: 11, letterSpacing: 3, color: '#c8a96e', fontWeight: 300 }}>S & B</span>
+          <button className="mt" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? '\u2715' : '\u2630'}</button>
+          <div className={`nl ${menuOpen ? 'open' : ''}`}>
+            {l.nav.map((n, i) => <button key={i} className="nb" onClick={() => scrollTo(i)}>{n}</button>)}
+            <button className="lb" onClick={() => setLang(lang === 'en' ? 'zh' : 'en')}>{l.langLabel}</button>
+          </div>
+        </div>
+      </nav>
+
+      {/* HERO */}
+      <section className="hs" ref={el => secs.current[0] = el}>
+        <div className="hn">Steven<span className="ha">&</span>Bonnie</div>
+        <div className="ht">{l.hero.tagline}</div>
+        <div className="hd">{l.hero.dateDay} · {l.hero.date}</div>
+        <div className="hv">{l.hero.venue}</div>
+        <Countdown lang={lang} />
+        <a href={RSVP_URL} target="_blank" rel="noopener noreferrer" className="hc" style={{ textDecoration: 'none' }}>{l.hero.cta}</a>
+      </section>
+
+      {/* NO GIFT */}
+      <div className="gb">
+        <div className="gt">{l.noGift.title}</div>
+        <div className="gp">{l.noGift.body}</div>
+      </div>
+
+      {/* GALLERY */}
+      <Gallery title={l.gallery.title} subtitle={l.gallery.subtitle} />
+
+      {/* STORY */}
+      <div ref={r1.ref} style={r1.style}>
+        <section className="sc" ref={el => secs.current[1] = el}>
+          <div className="st">{l.story.title}</div>
+          <div className="ss">{l.story.subtitle}</div>
+          <div className="dv" />
+          <p className="sp">{l.story.p1}</p>
+          <p className="sp">{l.story.p2}</p>
+          <p className="sp">{l.story.p3}</p>
+        </section>
+      </div>
+
+      {/* SCHEDULE */}
+      <div ref={r2.ref} style={r2.style}>
+        <section style={{ background: '#f0ebe1' }} ref={el => secs.current[2] = el}>
+          <div className="sc">
+            <div className="st">{l.schedule.title}</div>
+            <div className="ss">{l.schedule.subtitle}</div>
+            <div className="dv" />
+            {l.schedule.events.map((ev, i) => (
+              <div className="ti" key={i}>
+                <div className="tt">{ev.time}</div>
+                <div>
+                  <div className="tn">{ev.name}</div>
+                  {ev.venue && <div className="tv">{ev.venue}</div>}
+                  <div className="td">{ev.detail}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* VENUE */}
+      <div ref={r3.ref} style={r3.style}>
+        <section className="sc" ref={el => secs.current[3] = el}>
+          <div className="st">{l.venue.title}</div>
+          <div className="ss">{l.venue.subtitle}</div>
+          <div className="dv" />
+          <p style={{ textAlign: 'center', fontSize: 14, color: '#a0917e', fontStyle: 'italic', marginBottom: 4 }}>{l.venue.address}</p>
+          {lang === 'en' && <p style={{ textAlign: 'center', fontSize: 13, color: '#b8ad9e', marginBottom: 36 }}>{T.en.venue.addressZh}</p>}
+          {lang === 'zh' && <div style={{ marginBottom: 36 }} />}
+
+          <div className="vb">
+            <div className="vt">{l.venue.domestic.title}</div>
+            {l.venue.domestic.steps.map((s, i) => <div className="vs" key={i}>{s}</div>)}
+            <div className="vn">{l.venue.domestic.note}</div>
+          </div>
+
+          <div className="vb">
+            <div className="vt">{l.venue.overseas.title}</div>
+            {l.venue.overseas.steps.map((s, i) => (
+              <div className="os" key={i}>
+                <div className="oi">{s.icon}</div>
+                <div className="ol">{s.label}</div>
+              </div>
+            ))}
+            <div className="vn">{l.venue.overseas.note}</div>
+          </div>
+
+
+          <iframe className="mc" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.8!2d120.912!3d23.868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3468d66bcbaf5f5f%3A0xb297928ac211e576!2sFleur%20de%20Chine%20Hotel%20Sun%20Moon%20Lake!5e0!3m2!1sen!2stw!4v1700000000000" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Fleur de Chine" />
+        </section>
+      </div>
+
+      {/* RSVP */}
+      <div ref={r4.ref} style={r4.style}>
+        <section style={{ background: '#f0ebe1' }} ref={el => secs.current[4] = el}>
+          <div className="sc">
+            <div className="st">{l.rsvp.title}</div>
+            <div className="ss">{l.rsvp.subtitle}</div>
+            <div className="dv" />
+            <div style={{ textAlign: 'center', maxWidth: 520, margin: '0 auto' }}>
+              <p style={{ fontSize: 16, lineHeight: 2, color: '#4a3f33', fontWeight: 300, marginBottom: 36 }}>{l.rsvp.desc}</p>
+              <a href={RSVP_URL} target="_blank" rel="noopener noreferrer" className="fb" style={{ display: 'inline-block', width: 'auto', padding: '16px 48px', textDecoration: 'none', textAlign: 'center' }}>{l.rsvp.submit}</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* FAQ */}
+      <div ref={r5.ref} style={r5.style}>
+        <section className="sc" ref={el => secs.current[5] = el}>
+          <div className="st">{l.faq.title}</div>
+          <div className="ss">&nbsp;</div>
+          <div className="dv" />
+          {l.faq.items.map((item, i) => (
+            <div className="qi" key={i}>
+              <div className="qq">{item.q}</div>
+              <div className="qa">{item.a}</div>
+            </div>
+          ))}
+        </section>
+      </div>
+
+      {/* EXPLORE */}
+      <div ref={r6.ref} style={r6.style}>
+        <section style={{ background: '#f0ebe1' }}>
+          <div className="sc">
+            <div className="st">{l.explore.title}</div>
+            <div className="ss">{l.explore.subtitle}</div>
+            <div className="dv" />
+            {l.explore.items.map((item, i) => (
+              <div className="ei" key={i}>
+                <div className="en2">{item.name}</div>
+                <div className="ed">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* FOOTER */}
+      <footer className="ft">
+        <div className="fn">{l.footer}</div>
+        <div className="fd2">{l.footerDate}</div>
+        <div className="fu">{l.footerSub}</div>
+        <div className="fvr">{l.footerVerse}</div>
+        <div className="frf">{l.footerRef}</div>
+      </footer>
+    </div>
+  )
+}
+
+const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+TC:wght@300;400;500;600&family=Josefin+Sans:wght@300;400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}::selection{background:#c8a96e30}html{scroll-behavior:smooth}
 .root{font-family:'Cormorant Garamond','Noto Serif TC',Georgia,serif;color:#2c2417;background:#faf8f4;min-height:100vh}
@@ -298,10 +410,9 @@ export default function WeddingSite() {
 .gal{background:#1e1a14;padding:80px 32px}
 .gal-inner{max-width:1000px;margin:0 auto}
 .gg{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-.gi{aspect-ratio:4/3;display:flex;align-items:flex-end;padding:16px;position:relative;overflow:hidden}
+.gi{aspect-ratio:4/3;display:flex;align-items:flex-end;padding:16px;position:relative;overflow:hidden;background-size:cover;background-position:center}
 .gs{grid-column:span 2;aspect-ratio:21/9}
-.gl{font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);position:relative;z-index:1}
-.gph{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,0.15);font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:1px;text-align:center;white-space:nowrap}
+.gl{font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.7);position:relative;z-index:1;text-shadow:0 1px 4px rgba(0,0,0,0.5)}
 
 .sc{max-width:800px;margin:0 auto;padding:100px 32px}
 .st{font-size:clamp(28px,5vw,40px);font-weight:300;text-align:center;color:#2c2417;margin-bottom:8px}
@@ -325,11 +436,6 @@ export default function WeddingSite() {
 .hbb{font-size:15px;color:#4a3f33;font-weight:300;line-height:1.8;margin-bottom:12px}
 .hba{font-size:14px;color:#8a7b6a;font-weight:400}
 
-.fg{margin-bottom:28px}
-.fl{display:block;font-family:'Josefin Sans','Noto Serif TC',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a7b6a;margin-bottom:8px}
-.fi,.fs,.fa{width:100%;padding:12px 0;font-family:'Cormorant Garamond','Noto Serif TC',serif;font-size:16px;color:#2c2417;border:none;border-bottom:1px solid #d4c9b8;background:transparent;outline:none;transition:border-color 0.2s}
-.fi:focus,.fs:focus,.fa:focus{border-bottom-color:#c8a96e}.fi::placeholder,.fa::placeholder{color:#c4b9a8}
-.fs{cursor:pointer;-webkit-appearance:none;appearance:none}.fa{resize:vertical;min-height:60px}
 .fb{display:block;width:100%;padding:16px;font-family:'Josefin Sans','Noto Serif TC',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;border:1px solid #c8a96e;background:#c8a96e;color:#fff;cursor:pointer;transition:all 0.3s;margin-top:40px}.fb:hover{background:#b8963e}
 
 .qi{padding:28px 0;border-bottom:1px solid rgba(200,169,110,0.10)}
@@ -351,110 +457,4 @@ export default function WeddingSite() {
   .gg{grid-template-columns:1fr}.gs{grid-column:span 1;aspect-ratio:16/9}
 }
 @media(max-width:640px){.ti{grid-template-columns:80px 1fr;gap:16px}.sc{padding:72px 24px}.gb{padding:40px 24px}}
-      `}</style>
-
-      <nav className="nf"><div className="ni">
-        <span style={{fontFamily:"'Josefin Sans',sans-serif",fontSize:11,letterSpacing:3,color:"#c8a96e",fontWeight:300}}>S & B</span>
-        <button className="mt" onClick={()=>setMob(!mob)}>{mob?"✕":"☰"}</button>
-        <div className={`nl ${mob?"open":""}`}>
-          {t.nav.map((l,i)=><button key={i} className="nb" onClick={()=>go(i)}>{l}</button>)}
-          <button className="lb" onClick={()=>setLang(lang==="en"?"zh":"en")}>{t.langLabel}</button>
-        </div>
-      </div></nav>
-
-      <section className="hs" ref={el=>refs.current[0]=el}>
-        <div className="hn">Steven<span className="ha">&</span>Bonnie</div>
-        <div className="ht">{t.hero.tagline}</div>
-        <div className="hd">{t.hero.dateDay} · {t.hero.date}</div>
-        <div className="hv">{t.hero.venue}</div>
-        <Countdown lang={lang}/>
-        <a href={RSVP_URL} target="_blank" rel="noopener noreferrer" className="hc" style={{textDecoration:"none"}}>{t.hero.cta}</a>
-      </section>
-
-      <div className="gb"><div className="gt">{t.noGift.title}</div><div className="gp">{t.noGift.body}</div></div>
-
-      <Gallery title={t.gallery.title} subtitle={t.gallery.subtitle}/>
-
-      <div ref={f1.ref} style={f1.style}>
-        <section className="sc" ref={el=>refs.current[1]=el}>
-          <div className="st">{t.story.title}</div><div className="ss">{t.story.subtitle}</div><div className="dv"/>
-          <p className="sp">{t.story.p1}</p><p className="sp">{t.story.p2}</p><p className="sp">{t.story.p3}</p>
-        </section>
-      </div>
-
-      <div ref={f2.ref} style={f2.style}>
-        <section style={{background:"#f0ebe1"}} ref={el=>refs.current[2]=el}>
-          <div className="sc">
-            <div className="st">{t.schedule.title}</div><div className="ss">{t.schedule.subtitle}</div><div className="dv"/>
-            {t.schedule.events.map((ev,i)=>(<div className="ti" key={i}><div className="tt">{ev.time}</div><div><div className="tn">{ev.name}</div>{ev.venue&&<div className="tv">{ev.venue}</div>}<div className="td">{ev.detail}</div></div></div>))}
-          </div>
-        </section>
-      </div>
-
-      <div ref={f3.ref} style={f3.style}>
-        <section className="sc" ref={el=>refs.current[3]=el}>
-          <div className="st">{t.venue.title}</div><div className="ss">{t.venue.subtitle}</div><div className="dv"/>
-          <p style={{textAlign:"center",fontSize:14,color:"#a0917e",fontStyle:"italic",marginBottom:4}}>{t.venue.address}</p>
-          {lang==="en"&&<p style={{textAlign:"center",fontSize:13,color:"#b8ad9e",marginBottom:36}}>南投縣魚池鄉日月潭中正路23號</p>}
-          {lang==="zh"&&<div style={{marginBottom:36}}/>}
-
-          <div className="vb"><div className="vt">{t.venue.domestic.title}</div>
-            {t.venue.domestic.steps.map((s,i)=><div className="vs" key={i}>{s}</div>)}
-            <div className="vn">{t.venue.domestic.note}</div>
-          </div>
-
-          <div className="vb"><div className="vt">{t.venue.overseas.title}</div>
-            {t.venue.overseas.steps.map((s,i)=>(<div className="os" key={i}><div className="oi">{s.icon}</div><div className="ol">{s.label}</div></div>))}
-            <div className="vn">{t.venue.overseas.note}</div>
-          </div>
-
-          <div className="hbox"><div className="hbt">{t.venue.hotel.title}</div><div className="hbb">{t.venue.hotel.body}</div><div className="hba">{t.venue.hotel.cta}</div></div>
-
-          <iframe className="mc" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.8!2d120.912!3d23.868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3468d66bcbaf5f5f%3A0xb297928ac211e576!2sFleur%20de%20Chine%20Hotel%20Sun%20Moon%20Lake!5e0!3m2!1sen!2stw!4v1700000000000" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Fleur de Chine"/>
-        </section>
-      </div>
-
-      <div ref={f4.ref} style={f4.style}>
-        <section style={{background:"#f0ebe1"}} ref={el=>refs.current[4]=el}>
-          <div className="sc">
-            <div className="st">{t.rsvp.title}</div><div className="ss">{t.rsvp.subtitle}</div><div className="dv"/>
-            <div style={{textAlign:"center",maxWidth:520,margin:"0 auto"}}>
-              <p style={{fontSize:16,lineHeight:2,color:"#4a3f33",fontWeight:300,marginBottom:36}}>
-                {lang === "en"
-                  ? "Let us know if you can make it! Our RSVP form takes about 2 minutes and helps us plan seating, meals, and transportation."
-                  : "請告訴我們您是否能出席！填寫回覆表單僅需約2分鐘，有助於我們安排座位、餐點及交通。"}
-              </p>
-              <a href={RSVP_URL} target="_blank" rel="noopener noreferrer" className="fb" style={{display:"inline-block",width:"auto",padding:"16px 48px",textDecoration:"none",textAlign:"center"}}>
-                {t.rsvp.fields.submit}
-              </a>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div ref={f5.ref} style={f5.style}>
-        <section className="sc" ref={el=>refs.current[5]=el}>
-          <div className="st">{t.faq.title}</div><div className="ss">&nbsp;</div><div className="dv"/>
-          {t.faq.items.map((item,i)=>(<div className="qi" key={i}><div className="qq">{item.q}</div><div className="qa">{item.a}</div></div>))}
-        </section>
-      </div>
-
-      <div ref={f6.ref} style={f6.style}>
-        <section style={{background:"#f0ebe1"}}>
-          <div className="sc">
-            <div className="st">{t.explore.title}</div><div className="ss">{t.explore.subtitle}</div><div className="dv"/>
-            {t.explore.items.map((item,i)=>(<div className="ei" key={i}><div className="en2">{item.name}</div><div className="ed">{item.desc}</div></div>))}
-          </div>
-        </section>
-      </div>
-
-      <footer className="ft">
-        <div className="fn">{t.footer}</div>
-        <div className="fd2">{t.footerDate}</div>
-        <div className="fu">{t.footerSub}</div>
-        <div className="fvr">{t.footerVerse}</div>
-        <div className="frf">{t.footerRef}</div>
-      </footer>
-    </div>
-  );
-}
+`
