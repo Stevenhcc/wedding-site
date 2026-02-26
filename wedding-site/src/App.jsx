@@ -164,7 +164,7 @@ export default function App() {
   const go = i => { document.getElementById(ids[i])?.scrollIntoView({ behavior: 'smooth' }); setMenu(false) }
 
   return (
-    <div className="root">
+    <div className="root notranslate" translate="no">
       <style>{CSS}</style>
 
       {/* NAV */}
@@ -274,14 +274,12 @@ export default function App() {
       </Sec>
 
       {/* RSVP */}
-      <Sec id="rsvp" className="rsvp-sec">
+      <Sec id="rsvp" className="rsvp-sec" dark>
         <h2 className="sec-t">{l.rsvp.title}</h2>
         <p className="sec-s sec-s-big">{l.rsvp.sub}</p>
         <div className="sec-ln" />
         <p className="rsvp-d">{l.rsvp.desc}</p>
-        <div className="rsvp-card">
-          <iframe className="rsvp-if" src={NOTION_RSVP} allowFullScreen loading="lazy" title="RSVP" />
-        </div>
+        <a href={NOTION_RSVP} target="_blank" rel="noopener noreferrer" className="rsvp-btn">{l.hero.cta}</a>
       </Sec>
 
       {/* FAQ */}
@@ -366,11 +364,11 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 .hero-ct{position:relative;z-index:1;color:#fff;padding:100px 32px 80px;animation:fadeUp 1s ease-out .3s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 .hero-tag{font-family:var(--sans);font-size:15px;letter-spacing:2px;color:rgba(255,255,255,.6);margin-bottom:20px;font-weight:300;line-height:1.6}
-.hero-nm{font-size:clamp(34px,6.5vw,56px);font-weight:400;letter-spacing:2px;line-height:1.15}
+.hero-nm{font-size:clamp(32px,5.5vw,48px);font-weight:400;letter-spacing:2px;line-height:1.15}
 .hero-line{width:48px;height:1px;background:var(--gold-l);margin:28px auto}
-.hero-dt{font-family:var(--sans);font-size:clamp(18px,3vw,24px);letter-spacing:2px;color:rgba(255,255,255,.9);font-weight:400}
-.hero-day{font-family:var(--sans);font-size:16px;letter-spacing:2px;color:rgba(255,255,255,.6);margin-top:4px;font-weight:300}
-.hero-vn{font-family:var(--sans);font-size:15px;letter-spacing:1.5px;color:rgba(255,255,255,.5);margin-top:10px;font-weight:300}
+.hero-dt{font-family:var(--serif);font-size:clamp(26px,5vw,42px);letter-spacing:1px;color:#fff;font-weight:300}
+.hero-day{font-family:var(--sans);font-size:18px;letter-spacing:3px;color:rgba(255,255,255,.7);margin-top:6px;font-weight:300}
+.hero-vn{font-family:var(--sans);font-size:16px;letter-spacing:1.5px;color:rgba(255,255,255,.55);margin-top:12px;font-weight:300}
 .cd{display:flex;gap:28px;justify-content:center;margin-top:36px}
 .cd-u{text-align:center;min-width:52px}
 .cd-n{display:block;font-family:var(--sans);font-size:32px;font-weight:300;color:#fff}
@@ -435,11 +433,13 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 .os-l{font-size:16px;color:var(--mid);font-weight:300;line-height:1.6}
 .v-map{width:100%;max-width:840px;height:340px;border:none;margin:44px auto 0;display:block;border-radius:4px}
 
-/* RSVP — light bg card so Notion blends in */
-.rsvp-sec{background:var(--warm)}
-.rsvp-d{text-align:center;max-width:580px;margin:0 auto 40px;font-size:17px;line-height:1.9;font-weight:300;color:var(--mid)}
-.rsvp-card{max-width:840px;margin:0 auto;background:#fff;border-radius:6px;box-shadow:0 2px 20px rgba(0,0,0,.06);overflow:hidden;padding:8px}
-.rsvp-if{width:100%;height:760px;border:none;border-radius:4px}
+/* RSVP — clean CTA */
+.rsvp-sec{background:var(--dk);text-align:center}
+.rsvp-sec .sec-t{color:var(--cream)}
+.rsvp-sec .sec-s{color:rgba(184,149,106,.6)}
+.rsvp-d{text-align:center;max-width:560px;margin:0 auto 44px;font-size:17px;line-height:2;font-weight:300;color:rgba(184,173,158,.75)}
+.rsvp-btn{display:inline-block;padding:20px 64px;font-family:var(--sans);font-size:16px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;border:2px solid var(--gold);background:var(--gold);color:#fff;cursor:pointer;transition:all .4s}
+.rsvp-btn:hover{background:transparent;color:var(--gold-l)}
 
 /* FAQ */
 .faq-sec{background:var(--cream)}
@@ -454,14 +454,12 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 .faq-a p{font-size:17px;line-height:1.95;color:var(--mid);font-weight:300}
 
 /* EXPLORE */
-.exp-sec{background:var(--dk);color:var(--cream)}
-.exp-sec .sec-t{color:var(--cream)}
-.exp-sec .sec-s{color:rgba(184,149,106,.55)}
+.exp-sec{background:var(--warm)}
 .exp-g{max-width:920px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-.exp-c{padding:30px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:4px;transition:background .3s}
-.exp-c:hover{background:rgba(255,255,255,.07)}
-.exp-n{font-size:18px;font-weight:400;color:var(--cream);margin-bottom:10px}
-.exp-d{font-size:15px;color:rgba(184,173,158,.7);font-weight:300;line-height:1.75}
+.exp-c{padding:30px;background:var(--cream);border-radius:4px;transition:transform .3s,box-shadow .3s}
+.exp-c:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.05)}
+.exp-n{font-size:18px;font-weight:400;color:var(--txt);margin-bottom:10px}
+.exp-d{font-size:15px;color:var(--mid);font-weight:300;line-height:1.75}
 
 /* FOOTER */
 .ft{text-align:center;padding:80px 36px;background:var(--dk);border-top:1px solid rgba(255,255,255,.04);color:rgba(212,201,184,.8)}
@@ -484,22 +482,20 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
   .tl::before{left:92px}.tl-i{grid-template-columns:76px 28px 1fr}
   .cd{gap:20px}.cd-n{font-size:26px}
   .hero-btn{padding:14px 40px;font-size:13px}
-  .rsvp-if{height:640px}
   .exp-g{grid-template-columns:1fr}
-  .hero-nm{font-size:clamp(30px,7vw,48px)}
+  .hero-nm{font-size:clamp(28px,6vw,42px)}
 }
 @media(max-width:480px){
   .hero-ct{padding:90px 20px 60px}
   .hero-tag{font-size:14px}
-  .hero-dt{font-size:18px}
-  .hero-day{font-size:14px}
-  .hero-vn{font-size:13px}
+  .hero-dt{font-size:24px}
+  .hero-day{font-size:15px}
+  .hero-vn{font-size:14px}
   .sec-t{font-size:26px}
   .story-b p{font-size:16px}
   .tl-i{grid-template-columns:62px 22px 1fr}.tl::before{left:73px}
   .tl-nm{font-size:18px}.tl-dt{font-size:15px}.tl-tm{font-size:14px}
   .v-card{padding:28px}
-  .rsvp-if{height:560px}
   .sec{padding:56px 20px}
   .sec-ln{margin:22px auto 40px}
   .faq-q span:first-child{font-size:17px}
