@@ -11,19 +11,58 @@ const Icon = ({ type }) => {
   return <span className="os-icon">{icons[type]}</span>
 }
 
-/* ─── GOLD ORNATE DIVIDER ─── */
-const GoldDivider = ({ light }) => (
-  <svg className={`gold-div ${light ? 'gold-div-lt' : ''}`} viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 12h70" stroke="currentColor" strokeWidth="0.5" opacity="0.4"/>
-    <path d="M130 12h70" stroke="currentColor" strokeWidth="0.5" opacity="0.4"/>
-    <g transform="translate(82, 2)">
-      <path d="M18 0 C18 6, 12 10, 6 10 C0 10, 0 6, 4 4 C8 2, 12 4, 18 10 C24 4, 28 2, 32 4 C36 6, 36 10, 30 10 C24 10, 18 6, 18 0Z" stroke="currentColor" strokeWidth="0.6" fill="currentColor" fillOpacity="0.08"/>
-      <circle cx="18" cy="13" r="1.5" fill="currentColor" opacity="0.5"/>
-      <path d="M12 16 Q18 20 24 16" stroke="currentColor" strokeWidth="0.5" opacity="0.4" fill="none"/>
-    </g>
-    <circle cx="76" cy="12" r="1" fill="currentColor" opacity="0.3"/>
-    <circle cx="124" cy="12" r="1" fill="currentColor" opacity="0.3"/>
+/* ─── SWALLOW SVG ─── */
+const Swallow = ({ className = '', flip }) => (
+  <svg className={`swallow ${className} ${flip ? 'swallow-flip' : ''}`} viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M30 18 C26 12, 16 4, 2 2 C8 8, 12 14, 14 18 C10 16, 4 14, 0 15 C6 17, 12 20, 16 22 C14 24, 10 28, 6 34 C14 28, 20 24, 28 22 L30 26 L32 22 C40 24, 46 28, 54 34 C50 28, 46 24, 44 22 C48 20, 54 17, 60 15 C56 14, 50 16, 46 18 C48 14, 52 8, 58 2 C44 4, 34 12, 30 18Z" fill="currentColor" />
+    <circle cx="24" cy="14" r="1" fill="currentColor" opacity="0.5"/>
   </svg>
+)
+
+/* ─── POMEGRANATE SVG ─── */
+const Pomegranate = ({ className = '', small }) => (
+  <svg className={`pom ${className}`} viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 8 C22 4, 20 1, 22 0 C24 -0.5, 25 1, 26 0 C28 1, 26 4, 24 8Z" fill="var(--gold)" opacity="0.4"/>
+    <path d="M20 6 C16 5, 13 3, 14 2" stroke="var(--gold)" strokeWidth="0.6" opacity="0.3" fill="none"/>
+    <path d="M28 6 C32 5, 35 3, 34 2" stroke="var(--gold)" strokeWidth="0.6" opacity="0.3" fill="none"/>
+    <ellipse cx="24" cy="30" rx={small ? 14 : 16} ry={small ? 17 : 20} fill="var(--ruby)" opacity="0.15"/>
+    <ellipse cx="24" cy="30" rx={small ? 14 : 16} ry={small ? 17 : 20} stroke="var(--ruby)" strokeWidth="0.8" opacity="0.25" fill="none"/>
+    <path d="M18 10 Q14 10, 12 8" stroke="var(--gold)" strokeWidth="0.5" opacity="0.25" fill="none"/>
+    <path d="M30 10 Q34 10, 36 8" stroke="var(--gold)" strokeWidth="0.5" opacity="0.25" fill="none"/>
+    {!small && <>
+      <circle cx="20" cy="26" r="2.5" fill="var(--ruby)" opacity="0.2"/>
+      <circle cx="28" cy="26" r="2.5" fill="var(--ruby)" opacity="0.2"/>
+      <circle cx="24" cy="32" r="2.5" fill="var(--ruby)" opacity="0.2"/>
+      <circle cx="18" cy="32" r="2" fill="var(--ruby)" opacity="0.15"/>
+      <circle cx="30" cy="32" r="2" fill="var(--ruby)" opacity="0.15"/>
+      <circle cx="22" cy="38" r="2" fill="var(--ruby)" opacity="0.12"/>
+      <circle cx="26" cy="38" r="2" fill="var(--ruby)" opacity="0.12"/>
+    </>}
+  </svg>
+)
+
+/* ─── GOLD ORNATE DIVIDER ─── */
+const GoldDivider = ({ light, wide }) => (
+  <svg className={`gold-div ${light ? 'gold-div-lt' : ''} ${wide ? 'gold-div-w' : ''}`} viewBox="0 0 240 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 14h80" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+    <path d="M160 14h80" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+    {/* beaded dots along lines */}
+    {[20,40,60,180,200,220].map(x => <circle key={x} cx={x} cy="14" r="1.2" fill="currentColor" opacity="0.15"/>)}
+    <g transform="translate(96, 2)">
+      <path d="M24 0 C24 8, 16 12, 8 12 C0 12, 0 8, 5 5 C10 2, 16 5, 24 12 C32 5, 38 2, 43 5 C48 8, 48 12, 40 12 C32 12, 24 8, 24 0Z" stroke="currentColor" strokeWidth="0.7" fill="currentColor" fillOpacity="0.06"/>
+      <circle cx="24" cy="16" r="2" fill="currentColor" opacity="0.35"/>
+      <path d="M16 20 Q24 25 32 20" stroke="currentColor" strokeWidth="0.5" opacity="0.25" fill="none"/>
+      <circle cx="12" cy="14" r="1" fill="currentColor" opacity="0.2"/>
+      <circle cx="36" cy="14" r="1" fill="currentColor" opacity="0.2"/>
+    </g>
+    <circle cx="86" cy="14" r="1.5" fill="currentColor" opacity="0.2"/>
+    <circle cx="154" cy="14" r="1.5" fill="currentColor" opacity="0.2"/>
+  </svg>
+)
+
+/* ─── BEADED BORDER COMPONENT ─── */
+const BeadedBorder = ({ children, className = '' }) => (
+  <div className={`beaded ${className}`}>{children}</div>
 )
 
 /* ─── GOLD LEAF SPRIG ─── */
@@ -173,12 +212,16 @@ const T = {
       sub: '\u96F2\u54C1\u6EAB\u6CC9\u9152\u5E97 \u00B7 \u65E5\u6708\u6F6D',
       address: '\u5357\u6295\u7E23\u9B5A\u6C60\u9109\u65E5\u6708\u6F6D\u4E2D\u6B63\u8DEF23\u865F',
       domestic: {
-        title: '\u53F0\u7063\u570B\u5167\u4EA4\u901A',
-        steps: ['\u81EA\u884C\u958B\u8ECA\u81F3\u65E5\u6708\u6F6D\uFF08\u5F9E\u53F0\u4E2D\u51FA\u767C\u7D041.5\u5C0F\u6642\uFF09\uFF0C\u6216', '\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u642D\u4E58\u5357\u6295\u5BA2\u904B\u76F4\u9054\u65E5\u6708\u6F6D', '\u9152\u5E97\u63D0\u4F9B\u5A5A\u79AE\u8CD3\u5BA2\u514D\u8CBB\u505C\u8ECA'],
+        title: 'From Within Taiwan',
+        steps: [
+          '\u81EA\u884C\u958B\u8ECA\u81F3\u65E5\u6708\u6F6D\uFF08\u5F9E\u53F0\u4E2D\u51FA\u767C\u7D041.5\u5C0F\u6642\uFF09\uFF0C\u6216',
+          '\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u642D\u4E58\u5357\u6295\u5BA2\u904B\u76F4\u9054\u65E5\u6708\u6F6D',
+          '\u9152\u5E97\u63D0\u4F9B\u5A5A\u79AE\u8CD3\u5BA2\u514D\u8CBB\u505C\u8ECA',
+        ],
         note: '\u6211\u5011\u53EF\u80FD\u5B89\u6392\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u51FA\u767C\u7684\u63A5\u99C1\u8ECA\u2014\u2014\u8ACB\u5728\u56DE\u8986\u8868\u55AE\u4E2D\u544A\u77E5\u662F\u5426\u9700\u8981\u3002',
       },
       overseas: {
-        title: '\u6D77\u5916\u8CD3\u5BA2\u4EA4\u901A',
+        title: 'From Overseas',
         steps: [
           { icon: 'plane', label: '\u98DB\u62B5\u6843\u5712\u570B\u969B\u6A5F\u5834\uFF08TPE\uFF09' },
           { icon: 'train', label: '\u642D\u4E58\u9AD8\u9435\uFF1A\u6843\u5712\u7AD9 \u2192 \u53F0\u4E2D\u7AD9\uFF08\u7D0440\u5206\u9418\uFF09' },
@@ -219,7 +262,7 @@ const T = {
     footerNames: 'Steven \u4FAF\u6210 & Bonnie \u7C21\u5B50\u82B8',
     footerDate: '2026\u5E7412\u670819\u65E5',
     footerSub: '\u65E5\u6708\u6F6D\uFF0C\u53F0\u7063',
-    footerVerse: '\u300C\u5169\u500B\u4EBA\u7E3D\u6BD4\u4E00\u500B\u4EBA\u597D\uFF0C\u56E0\u70BA\u4E8C\u4EBA\u52DE\u7984\u540C\u5F97\u7F8E\u597D\u7684\u679C\u6548\u3002\u300D',
+    footerVerse: '\u300C\u5169\u500B\u4EBA\u7E3D\u6BD4\u4E00\u500B\u4EBA\u597D\uFF0C\u56E0\u70BA\u4E8C\u4EBA\u52DE\u7924\u540C\u5F97\u7F8E\u597D\u7684\u679C\u6548\u3002\u300D',
     footerRef: '\u50B3\u9053\u66F8 4:9',
   },
 }
@@ -350,7 +393,12 @@ export default function App() {
       <header id="home" className="hero">
         <div className="hero-bg" style={{ backgroundImage: 'url(/photos/lake-sunset.jpg)' }} />
         <div className="hero-ov" />
-        <div className="hero-grain" />
+        <div className="silk-ov" />
+        <div className="hero-swallows">
+          <Swallow className="sw-1" />
+          <Swallow className="sw-2" flip />
+          <Swallow className="sw-3" />
+        </div>
         <Sprig />
         <Sprig flip />
         <div className={`hero-ct ${heroLoaded ? 'hero-in' : ''}`}>
@@ -360,7 +408,7 @@ export default function App() {
             <span className="hero-amp">{l.hero.amp}</span>
             <span className="hero-n2">{l.hero.names2}</span>
           </h1>
-          <div className="hero-divider h-d3"><GoldDivider light /></div>
+          <div className="hero-divider h-d3"><GoldDivider light wide /></div>
           <p className="hero-dt h-d4">{l.hero.date}</p>
           <p className="hero-day h-d5">{l.hero.day}</p>
           <p className="hero-vn h-d6">{l.hero.venue}</p>
@@ -373,16 +421,20 @@ export default function App() {
 
       {/* NOTE */}
       <Sec className="gift-sec" anim="fade">
-        <div className="gift">
-          <div className="gift-grain" />
+        <BeadedBorder className="gift">
+          <div className="silk-ov silk-ov-s" />
+          <Pomegranate className="pom-gift-l" small />
+          <Pomegranate className="pom-gift-r" small />
           <h3 className="gift-t">{l.noGift.title}</h3>
           <GoldDivider />
           <p className="gift-b">{l.noGift.body}</p>
-        </div>
+        </BeadedBorder>
       </Sec>
 
       {/* STORY */}
       <Sec id="story" anim="up">
+        <Swallow className="sw-sec sw-sec-1" />
+        <Swallow className="sw-sec sw-sec-2" flip />
         <h2 className="sec-t">{l.story.title}</h2>
         <p className="sec-sub">{l.story.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -399,14 +451,14 @@ export default function App() {
         <p className="sec-sub">{l.photos.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
         <div className="photos-placeholder">
-          <div className="photos-icon">\uD83D\uDCF7</div>
+          <Pomegranate className="pom-photos" />
           <p className="photos-msg">{lang === 'zh' ? '\u5373\u5C07\u4E0A\u50B3\u6211\u5011\u7684\u5408\u7167' : 'Our photos coming soon'}</p>
         </div>
       </Sec>
 
       {/* SCHEDULE */}
       <Sec id="schedule" className="sched" dark anim="up">
-        <div className="sec-grain" />
+        <div className="silk-ov" />
         <h2 className="sec-t">{l.schedule.title}</h2>
         <p className="sec-sub-big">{l.schedule.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -432,12 +484,12 @@ export default function App() {
         <div className="sec-orn"><GoldDivider /></div>
         <p className="v-addr">{l.venue.address}</p>
         <Stagger className="v-grid" delay={0.2}>
-          <div className="v-card">
+          <BeadedBorder className="v-card">
             <h4 className="v-card-t">{l.venue.domestic.title}</h4>
             <ul className="v-steps">{l.venue.domestic.steps.map((s, i) => <li key={i}>{s}</li>)}</ul>
             <p className="v-note">{l.venue.domestic.note}</p>
-          </div>
-          <div className="v-card">
+          </BeadedBorder>
+          <BeadedBorder className="v-card">
             <h4 className="v-card-t">{l.venue.overseas.title}</h4>
             <Stagger className="v-os" delay={0.12}>
               {l.venue.overseas.steps.map((s, i) => (
@@ -448,7 +500,7 @@ export default function App() {
               ))}
             </Stagger>
             <p className="v-note">{l.venue.overseas.note}</p>
-          </div>
+          </BeadedBorder>
         </Stagger>
         <iframe className="v-map"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3639.8!2d120.912!3d23.868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3468d66bcbaf5f5f%3A0xb297928ac211e576!2sFleur%20de%20Chine%20Hotel%20Sun%20Moon%20Lake!5e0!3m2!1sen!2stw!4v1700000000000"
@@ -457,7 +509,9 @@ export default function App() {
 
       {/* RSVP */}
       <Sec id="rsvp" className="rsvp-sec" dark anim="scale">
-        <div className="sec-grain" />
+        <div className="silk-ov" />
+        <Swallow className="sw-rsvp-1" />
+        <Swallow className="sw-rsvp-2" flip />
         <h2 className="sec-t">{l.rsvp.title}</h2>
         <p className="sec-sub-big">{l.rsvp.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -489,20 +543,21 @@ export default function App() {
         <div className="sec-orn"><GoldDivider /></div>
         <Stagger className="exp-g" delay={0.1}>
           {l.explore.items.map((item, i) => (
-            <div key={i} className="exp-c">
+            <BeadedBorder key={i} className="exp-c">
               <div className="exp-num">{String(i + 1).padStart(2, '0')}</div>
               <h4 className="exp-n">{item.name}</h4>
               <p className="exp-d">{item.desc}</p>
-            </div>
+            </BeadedBorder>
           ))}
         </Stagger>
       </Sec>
 
       {/* FOOTER */}
       <footer className="ft">
-        <div className="sec-grain" />
+        <div className="silk-ov" />
         <Sprig />
         <Sprig flip />
+        <Pomegranate className="pom-ft" small />
         <div className="ft-nm">{l.footer}</div>
         <div className="ft-fn">{l.footerNames}</div>
         <div className="ft-dt">{l.footerDate}</div>
@@ -522,6 +577,7 @@ const CSS = `
   --teal: #004D4D;
   --teal-l: #006B6B;
   --teal-d: #003838;
+  --teal-x: #002A2A;
   --gold: #BF9B30;
   --gold-l: #D4B34A;
   --gold-d: #9A7D25;
@@ -532,8 +588,8 @@ const CSS = `
   --coral: #E79EAA;
   --dk: #1A1A18;
   --txt: #2C2822;
-  --mid: #5A5248;
-  --lt: #8A7E72;
+  --mid: #4A4238;
+  --lt: #7A6E62;
   --serif: 'Playfair Display', 'Noto Serif TC', Georgia, serif;
   --sans: 'DM Sans', 'Noto Serif TC', -apple-system, sans-serif;
   --ease: cubic-bezier(.16, 1, .3, 1);
@@ -543,45 +599,85 @@ const CSS = `
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box }
 ::selection { background: rgba(191, 155, 48, .15) }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
-.root { font-family: var(--serif); color: var(--txt); background: var(--cream); min-height: 100vh; overflow-x: hidden }
+.root { font-family: var(--serif); color: var(--txt); background: var(--cream); min-height: 100vh; overflow-x: hidden; font-size: 18px }
 
-/* ─ Texture overlays ─ */
-.hero-grain, .sec-grain, .gift-grain {
+/* ─ Silk texture overlay ─ */
+.silk-ov {
   position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  opacity: .5;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.035'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,253,235,0.01) 2px, rgba(255,253,235,0.01) 4px);
+  opacity: .6;
 }
-.sec-grain { opacity: .35 }
-
-/* ─ Gold divider ─ */
-.gold-div { width: 160px; height: 20px; color: var(--gold); display: block; margin: 0 auto }
-.gold-div-lt { color: var(--gold-l); opacity: .7 }
+.silk-ov-s { opacity: .4 }
 
 /* ─ Stagger ─ */
 .stg-i { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease) }
 .stg-v { opacity: 1; transform: none }
 
+/* ─ Swallows ─ */
+.swallow { position: absolute; pointer-events: none; z-index: 2 }
+.swallow-flip { transform: scaleX(-1) }
+.sw-1 { width: 32px; top: 18%; left: 12%; color: rgba(191,155,48,.12); animation: swFloat 8s ease-in-out infinite }
+.sw-2 { width: 26px; top: 14%; right: 15%; color: rgba(191,155,48,.1); animation: swFloat 10s ease-in-out 2s infinite }
+.sw-3 { width: 20px; top: 28%; left: 22%; color: rgba(191,155,48,.08); animation: swFloat 12s ease-in-out 4s infinite }
+.sw-sec { width: 28px; color: rgba(191,155,48,.08) }
+.sw-sec-1 { top: 20px; right: 8% }
+.sw-sec-2 { bottom: 30px; left: 6% }
+.sw-rsvp-1 { width: 30px; top: 16%; left: 10%; color: rgba(212,179,74,.1); animation: swFloat 9s ease-in-out infinite }
+.sw-rsvp-2 { width: 22px; top: 22%; right: 12%; color: rgba(212,179,74,.08); animation: swFloat 11s ease-in-out 3s infinite }
+@keyframes swFloat { 0%, 100% { transform: translateY(0) rotate(0deg) } 50% { transform: translateY(-12px) rotate(3deg) } }
+.swallow-flip.sw-2 { animation-name: swFloat2 }
+@keyframes swFloat2 { 0%, 100% { transform: scaleX(-1) translateY(0) rotate(0deg) } 50% { transform: scaleX(-1) translateY(-10px) rotate(-3deg) } }
+
+/* ─ Pomegranates ─ */
+.pom { position: absolute; pointer-events: none; z-index: 2 }
+.pom-gift-l { width: 36px; bottom: 16px; left: 18px; opacity: .5 }
+.pom-gift-r { width: 36px; bottom: 16px; right: 18px; opacity: .5; transform: scaleX(-1) }
+.pom-photos { width: 44px; opacity: .5; position: relative; margin: 0 auto 16px }
+.pom-ft { width: 32px; top: 28px; left: 50%; transform: translateX(-50%); opacity: .25 }
+
+/* ─ Beaded border ─ */
+.beaded {
+  position: relative;
+  border: 1px solid rgba(191,155,48,.2);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.beaded::before {
+  content: '';
+  position: absolute; inset: 4px;
+  border: 1px dotted rgba(191,155,48,.12);
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ─ Gold divider ─ */
+.gold-div { width: 180px; height: 24px; color: var(--gold); display: block; margin: 0 auto }
+.gold-div-w { width: 220px }
+.gold-div-lt { color: var(--gold-l); opacity: .6 }
+
 /* ─ Botanical ─ */
-.sprig { position: absolute; width: 30px; height: 90px; color: var(--gold); opacity: .3; z-index: 2; pointer-events: none }
+.sprig { position: absolute; width: 30px; height: 90px; color: var(--gold); opacity: .25; z-index: 2; pointer-events: none }
 .hero .sprig { bottom: 60px; left: 8% }
 .hero .sprig-flip { left: auto; right: 8%; transform: scaleX(-1) }
-.ft .sprig { top: 30px; left: 10%; opacity: .2 }
+.ft .sprig { top: 50px; left: 10%; opacity: .15 }
 .ft .sprig-flip { left: auto; right: 10%; transform: scaleX(-1) }
 
 /* ─ NAV ─ */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all .5s var(--ease) }
-.nav-s { background: rgba(0, 77, 77, .95); backdrop-filter: blur(16px); box-shadow: 0 1px 0 rgba(191, 155, 48, .1) }
+.nav-s { background: rgba(0, 56, 56, .96); backdrop-filter: blur(16px); box-shadow: 0 1px 0 rgba(191, 155, 48, .1) }
 .nav-in { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 18px 36px }
-.nav-logo { font-family: var(--serif); font-size: 18px; letter-spacing: 3px; color: var(--gold); font-weight: 500; cursor: pointer; font-style: italic; transition: opacity .3s }
+.nav-logo { font-family: var(--serif); font-size: 20px; letter-spacing: 3px; color: var(--gold); font-weight: 500; cursor: pointer; font-style: italic; transition: opacity .3s }
 .nav-logo:hover { opacity: .65 }
 .nav:not(.nav-s) .nav-logo { color: var(--gold-l) }
 .nav-lk { display: flex; gap: 28px; align-items: center }
-.nav-a { font-family: var(--sans); font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; background: none; border: none; cursor: pointer; font-weight: 400; transition: color .3s }
-.nav-s .nav-a { color: rgba(255,253,235,.55) }
-.nav:not(.nav-s) .nav-a { color: rgba(255,255,255,.6) }
+.nav-a { font-family: var(--sans); font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; background: none; border: none; cursor: pointer; font-weight: 400; transition: color .3s }
+.nav-s .nav-a { color: rgba(255,253,235,.5) }
+.nav:not(.nav-s) .nav-a { color: rgba(255,255,255,.55) }
 .nav-a:hover { color: var(--gold) }
-.lang-b { font-family: var(--sans); font-size: 12px; letter-spacing: 2px; padding: 7px 18px; border: 1px solid var(--gold); border-radius: 50px; background: transparent; color: var(--gold); cursor: pointer; transition: all .4s var(--ease) }
+.lang-b { font-family: var(--sans); font-size: 13px; letter-spacing: 2px; padding: 8px 20px; border: 1px solid var(--gold); border-radius: 50px; background: transparent; color: var(--gold); cursor: pointer; transition: all .4s var(--ease) }
 .lang-b:hover { background: var(--gold); color: var(--teal-d) }
 .nav-tog { display: none; background: none; border: none; cursor: pointer; width: 32px; height: 32px; position: relative; z-index: 1001 }
 .ham, .ham::before, .ham::after { display: block; width: 22px; height: 1.5px; position: absolute; transition: all .4s var(--ease-s) }
@@ -597,8 +693,8 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .sticky-rsvp {
   position: fixed; bottom: 28px; right: 28px; z-index: 900;
   display: flex; align-items: center; gap: 8px;
-  padding: 14px 28px;
-  font-family: var(--sans); font-size: 14px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
+  padding: 16px 30px;
+  font-family: var(--sans); font-size: 15px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
   background: var(--ruby); color: var(--cream);
   border-radius: 50px;
   box-shadow: 0 4px 20px rgba(160, 0, 47, .3), 0 1px 4px rgba(0,0,0,.1);
@@ -612,8 +708,8 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 
 /* ─ HERO ─ */
 .hero { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden }
-.hero-bg { position: absolute; inset: -20px; background-size: cover; background-position: center 35%; filter: saturate(1.1) contrast(0.9) brightness(0.6) }
-.hero-ov { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,77,77,.3) 0%, rgba(0,56,56,.5) 50%, rgba(0,38,38,.75) 100%) }
+.hero-bg { position: absolute; inset: -20px; background-size: cover; background-position: center 35%; filter: saturate(1.1) contrast(0.9) brightness(0.55) }
+.hero-ov { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,77,77,.35) 0%, rgba(0,56,56,.55) 50%, rgba(0,38,38,.8) 100%) }
 
 .hero-ct { position: relative; z-index: 3; color: var(--cream); padding: 100px 32px 80px }
 .hero-ct > * { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease) }
@@ -626,24 +722,24 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .hero-in .h-d7 { opacity: 1; transform: none; transition-delay: 1.2s }
 .hero-in .h-d8 { opacity: 1; transform: none; transition-delay: 1.4s }
 
-.hero-pre { font-size: 17px; color: rgba(255,253,235,.5); margin-bottom: 20px; font-weight: 400; font-style: italic; line-height: 1.6 }
-.hero-nm { font-size: clamp(30px, 5.5vw, 52px); font-weight: 400; letter-spacing: 1px; line-height: 1.2; font-style: italic }
+.hero-pre { font-size: 19px; color: rgba(255,253,235,.5); margin-bottom: 22px; font-weight: 400; font-style: italic; line-height: 1.6 }
+.hero-nm { font-size: clamp(32px, 5.5vw, 56px); font-weight: 400; letter-spacing: 1px; line-height: 1.2; font-style: italic }
 .hero-n1, .hero-n2 { display: block }
-.hero-amp { display: block; font-size: .55em; color: var(--gold); margin: 6px 0; font-style: italic; font-weight: 400 }
-.hero-divider { margin: 22px auto; display: flex; justify-content: center }
-.hero-dt { font-size: clamp(24px, 4.5vw, 40px); letter-spacing: 0.5px; font-weight: 400 }
-.hero-day { font-family: var(--sans); font-size: 17px; letter-spacing: 3px; color: rgba(255,253,235,.45); margin-top: 6px; font-weight: 300 }
-.hero-vn { font-family: var(--sans); font-size: 15px; letter-spacing: 1.5px; color: rgba(255,253,235,.35); margin-top: 12px; font-weight: 300 }
+.hero-amp { display: block; font-size: .55em; color: var(--gold); margin: 8px 0; font-style: italic; font-weight: 400 }
+.hero-divider { margin: 24px auto; display: flex; justify-content: center }
+.hero-dt { font-size: clamp(26px, 4.5vw, 44px); letter-spacing: 0.5px; font-weight: 400 }
+.hero-day { font-family: var(--sans); font-size: 18px; letter-spacing: 3px; color: rgba(255,253,235,.4); margin-top: 6px; font-weight: 300 }
+.hero-vn { font-family: var(--sans); font-size: 17px; letter-spacing: 1.5px; color: rgba(255,253,235,.3); margin-top: 14px; font-weight: 300 }
 
-.cd { display: flex; gap: 24px; justify-content: center; margin-top: 32px }
-.cd-u { text-align: center; min-width: 48px }
-.cd-n { display: block; font-family: var(--sans); font-size: 28px; font-weight: 300; color: var(--cream) }
-.cd-l { font-family: var(--sans); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(191,155,48,.5); margin-top: 4px; display: block }
+.cd { display: flex; gap: 24px; justify-content: center; margin-top: 36px }
+.cd-u { text-align: center; min-width: 52px }
+.cd-n { display: block; font-family: var(--sans); font-size: 30px; font-weight: 300; color: var(--cream) }
+.cd-l { font-family: var(--sans); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: rgba(191,155,48,.5); margin-top: 4px; display: block }
 
 .hero-btn {
-  display: inline-block; margin-top: 36px; padding: 15px 48px;
-  font-family: var(--sans); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
-  border: 1px solid var(--gold); border-radius: 50px;
+  display: inline-block; margin-top: 40px; padding: 16px 52px;
+  font-family: var(--sans); font-size: 15px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  border: 1.5px solid var(--gold); border-radius: 50px;
   background: rgba(191,155,48,.08); color: var(--gold);
   transition: all .4s var(--ease);
 }
@@ -652,86 +748,95 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 /* ─ GIFT ─ */
 .gift-sec { padding: 0 !important }
 .gift {
-  position: relative; overflow: hidden;
+  position: relative;
   background: var(--teal);
-  text-align: center; padding: 72px 36px;
+  text-align: center; padding: 76px 40px;
+  margin: 0; border-radius: 0 !important;
+  border-left: none !important; border-right: none !important;
 }
-.gift-t { font-size: 24px; font-weight: 400; color: var(--gold); margin-bottom: 18px; font-style: italic }
-.gift-b { font-size: 17px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.65); max-width: 580px; margin: 18px auto 0 }
+.gift::before { border-radius: 0 !important }
+.gift-t { font-size: 26px; font-weight: 400; color: var(--gold); margin-bottom: 20px; font-style: italic; position: relative; z-index: 4 }
+.gift-b { font-size: 19px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.6); max-width: 600px; margin: 20px auto 0; position: relative; z-index: 4 }
 
 /* ─ SECTIONS ─ */
-.sec { padding: 96px 40px; overflow: hidden; position: relative }
+.sec { padding: 100px 40px; overflow: hidden; position: relative }
 .sec-up { opacity: 0; transform: translateY(36px); transition: opacity .8s var(--ease), transform .8s var(--ease) }
 .sec-fade { opacity: 0; transition: opacity 1s var(--ease) }
 .sec-scale { opacity: 0; transform: scale(.97); transition: opacity .8s var(--ease), transform .8s var(--ease) }
 .sec-v.sec-up, .sec-v.sec-fade, .sec-v.sec-scale { opacity: 1; transform: none }
 .sec-dk { background: var(--teal); color: var(--cream) }
 
-.sec-t { font-size: clamp(28px, 4.5vw, 40px); font-weight: 400; letter-spacing: 0.5px; text-align: center; margin-bottom: 10px; font-style: italic }
+.sec-t { font-size: clamp(30px, 5vw, 44px); font-weight: 400; letter-spacing: 0.5px; text-align: center; margin-bottom: 12px; font-style: italic }
 .sec-dk .sec-t { color: var(--cream) }
-.sec-sub { font-family: var(--sans); font-size: 14px; letter-spacing: 1.5px; text-align: center; color: var(--lt); font-weight: 300 }
-.sec-sub-big { font-family: var(--serif); font-size: 18px; text-align: center; color: var(--mid); font-weight: 400; font-style: italic }
+.sec-sub { font-family: var(--sans); font-size: 16px; letter-spacing: 1.5px; text-align: center; color: var(--lt); font-weight: 300 }
+.sec-sub-big { font-family: var(--serif); font-size: 20px; text-align: center; color: var(--mid); font-weight: 400; font-style: italic }
 .sec-dk .sec-sub, .sec-dk .sec-sub-big { color: rgba(255,253,235,.35) }
 
-.sec-orn { display: flex; justify-content: center; margin: 24px auto 48px }
-.sec-dk .sec-orn { opacity: .6 }
+.sec-orn { display: flex; justify-content: center; margin: 26px auto 52px }
+.sec-dk .sec-orn { opacity: .5 }
 
 /* ─ PHOTOS PLACEHOLDER ─ */
 .photos-sec { background: var(--cream-d); text-align: center }
 .photos-placeholder {
-  max-width: 700px; margin: 0 auto; padding: 72px 40px;
+  max-width: 700px; margin: 0 auto; padding: 76px 40px;
   border: 1px solid rgba(191,155,48,.2); border-radius: 20px;
-  background: rgba(255,253,235,.5); transition: border-color .4s;
+  background: rgba(255,253,235,.5); transition: border-color .4s; position: relative;
 }
-.photos-placeholder:hover { border-color: rgba(191,155,48,.45) }
-.photos-icon { font-size: 32px; margin-bottom: 14px; opacity: .35 }
-.photos-msg { font-size: 19px; color: var(--lt); font-style: italic; font-weight: 400 }
+.photos-placeholder::before {
+  content: '';
+  position: absolute; inset: 5px;
+  border: 1px dotted rgba(191,155,48,.1);
+  border-radius: 15px;
+  pointer-events: none;
+}
+.photos-placeholder:hover { border-color: rgba(191,155,48,.4) }
+.photos-msg { font-size: 20px; color: var(--lt); font-style: italic; font-weight: 400 }
 
 /* ─ STORY ─ */
-.story-b { max-width: 660px; margin: 0 auto; text-align: center }
-.story-b p { font-size: 18px; line-height: 2.1; color: var(--mid); font-weight: 300; margin-bottom: 24px }
+.story-b { max-width: 680px; margin: 0 auto; text-align: center }
+.story-b p { font-size: 19px; line-height: 2.1; color: var(--mid); font-weight: 300; margin-bottom: 28px }
 
 /* ─ SCHEDULE ─ */
 .sched { background: var(--teal) }
-.tl { max-width: 700px; margin: 0 auto; position: relative }
-.tl::before { content: ''; position: absolute; left: 118px; top: 12px; bottom: 12px; width: 1px; background: rgba(191,155,48,.15) }
-.tl-i { display: grid; grid-template-columns: 100px 32px 1fr; padding: 26px 0; align-items: start }
-.tl-tm { font-family: var(--sans); font-size: 15px; letter-spacing: 1px; color: var(--gold); text-align: right; padding-top: 3px; font-weight: 500 }
-.tl-dot { display: flex; justify-content: center; padding-top: 7px }
-.tl-dot-in { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--gold); background: var(--teal); position: relative; z-index: 1; transition: transform .4s var(--ease-s), background .4s }
+.tl { max-width: 720px; margin: 0 auto; position: relative }
+.tl::before { content: ''; position: absolute; left: 122px; top: 12px; bottom: 12px; width: 1px; background: rgba(191,155,48,.15) }
+.tl-i { display: grid; grid-template-columns: 104px 32px 1fr; padding: 28px 0; align-items: start }
+.tl-tm { font-family: var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--gold); text-align: right; padding-top: 4px; font-weight: 500 }
+.tl-dot { display: flex; justify-content: center; padding-top: 8px }
+.tl-dot-in { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--gold); background: var(--teal); position: relative; z-index: 1; transition: transform .4s var(--ease-s), background .4s }
 .tl-i:hover .tl-dot-in { transform: scale(1.3); background: var(--gold) }
-.tl-nm { font-size: 20px; font-weight: 500; color: var(--cream); margin-bottom: 5px; transition: color .3s }
+.tl-nm { font-size: 22px; font-weight: 500; color: var(--cream); margin-bottom: 6px; transition: color .3s }
 .tl-i:hover .tl-nm { color: var(--gold-l) }
-.tl-vn { font-size: 15px; color: var(--gold); font-style: italic; margin-bottom: 4px; opacity: .6 }
-.tl-dt { font-size: 16px; color: rgba(255,253,235,.55); font-weight: 300; line-height: 1.7 }
+.tl-vn { font-size: 17px; color: var(--gold); font-style: italic; margin-bottom: 5px; opacity: .55 }
+.tl-dt { font-size: 18px; color: rgba(255,253,235,.55); font-weight: 300; line-height: 1.8 }
 
 /* ─ VENUE ─ */
-.v-addr { text-align: center; font-family: var(--sans); font-size: 16px; color: var(--lt); margin-bottom: 40px; font-weight: 300 }
-.v-grid { max-width: 820px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px }
-.v-card { padding: 34px; background: var(--cream); border: 1px solid rgba(191,155,48,.15); border-radius: 16px; transition: transform .4s var(--ease), box-shadow .4s, border-color .4s }
-.v-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.06); border-color: rgba(191,155,48,.35) }
-.v-card-t { font-family: var(--sans); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-d); margin-bottom: 20px; font-weight: 500 }
+.v-addr { text-align: center; font-family: var(--sans); font-size: 17px; color: var(--lt); margin-bottom: 44px; font-weight: 300 }
+.v-grid { max-width: 840px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px }
+.v-card { padding: 36px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
+.v-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.06) }
+.v-card-t { font-family: var(--sans); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-d); margin-bottom: 22px; font-weight: 500 }
 .v-steps { list-style: none; padding: 0 }
-.v-steps li { font-size: 16px; color: var(--mid); font-weight: 300; line-height: 1.85; padding-left: 18px; position: relative; margin-bottom: 6px }
-.v-steps li::before { content: '\u00B7'; position: absolute; left: 0; color: var(--gold); font-weight: 700; font-size: 20px; line-height: 1.55 }
-.v-note { font-size: 15px; color: var(--lt); font-style: italic; margin-top: 16px; line-height: 1.75 }
+.v-steps li { font-size: 18px; color: var(--mid); font-weight: 300; line-height: 1.9; padding-left: 20px; position: relative; margin-bottom: 8px }
+.v-steps li::before { content: ''; position: absolute; left: 0; top: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); opacity: .5 }
+.v-note { font-size: 17px; color: var(--lt); font-style: italic; margin-top: 18px; line-height: 1.8 }
 .v-os { display: flex; flex-direction: column; gap: 4px }
-.os-s { display: flex; align-items: center; gap: 14px; padding: 8px 0; transition: transform .3s var(--ease) }
+.os-s { display: flex; align-items: center; gap: 14px; padding: 10px 0; transition: transform .3s var(--ease) }
 .os-s:hover { transform: translateX(5px) }
-.os-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0; color: var(--gold); transition: color .3s }
-.os-s:hover .os-icon { color: var(--gold-d) }
-.os-icon svg { width: 20px; height: 20px }
-.os-l { font-size: 16px; color: var(--mid); font-weight: 300; line-height: 1.6 }
-.v-map { width: 100%; max-width: 820px; height: 320px; border: none; margin: 40px auto 0; display: block; border-radius: 16px; opacity: 0; animation: fadeUp .8s var(--ease) .5s forwards }
+.os-icon { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; flex-shrink: 0; color: var(--gold); transition: color .3s }
+.os-s:hover .os-icon { color: var(--ruby) }
+.os-icon svg { width: 22px; height: 22px }
+.os-l { font-size: 18px; color: var(--mid); font-weight: 300; line-height: 1.6 }
+.v-map { width: 100%; max-width: 840px; height: 340px; border: none; margin: 44px auto 0; display: block; border-radius: 16px; opacity: 0; animation: fadeUp .8s var(--ease) .5s forwards }
 @keyframes fadeUp { to { opacity: 1 } }
 
 /* ─ RSVP ─ */
 .rsvp-sec { background: var(--teal-d); text-align: center }
 .rsvp-sec .sec-t { color: var(--cream) }
-.rsvp-d { text-align: center; max-width: 540px; margin: 0 auto 40px; font-size: 17px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.5) }
+.rsvp-d { text-align: center; max-width: 560px; margin: 0 auto 44px; font-size: 19px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.5) }
 .rsvp-btn {
-  display: inline-block; padding: 18px 64px;
-  font-family: var(--sans); font-size: 15px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  display: inline-block; padding: 18px 68px;
+  font-family: var(--sans); font-size: 16px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
   border: none; border-radius: 50px;
   background: var(--gold); color: var(--teal-d);
   box-shadow: 0 4px 20px rgba(191,155,48,.25);
@@ -741,85 +846,96 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 
 /* ─ FAQ ─ */
 .faq-sec { background: var(--cream) }
-.faq-ls { max-width: 700px; margin: 0 auto }
+.faq-ls { max-width: 720px; margin: 0 auto }
 .faq-i { border-bottom: 1px solid rgba(191,155,48,.1); cursor: pointer; transition: background .3s }
 .faq-i:hover { background: rgba(191,155,48,.04) }
-.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 24px 4px; gap: 20px }
-.faq-q span:first-child { font-size: 19px; font-weight: 500; color: var(--txt); line-height: 1.5 }
-.faq-ic { font-family: var(--sans); font-size: 22px; color: var(--gold); flex-shrink: 0; transition: transform .4s var(--ease-s); display: inline-block }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 26px 4px; gap: 20px }
+.faq-q span:first-child { font-size: 20px; font-weight: 500; color: var(--txt); line-height: 1.5 }
+.faq-ic { font-family: var(--sans); font-size: 24px; color: var(--gold); flex-shrink: 0; transition: transform .4s var(--ease-s); display: inline-block }
 .faq-ic-open { transform: rotate(45deg) }
 .faq-a { max-height: 0; overflow: hidden; transition: max-height .5s var(--ease), padding .5s }
-.faq-open .faq-a { max-height: 300px; padding: 0 4px 24px }
-.faq-a p { font-size: 17px; line-height: 1.9; color: var(--mid); font-weight: 300 }
+.faq-open .faq-a { max-height: 300px; padding: 0 4px 26px }
+.faq-a p { font-size: 18px; line-height: 2; color: var(--mid); font-weight: 300 }
 
 /* ─ EXPLORE ─ */
 .exp-sec { background: var(--cream-d) }
-.exp-g { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px }
-.exp-c { padding: 30px; background: var(--cream); border: 1px solid rgba(191,155,48,.1); border-radius: 16px; transition: transform .4s var(--ease), box-shadow .4s, border-color .4s; position: relative; overflow: hidden }
-.exp-c::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--coral)); transition: width .5s var(--ease); border-radius: 3px 3px 0 0 }
-.exp-c:hover::before { width: 100% }
-.exp-c:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,.05); border-color: rgba(191,155,48,.3) }
-.exp-num { font-family: var(--sans); font-size: 11px; letter-spacing: 2px; color: var(--gold); margin-bottom: 10px; opacity: .5 }
-.exp-n { font-size: 18px; font-weight: 500; color: var(--txt); margin-bottom: 8px; transition: color .3s }
+.exp-g { max-width: 920px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px }
+.exp-c { padding: 32px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
+.exp-c::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--coral)); transition: width .5s var(--ease); border-radius: 3px 3px 0 0; z-index: 4 }
+.exp-c:hover::after { width: 100% }
+.exp-c:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,.05) }
+.exp-num { font-family: var(--sans); font-size: 12px; letter-spacing: 2px; color: var(--gold); margin-bottom: 12px; opacity: .45 }
+.exp-n { font-size: 20px; font-weight: 500; color: var(--txt); margin-bottom: 10px; transition: color .3s }
 .exp-c:hover .exp-n { color: var(--gold-d) }
-.exp-d { font-size: 15px; color: var(--mid); font-weight: 300; line-height: 1.75 }
+.exp-d { font-size: 17px; color: var(--mid); font-weight: 300; line-height: 1.8 }
 
 /* ─ FOOTER ─ */
-.ft { text-align: center; padding: 76px 36px; background: var(--dk); color: rgba(255,253,235,.6); position: relative; overflow: hidden }
-.ft-nm { font-size: clamp(26px, 4vw, 36px); font-weight: 400; color: var(--cream); letter-spacing: 0.5px; margin-bottom: 6px; font-style: italic }
-.ft-fn { font-family: var(--sans); font-size: 13px; letter-spacing: 1.5px; color: rgba(191,155,48,.35); margin-bottom: 14px }
-.ft-dt { font-family: var(--sans); font-size: 14px; letter-spacing: 2px; color: var(--gold); margin-bottom: 4px }
-.ft-sub { font-family: var(--sans); font-size: 13px; letter-spacing: 1.5px; color: rgba(191,155,48,.25) }
-.ft-v { font-size: 17px; font-style: italic; color: rgba(255,253,235,.3); margin-top: 32px; font-weight: 400; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.9 }
-.ft-r { font-family: var(--sans); font-size: 12px; letter-spacing: 2px; color: rgba(191,155,48,.2); margin-top: 8px }
+.ft { text-align: center; padding: 80px 36px; background: var(--teal-x); color: rgba(255,253,235,.6); position: relative; overflow: hidden }
+.ft-nm { font-size: clamp(28px, 4vw, 40px); font-weight: 400; color: var(--cream); letter-spacing: 0.5px; margin-bottom: 8px; font-style: italic; position: relative; z-index: 3; margin-top: 24px }
+.ft-fn { font-family: var(--sans); font-size: 14px; letter-spacing: 1.5px; color: rgba(191,155,48,.3); margin-bottom: 16px; position: relative; z-index: 3 }
+.ft-dt { font-family: var(--sans); font-size: 16px; letter-spacing: 2px; color: var(--gold); margin-bottom: 4px; position: relative; z-index: 3 }
+.ft-sub { font-family: var(--sans); font-size: 14px; letter-spacing: 1.5px; color: rgba(191,155,48,.2); position: relative; z-index: 3 }
+.ft-v { font-size: 18px; font-style: italic; color: rgba(255,253,235,.28); margin-top: 36px; font-weight: 400; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.9; position: relative; z-index: 3 }
+.ft-r { font-family: var(--sans); font-size: 13px; letter-spacing: 2px; color: rgba(191,155,48,.18); margin-top: 8px; position: relative; z-index: 3 }
 
 /* ─ MOBILE ─ */
 @media (max-width: 768px) {
   .nav-lk { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,56,56,.98); backdrop-filter: blur(20px); justify-content: center; align-items: center; gap: 28px; z-index: 999 }
   .nav-lk-open { display: flex }
-  .nav-lk-open .nav-a { color: rgba(255,253,235,.6) !important; font-size: 16px; letter-spacing: 2px }
+  .nav-lk-open .nav-a { color: rgba(255,253,235,.6) !important; font-size: 18px; letter-spacing: 2px }
   .nav-tog { display: block }
-  .sec { padding: 68px 28px }
+  .sec { padding: 72px 28px }
   .nav-in { padding: 16px 24px }
   .v-grid { grid-template-columns: 1fr }
-  .tl::before { left: 92px }
-  .tl-i { grid-template-columns: 76px 28px 1fr }
+  .tl::before { left: 96px }
+  .tl-i { grid-template-columns: 80px 28px 1fr }
   .cd { gap: 18px }
-  .cd-n { font-size: 24px }
-  .hero-btn { padding: 13px 38px; font-size: 13px }
+  .cd-n { font-size: 26px }
+  .hero-btn { padding: 14px 42px; font-size: 14px }
   .exp-g { grid-template-columns: 1fr }
-  .hero-nm { font-size: clamp(26px, 7vw, 44px) }
+  .hero-nm { font-size: clamp(28px, 7vw, 46px) }
   .sprig { display: none }
-  .sticky-rsvp { bottom: 20px; right: 20px; padding: 12px 24px; font-size: 13px }
+  .sticky-rsvp { bottom: 20px; right: 20px; padding: 14px 26px; font-size: 14px }
+  .hero-swallows .sw-1 { left: 6% }
+  .hero-swallows .sw-2 { right: 6% }
+  .hero-swallows .sw-3 { display: none }
+  .sw-sec { display: none }
+  .sw-rsvp-1, .sw-rsvp-2 { display: none }
 }
 @media (max-width: 480px) {
-  .hero-ct { padding: 88px 20px 56px }
-  .hero-pre { font-size: 15px }
-  .hero-dt { font-size: 22px }
-  .hero-day { font-size: 14px }
-  .hero-vn { font-size: 13px }
-  .sec-t { font-size: 24px }
-  .story-b p { font-size: 16px }
-  .tl-i { grid-template-columns: 62px 22px 1fr }
-  .tl::before { left: 73px }
-  .tl-nm { font-size: 18px }
-  .tl-dt { font-size: 15px }
-  .tl-tm { font-size: 14px }
-  .v-card { padding: 26px; border-radius: 12px }
-  .sec { padding: 52px 20px }
-  .sec-orn { margin: 20px auto 36px }
-  .faq-q span:first-child { font-size: 17px }
-  .faq-a p { font-size: 16px }
-  .rsvp-d { font-size: 16px }
-  .rsvp-btn { padding: 16px 44px; font-size: 14px }
-  .gift { padding: 56px 22px }
-  .gift-t { font-size: 21px }
-  .gift-b { font-size: 16px }
-  .ft-v { font-size: 16px }
-  .photos-placeholder { padding: 56px 22px; border-radius: 14px }
+  .root { font-size: 17px }
+  .hero-ct { padding: 88px 22px 56px }
+  .hero-pre { font-size: 17px }
+  .hero-dt { font-size: 24px }
+  .hero-day { font-size: 16px }
+  .hero-vn { font-size: 15px }
+  .sec-t { font-size: 26px }
+  .story-b p { font-size: 18px }
+  .tl-i { grid-template-columns: 66px 24px 1fr }
+  .tl::before { left: 78px }
+  .tl-nm { font-size: 20px }
+  .tl-dt { font-size: 17px }
+  .tl-tm { font-size: 16px }
+  .v-card { padding: 28px }
+  .sec { padding: 56px 22px }
+  .sec-orn { margin: 22px auto 38px }
+  .faq-q span:first-child { font-size: 18px }
+  .faq-a p { font-size: 17px }
+  .rsvp-d { font-size: 18px }
+  .rsvp-btn { padding: 16px 48px; font-size: 15px }
+  .gift { padding: 60px 24px }
+  .gift-t { font-size: 24px }
+  .gift-b { font-size: 18px }
+  .ft-v { font-size: 17px }
+  .photos-placeholder { padding: 60px 24px; border-radius: 14px }
   .v-map { border-radius: 10px }
-  .exp-c { border-radius: 12px }
-  .gold-div { width: 120px }
+  .gold-div { width: 140px }
+  .pom-gift-l, .pom-gift-r { display: none }
+  .v-steps li { font-size: 17px }
+  .os-l { font-size: 17px }
+  .v-note { font-size: 16px }
+  .exp-n { font-size: 19px }
+  .exp-d { font-size: 16px }
 }
 
 @media (prefers-reduced-motion: reduce) {
