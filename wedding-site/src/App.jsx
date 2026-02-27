@@ -11,56 +11,65 @@ const Icon = ({ type }) => {
   return <span className="os-icon">{icons[type]}</span>
 }
 
-/* ─── SWALLOW SVG ─── */
-const Swallow = ({ className = '', flip }) => (
-  <svg className={`swallow ${className} ${flip ? 'swallow-flip' : ''}`} viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M30 18 C26 12, 16 4, 2 2 C8 8, 12 14, 14 18 C10 16, 4 14, 0 15 C6 17, 12 20, 16 22 C14 24, 10 28, 6 34 C14 28, 20 24, 28 22 L30 26 L32 22 C40 24, 46 28, 54 34 C50 28, 46 24, 44 22 C48 20, 54 17, 60 15 C56 14, 50 16, 46 18 C48 14, 52 8, 58 2 C44 4, 34 12, 30 18Z" fill="currentColor" />
-    <circle cx="24" cy="14" r="1" fill="currentColor" opacity="0.5"/>
+/* ─── SWALLOW SVG — BOLD, VISIBLE ─── */
+const Swallow = ({ className = '', flip, style }) => (
+  <svg className={`swallow ${className} ${flip ? 'swallow-flip' : ''}`} style={style} viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M40 22 C36 14, 22 4, 2 1 C10 9, 16 16, 18 22 C12 19, 4 16, 0 17 C8 20, 16 24, 22 27 C19 30, 14 36, 8 44 C18 36, 26 30, 36 27 L40 33 L44 27 C54 30, 62 36, 72 44 C66 36, 61 30, 58 27 C64 24, 72 20, 80 17 C76 16, 68 19, 62 22 C64 16, 70 9, 78 1 C58 4, 44 14, 40 22Z" fill="currentColor"/>
+    <path d="M40 33 L38 48 L40 44 L42 48 L40 33Z" fill="currentColor" opacity="0.85"/>
+    <circle cx="32" cy="16" r="1.5" fill="white" opacity="0.4"/>
   </svg>
 )
 
-/* ─── POMEGRANATE SVG ─── */
-const Pomegranate = ({ className = '', small }) => (
-  <svg className={`pom ${className}`} viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M24 8 C22 4, 20 1, 22 0 C24 -0.5, 25 1, 26 0 C28 1, 26 4, 24 8Z" fill="var(--gold)" opacity="0.4"/>
-    <path d="M20 6 C16 5, 13 3, 14 2" stroke="var(--gold)" strokeWidth="0.6" opacity="0.3" fill="none"/>
-    <path d="M28 6 C32 5, 35 3, 34 2" stroke="var(--gold)" strokeWidth="0.6" opacity="0.3" fill="none"/>
-    <ellipse cx="24" cy="30" rx={small ? 14 : 16} ry={small ? 17 : 20} fill="var(--ruby)" opacity="0.15"/>
-    <ellipse cx="24" cy="30" rx={small ? 14 : 16} ry={small ? 17 : 20} stroke="var(--ruby)" strokeWidth="0.8" opacity="0.25" fill="none"/>
-    <path d="M18 10 Q14 10, 12 8" stroke="var(--gold)" strokeWidth="0.5" opacity="0.25" fill="none"/>
-    <path d="M30 10 Q34 10, 36 8" stroke="var(--gold)" strokeWidth="0.5" opacity="0.25" fill="none"/>
-    {!small && <>
-      <circle cx="20" cy="26" r="2.5" fill="var(--ruby)" opacity="0.2"/>
-      <circle cx="28" cy="26" r="2.5" fill="var(--ruby)" opacity="0.2"/>
-      <circle cx="24" cy="32" r="2.5" fill="var(--ruby)" opacity="0.2"/>
-      <circle cx="18" cy="32" r="2" fill="var(--ruby)" opacity="0.15"/>
-      <circle cx="30" cy="32" r="2" fill="var(--ruby)" opacity="0.15"/>
-      <circle cx="22" cy="38" r="2" fill="var(--ruby)" opacity="0.12"/>
-      <circle cx="26" cy="38" r="2" fill="var(--ruby)" opacity="0.12"/>
-    </>}
-  </svg>
-)
+/* ─── POMEGRANATE SVG — VISIBLE ─── */
+const Pomegranate = ({ className = '', size = 'md' }) => {
+  const s = size === 'sm' ? 0.7 : size === 'lg' ? 1.3 : 1
+  return (
+    <svg className={`pom ${className}`} viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: `${60 * s}px`, height: `${72 * s}px` }}>
+      {/* stem & leaves */}
+      <path d="M30 12 C28 6, 27 2, 29 0 C31 -0.5, 32 2, 33 0 C35 2, 32 6, 30 12Z" fill="var(--gold)" opacity="0.9"/>
+      <path d="M24 10 C18 8, 14 4, 16 2" stroke="var(--gold)" strokeWidth="1.5" opacity="0.7" fill="none"/>
+      <path d="M36 10 C42 8, 46 4, 44 2" stroke="var(--gold)" strokeWidth="1.5" opacity="0.7" fill="none"/>
+      <ellipse cx="18" cy="6" rx="6" ry="3.5" fill="var(--gold)" opacity="0.4" transform="rotate(-30 18 6)"/>
+      <ellipse cx="42" cy="6" rx="6" ry="3.5" fill="var(--gold)" opacity="0.4" transform="rotate(30 42 6)"/>
+      {/* body */}
+      <ellipse cx="30" cy="40" rx="22" ry="26" fill="var(--ruby)" opacity="0.55"/>
+      <ellipse cx="30" cy="40" rx="22" ry="26" stroke="var(--ruby)" strokeWidth="1.5" opacity="0.7" fill="none"/>
+      {/* crown */}
+      <path d="M24 14 L26 18 L28 15 L30 19 L32 15 L34 18 L36 14" stroke="var(--ruby)" strokeWidth="1.2" opacity="0.65" fill="none"/>
+      {/* seeds */}
+      <circle cx="22" cy="34" r="3.5" fill="var(--ruby)" opacity="0.6"/>
+      <circle cx="30" cy="30" r="3.5" fill="var(--ruby)" opacity="0.65"/>
+      <circle cx="38" cy="34" r="3.5" fill="var(--ruby)" opacity="0.6"/>
+      <circle cx="25" cy="42" r="3" fill="var(--ruby)" opacity="0.5"/>
+      <circle cx="35" cy="42" r="3" fill="var(--ruby)" opacity="0.5"/>
+      <circle cx="30" cy="50" r="3" fill="var(--ruby)" opacity="0.45"/>
+      <circle cx="20" cy="48" r="2.5" fill="var(--ruby)" opacity="0.35"/>
+      <circle cx="40" cy="48" r="2.5" fill="var(--ruby)" opacity="0.35"/>
+      {/* highlight */}
+      <ellipse cx="24" cy="32" rx="8" ry="12" fill="white" opacity="0.08"/>
+    </svg>
+  )
+}
 
 /* ─── GOLD ORNATE DIVIDER ─── */
 const GoldDivider = ({ light, wide }) => (
   <svg className={`gold-div ${light ? 'gold-div-lt' : ''} ${wide ? 'gold-div-w' : ''}`} viewBox="0 0 240 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 14h80" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
-    <path d="M160 14h80" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
-    {/* beaded dots along lines */}
-    {[20,40,60,180,200,220].map(x => <circle key={x} cx={x} cy="14" r="1.2" fill="currentColor" opacity="0.15"/>)}
+    <path d="M0 14h80" stroke="currentColor" strokeWidth="1" opacity="0.55"/>
+    <path d="M160 14h80" stroke="currentColor" strokeWidth="1" opacity="0.55"/>
+    {[16,32,48,64,176,192,208,224].map(x => <circle key={x} cx={x} cy="14" r="1.8" fill="currentColor" opacity="0.4"/>)}
     <g transform="translate(96, 2)">
-      <path d="M24 0 C24 8, 16 12, 8 12 C0 12, 0 8, 5 5 C10 2, 16 5, 24 12 C32 5, 38 2, 43 5 C48 8, 48 12, 40 12 C32 12, 24 8, 24 0Z" stroke="currentColor" strokeWidth="0.7" fill="currentColor" fillOpacity="0.06"/>
-      <circle cx="24" cy="16" r="2" fill="currentColor" opacity="0.35"/>
-      <path d="M16 20 Q24 25 32 20" stroke="currentColor" strokeWidth="0.5" opacity="0.25" fill="none"/>
-      <circle cx="12" cy="14" r="1" fill="currentColor" opacity="0.2"/>
-      <circle cx="36" cy="14" r="1" fill="currentColor" opacity="0.2"/>
+      <path d="M24 0 C24 8, 16 12, 8 12 C0 12, 0 8, 5 5 C10 2, 16 5, 24 12 C32 5, 38 2, 43 5 C48 8, 48 12, 40 12 C32 12, 24 8, 24 0Z" stroke="currentColor" strokeWidth="1" fill="currentColor" fillOpacity="0.15"/>
+      <circle cx="24" cy="16" r="2.5" fill="currentColor" opacity="0.6"/>
+      <path d="M16 20 Q24 25 32 20" stroke="currentColor" strokeWidth="0.8" opacity="0.5" fill="none"/>
+      <circle cx="10" cy="14" r="1.5" fill="currentColor" opacity="0.45"/>
+      <circle cx="38" cy="14" r="1.5" fill="currentColor" opacity="0.45"/>
     </g>
-    <circle cx="86" cy="14" r="1.5" fill="currentColor" opacity="0.2"/>
-    <circle cx="154" cy="14" r="1.5" fill="currentColor" opacity="0.2"/>
+    <circle cx="86" cy="14" r="2.2" fill="currentColor" opacity="0.45"/>
+    <circle cx="154" cy="14" r="2.2" fill="currentColor" opacity="0.45"/>
   </svg>
 )
 
-/* ─── BEADED BORDER COMPONENT ─── */
+/* ─── BEADED BORDER ─── */
 const BeadedBorder = ({ children, className = '' }) => (
   <div className={`beaded ${className}`}>{children}</div>
 )
@@ -68,14 +77,54 @@ const BeadedBorder = ({ children, className = '' }) => (
 /* ─── GOLD LEAF SPRIG ─── */
 const Sprig = ({ flip }) => (
   <svg className={`sprig ${flip ? 'sprig-flip' : ''}`} viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 110 Q20 60 20 10" stroke="currentColor" strokeWidth="0.7" opacity="0.25"/>
-    <path d="M20 80 Q8 68 6 55" stroke="currentColor" strokeWidth="0.5" opacity="0.2" fill="none"/>
-    <path d="M20 60 Q32 48 35 35" stroke="currentColor" strokeWidth="0.5" opacity="0.2" fill="none"/>
-    <path d="M20 40 Q10 30 8 18" stroke="currentColor" strokeWidth="0.5" opacity="0.2" fill="none"/>
-    <path d="M6 55 Q3 50 6 46 Q10 50 6 55Z" fill="currentColor" opacity="0.1"/>
-    <path d="M35 35 Q38 30 35 26 Q31 30 35 35Z" fill="currentColor" opacity="0.1"/>
-    <path d="M8 18 Q5 13 8 9 Q12 13 8 18Z" fill="currentColor" opacity="0.1"/>
-    <circle cx="20" cy="8" r="2" fill="currentColor" opacity="0.12"/>
+    <path d="M20 110 Q20 60 20 10" stroke="currentColor" strokeWidth="1.2" opacity="0.55"/>
+    <path d="M20 80 Q8 68 6 55" stroke="currentColor" strokeWidth="0.9" opacity="0.5" fill="none"/>
+    <path d="M20 60 Q32 48 35 35" stroke="currentColor" strokeWidth="0.9" opacity="0.5" fill="none"/>
+    <path d="M20 40 Q10 30 8 18" stroke="currentColor" strokeWidth="0.9" opacity="0.5" fill="none"/>
+    <path d="M6 55 Q2 48 6 42 Q11 48 6 55Z" fill="currentColor" opacity="0.35"/>
+    <path d="M35 35 Q39 28 35 22 Q30 28 35 35Z" fill="currentColor" opacity="0.35"/>
+    <path d="M8 18 Q4 11 8 5 Q13 11 8 18Z" fill="currentColor" opacity="0.35"/>
+    <circle cx="20" cy="8" r="2.5" fill="currentColor" opacity="0.3"/>
+  </svg>
+)
+
+/* ─── SVG TEXTURE DEFINITIONS (rendered once) ─── */
+const TextureDefs = () => (
+  <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
+    <defs>
+      {/* Fabric noise — organic grain */}
+      <filter id="fabricNoise" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise" />
+        <feColorMatrix type="saturate" values="0" in="noise" result="gray" />
+        <feComponentTransfer in="gray" result="faint">
+          <feFuncA type="linear" slope="0.12" />
+        </feComponentTransfer>
+        <feBlend in="SourceGraphic" in2="faint" mode="multiply" />
+      </filter>
+      {/* Fine silk weave */}
+      <filter id="silkWeave">
+        <feTurbulence type="turbulence" baseFrequency="1.2 0.3" numOctaves="2" stitchTiles="stitch" result="weave" />
+        <feColorMatrix type="saturate" values="0" in="weave" result="gray" />
+        <feComponentTransfer in="gray" result="subtle">
+          <feFuncA type="linear" slope="0.06" />
+        </feComponentTransfer>
+        <feBlend in="SourceGraphic" in2="subtle" mode="overlay" />
+      </filter>
+      {/* Paper grain for light sections */}
+      <filter id="paperGrain" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" stitchTiles="stitch" result="noise" />
+        <feColorMatrix type="saturate" values="0" in="noise" result="gray" />
+        <feComponentTransfer in="gray" result="faint">
+          <feFuncA type="linear" slope="0.07" />
+        </feComponentTransfer>
+        <feBlend in="SourceGraphic" in2="faint" mode="multiply" />
+      </filter>
+      {/* Noise texture for overlays */}
+      <filter id="noiseOnly" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4" stitchTiles="stitch" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+    </defs>
   </svg>
 )
 
@@ -320,7 +369,7 @@ function Sec({ children, className = '', id, dark, anim = 'up' }) {
   )
 }
 
-/* ─── STAGGER CHILDREN ─── */
+/* ─── STAGGER ─── */
 function Stagger({ children, className = '', delay = 0.09 }) {
   const [ref, vis] = useReveal(0.05)
   return (
@@ -336,7 +385,7 @@ function Stagger({ children, className = '', delay = 0.09 }) {
   )
 }
 
-/* ─── MAIN APP ─── */
+/* ─── MAIN ─── */
 export default function App() {
   const [lang, setLang] = useState('zh')
   const [menu, setMenu] = useState(false)
@@ -363,6 +412,7 @@ export default function App() {
   return (
     <div className="root notranslate" translate="no">
       <style>{CSS}</style>
+      <TextureDefs />
 
       {/* NAV */}
       <nav className={`nav ${scrolled ? 'nav-s' : ''}`}>
@@ -393,12 +443,15 @@ export default function App() {
       <header id="home" className="hero">
         <div className="hero-bg" style={{ backgroundImage: 'url(/photos/lake-sunset.jpg)' }} />
         <div className="hero-ov" />
-        <div className="silk-ov" />
-        <div className="hero-swallows">
-          <Swallow className="sw-1" />
-          <Swallow className="sw-2" flip />
-          <Swallow className="sw-3" />
-        </div>
+        <div className="tex-mottle tex-mottle-dk" />
+        <div className="silk-grain" />
+        <div className="tex-noise tex-noise-dk" />
+        <div className="tex-vignette tex-vignette-dk" />
+        {/* Swallows in hero */}
+        <Swallow className="sw-hero sw-h1" />
+        <Swallow className="sw-hero sw-h2" flip />
+        <Swallow className="sw-hero sw-h3" />
+        <Swallow className="sw-hero sw-h4" flip />
         <Sprig />
         <Sprig flip />
         <div className={`hero-ct ${heroLoaded ? 'hero-in' : ''}`}>
@@ -419,12 +472,16 @@ export default function App() {
         </div>
       </header>
 
-      {/* NOTE */}
+      {/* GIFT NOTE */}
       <Sec className="gift-sec" anim="fade">
         <BeadedBorder className="gift">
-          <div className="silk-ov silk-ov-s" />
-          <Pomegranate className="pom-gift-l" small />
-          <Pomegranate className="pom-gift-r" small />
+          <div className="tex-mottle tex-mottle-dk" />
+          <div className="silk-grain silk-grain-s" />
+          <div className="tex-noise tex-noise-dk" />
+          <Pomegranate className="pom-abs pom-gift-l" size="sm" />
+          <Pomegranate className="pom-abs pom-gift-r" size="sm" />
+          <Swallow className="sw-gift sw-gift-1" />
+          <Swallow className="sw-gift sw-gift-2" flip />
           <h3 className="gift-t">{l.noGift.title}</h3>
           <GoldDivider />
           <p className="gift-b">{l.noGift.body}</p>
@@ -433,8 +490,11 @@ export default function App() {
 
       {/* STORY */}
       <Sec id="story" anim="up">
-        <Swallow className="sw-sec sw-sec-1" />
-        <Swallow className="sw-sec sw-sec-2" flip />
+        <div className="tex-mottle tex-mottle-lt" />
+        <div className="tex-noise tex-noise-lt" />
+        <Swallow className="sw-float sw-f1" />
+        <Swallow className="sw-float sw-f2" flip />
+        <Pomegranate className="pom-abs pom-story" size="sm" />
         <h2 className="sec-t">{l.story.title}</h2>
         <p className="sec-sub">{l.story.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -445,20 +505,28 @@ export default function App() {
         </Stagger>
       </Sec>
 
-      {/* PHOTOS PLACEHOLDER */}
+      {/* PHOTOS */}
       <Sec className="photos-sec" anim="scale">
+        <div className="tex-noise tex-noise-lt" />
         <h2 className="sec-t">{l.photos.title}</h2>
         <p className="sec-sub">{l.photos.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
-        <div className="photos-placeholder">
-          <Pomegranate className="pom-photos" />
+        <BeadedBorder className="photos-placeholder">
+          <Pomegranate className="pom-center" size="md" />
           <p className="photos-msg">{lang === 'zh' ? '\u5373\u5C07\u4E0A\u50B3\u6211\u5011\u7684\u5408\u7167' : 'Our photos coming soon'}</p>
-        </div>
+        </BeadedBorder>
       </Sec>
 
       {/* SCHEDULE */}
       <Sec id="schedule" className="sched" dark anim="up">
-        <div className="silk-ov" />
+        <div className="tex-mottle tex-mottle-dk" />
+        <div className="silk-grain" />
+        <div className="tex-noise tex-noise-dk" />
+        <div className="tex-vignette tex-vignette-dk" />
+        <div className="tex-gold-line tex-gold-line-t" />
+        <div className="tex-gold-line tex-gold-line-b" />
+        <Swallow className="sw-float sw-f3" />
+        <Swallow className="sw-float sw-f4" flip />
         <h2 className="sec-t">{l.schedule.title}</h2>
         <p className="sec-sub-big">{l.schedule.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -477,8 +545,11 @@ export default function App() {
         </Stagger>
       </Sec>
 
-      {/* GETTING THERE */}
+      {/* VENUE */}
       <Sec id="venue" anim="up">
+        <div className="tex-mottle tex-mottle-lt" />
+        <div className="tex-noise tex-noise-lt" />
+        <Pomegranate className="pom-abs pom-venue" size="sm" />
         <h2 className="sec-t">{l.venue.title}</h2>
         <p className="sec-sub">{l.venue.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -509,9 +580,15 @@ export default function App() {
 
       {/* RSVP */}
       <Sec id="rsvp" className="rsvp-sec" dark anim="scale">
-        <div className="silk-ov" />
-        <Swallow className="sw-rsvp-1" />
-        <Swallow className="sw-rsvp-2" flip />
+        <div className="tex-mottle tex-mottle-dk" />
+        <div className="silk-grain" />
+        <div className="tex-noise tex-noise-dk" />
+        <div className="tex-vignette tex-vignette-dk" />
+        <div className="tex-gold-line tex-gold-line-t" />
+        <Swallow className="sw-float sw-f5" />
+        <Swallow className="sw-float sw-f6" flip />
+        <Pomegranate className="pom-abs pom-rsvp-l" size="sm" />
+        <Pomegranate className="pom-abs pom-rsvp-r" size="sm" />
         <h2 className="sec-t">{l.rsvp.title}</h2>
         <p className="sec-sub-big">{l.rsvp.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -521,6 +598,7 @@ export default function App() {
 
       {/* FAQ */}
       <Sec id="faq" className="faq-sec" anim="up">
+        <div className="tex-noise tex-noise-lt" />
         <h2 className="sec-t">{l.faq.title}</h2>
         <div className="sec-orn"><GoldDivider /></div>
         <Stagger className="faq-ls" delay={0.1}>
@@ -538,6 +616,8 @@ export default function App() {
 
       {/* EXPLORE */}
       <Sec className="exp-sec" anim="up">
+        <div className="tex-noise tex-noise-lt" />
+        <Swallow className="sw-float sw-f7" />
         <h2 className="sec-t">{l.explore.title}</h2>
         <p className="sec-sub">{l.explore.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -554,16 +634,24 @@ export default function App() {
 
       {/* FOOTER */}
       <footer className="ft">
-        <div className="silk-ov" />
+        <div className="tex-mottle tex-mottle-dk" />
+        <div className="silk-grain" />
+        <div className="tex-noise tex-noise-dk" />
+        <div className="tex-vignette tex-vignette-dk" />
+        <div className="tex-gold-line tex-gold-line-t" />
         <Sprig />
         <Sprig flip />
-        <Pomegranate className="pom-ft" small />
-        <div className="ft-nm">{l.footer}</div>
-        <div className="ft-fn">{l.footerNames}</div>
-        <div className="ft-dt">{l.footerDate}</div>
-        <div className="ft-sub">{l.footerSub}</div>
-        <div className="ft-v">{l.footerVerse}</div>
-        <div className="ft-r">{l.footerRef}</div>
+        <Pomegranate className="pom-abs pom-ft" size="sm" />
+        <Swallow className="sw-float sw-ft1" />
+        <Swallow className="sw-float sw-ft2" flip />
+        <div className="ft-ct">
+          <div className="ft-nm">{l.footer}</div>
+          <div className="ft-fn">{l.footerNames}</div>
+          <div className="ft-dt">{l.footerDate}</div>
+          <div className="ft-sub">{l.footerSub}</div>
+          <div className="ft-v">{l.footerVerse}</div>
+          <div className="ft-r">{l.footerRef}</div>
+        </div>
       </footer>
     </div>
   )
@@ -599,119 +687,250 @@ const CSS = `
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box }
 ::selection { background: rgba(191, 155, 48, .15) }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
-.root { font-family: var(--serif); color: var(--txt); background: var(--cream); min-height: 100vh; overflow-x: hidden; font-size: 18px }
-
-/* ─ Silk texture overlay ─ */
-.silk-ov {
-  position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background-image:
-    url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.035'/%3E%3C/svg%3E"),
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,253,235,0.01) 2px, rgba(255,253,235,0.01) 4px);
-  opacity: .6;
+.root {
+  font-family: var(--serif); color: var(--txt); min-height: 100vh; overflow-x: hidden; font-size: 19px;
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"),
+    var(--cream);
+  background-size: 256px 256px, auto;
 }
-.silk-ov-s { opacity: .4 }
 
-/* ─ Stagger ─ */
-.stg-i { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease) }
-.stg-v { opacity: 1; transform: none }
+/* ═══ FABRIC TEXTURE SYSTEM ═══ */
+.silk-grain {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: .55;
+  background:
+    repeating-linear-gradient(
+      87deg,
+      transparent,
+      transparent 2px,
+      rgba(191,155,48,.04) 2px,
+      rgba(191,155,48,.04) 3px
+    ),
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 4px,
+      rgba(0,0,0,.025) 4px,
+      rgba(0,0,0,.025) 5px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(191,155,48,.015) 6px,
+      transparent 7px
+    );
+}
+.silk-grain-s { opacity: .4 }
 
-/* ─ Swallows ─ */
+/* Noise-texture overlay — real fabric feel */
+.tex-noise {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: .12;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 512px 512px;
+}
+.tex-noise-lt {
+  opacity: .06;
+  mix-blend-mode: multiply;
+}
+.tex-noise-dk {
+  opacity: .15;
+  mix-blend-mode: soft-light;
+}
+
+/* Mottled color variation — uneven aged fabric */
+.tex-mottle {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+}
+.tex-mottle-dk {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(0,90,80,.35) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(0,50,50,.45) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 50% at 50% 50%, rgba(0,40,40,.25) 0%, transparent 80%),
+    radial-gradient(ellipse 40% 40% at 15% 80%, rgba(0,77,77,.3) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 85% 20%, rgba(0,56,56,.35) 0%, transparent 65%);
+}
+.tex-mottle-lt {
+  background:
+    radial-gradient(ellipse 70% 60% at 25% 35%, rgba(235,225,195,.35) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 70% at 75% 65%, rgba(191,155,48,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 40% at 50% 90%, rgba(220,210,180,.2) 0%, transparent 70%);
+}
+
+/* Vignette — darkened edges like aged fabric */
+.tex-vignette {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+}
+.tex-vignette-dk {
+  box-shadow: inset 0 0 120px rgba(0,20,20,.4), inset 0 0 40px rgba(0,30,30,.2);
+}
+.tex-vignette-lt {
+  box-shadow: inset 0 0 100px rgba(180,160,120,.08);
+}
+
+/* Gold shimmer line — section divider accent */
+.tex-gold-line {
+  position: absolute; left: 0; right: 0; height: 1px; pointer-events: none; z-index: 2;
+  background: linear-gradient(90deg, transparent, rgba(191,155,48,.3) 20%, rgba(191,155,48,.5) 50%, rgba(191,155,48,.3) 80%, transparent);
+}
+.tex-gold-line-t { top: 0 }
+.tex-gold-line-b { bottom: 0 }
+
+/* ═══ SWALLOW POSITIONS ═══ */
 .swallow { position: absolute; pointer-events: none; z-index: 2 }
 .swallow-flip { transform: scaleX(-1) }
-.sw-1 { width: 32px; top: 18%; left: 12%; color: rgba(191,155,48,.12); animation: swFloat 8s ease-in-out infinite }
-.sw-2 { width: 26px; top: 14%; right: 15%; color: rgba(191,155,48,.1); animation: swFloat 10s ease-in-out 2s infinite }
-.sw-3 { width: 20px; top: 28%; left: 22%; color: rgba(191,155,48,.08); animation: swFloat 12s ease-in-out 4s infinite }
-.sw-sec { width: 28px; color: rgba(191,155,48,.08) }
-.sw-sec-1 { top: 20px; right: 8% }
-.sw-sec-2 { bottom: 30px; left: 6% }
-.sw-rsvp-1 { width: 30px; top: 16%; left: 10%; color: rgba(212,179,74,.1); animation: swFloat 9s ease-in-out infinite }
-.sw-rsvp-2 { width: 22px; top: 22%; right: 12%; color: rgba(212,179,74,.08); animation: swFloat 11s ease-in-out 3s infinite }
-@keyframes swFloat { 0%, 100% { transform: translateY(0) rotate(0deg) } 50% { transform: translateY(-12px) rotate(3deg) } }
-.swallow-flip.sw-2 { animation-name: swFloat2 }
-@keyframes swFloat2 { 0%, 100% { transform: scaleX(-1) translateY(0) rotate(0deg) } 50% { transform: scaleX(-1) translateY(-10px) rotate(-3deg) } }
 
-/* ─ Pomegranates ─ */
-.pom { position: absolute; pointer-events: none; z-index: 2 }
-.pom-gift-l { width: 36px; bottom: 16px; left: 18px; opacity: .5 }
-.pom-gift-r { width: 36px; bottom: 16px; right: 18px; opacity: .5; transform: scaleX(-1) }
-.pom-photos { width: 44px; opacity: .5; position: relative; margin: 0 auto 16px }
-.pom-ft { width: 32px; top: 28px; left: 50%; transform: translateX(-50%); opacity: .25 }
+/* Hero swallows — large & visible */
+.sw-hero { color: var(--gold) }
+.sw-h1 { width: 80px; top: 16%; left: 10%; opacity: .5; animation: swFloat 8s ease-in-out infinite }
+.sw-h2 { width: 65px; top: 12%; right: 12%; opacity: .42; animation: swFloat2 10s ease-in-out 2s infinite }
+.sw-h3 { width: 50px; top: 30%; left: 20%; opacity: .35; animation: swFloat 12s ease-in-out 4s infinite }
+.sw-h4 { width: 42px; bottom: 22%; right: 18%; opacity: .3; animation: swFloat2 9s ease-in-out 1s infinite }
 
-/* ─ Beaded border ─ */
+/* Floating swallows in sections */
+.sw-float { color: var(--gold); animation: swFloat 10s ease-in-out infinite }
+.sw-f1 { width: 56px; top: 30px; right: 8%; opacity: .35 }
+.sw-f2 { width: 44px; bottom: 40px; left: 5%; opacity: .3; animation-delay: 3s }
+.sw-f3 { width: 50px; top: 24px; right: 10%; opacity: .32; color: var(--gold-l) }
+.sw-f4 { width: 38px; bottom: 50px; left: 8%; opacity: .25; animation-delay: 2s; color: var(--gold-l) }
+.sw-f5 { width: 54px; top: 20px; left: 8%; opacity: .32; color: var(--gold-l) }
+.sw-f6 { width: 42px; top: 40%; right: 6%; opacity: .25; animation-delay: 4s; color: var(--gold-l) }
+.sw-f7 { width: 48px; top: 20px; left: 6%; opacity: .3 }
+.sw-ft1 { width: 40px; top: 20%; left: 15%; opacity: .25; color: var(--gold-l) }
+.sw-ft2 { width: 34px; top: 30%; right: 12%; opacity: .2; color: var(--gold-l); animation-delay: 5s }
+
+/* Gift section swallows */
+.sw-gift { color: var(--gold-l); z-index: 4 }
+.sw-gift-1 { width: 42px; top: 18px; left: 20px; opacity: .38 }
+.sw-gift-2 { width: 34px; top: 22px; right: 20px; opacity: .3 }
+
+@keyframes swFloat { 0%, 100% { transform: translateY(0) rotate(0deg) } 50% { transform: translateY(-14px) rotate(4deg) } }
+@keyframes swFloat2 { 0%, 100% { transform: scaleX(-1) translateY(0) rotate(0deg) } 50% { transform: scaleX(-1) translateY(-12px) rotate(-3deg) } }
+
+/* ═══ POMEGRANATE POSITIONS ═══ */
+.pom { pointer-events: none; z-index: 2 }
+.pom-abs { position: absolute }
+.pom-gift-l { bottom: 14px; left: 20px }
+.pom-gift-r { bottom: 14px; right: 20px; transform: scaleX(-1) }
+.pom-story { top: 60px; right: 5%; opacity: .8 }
+.pom-center { display: block; margin: 0 auto 18px; position: relative }
+.pom-venue { top: 50px; left: 4% }
+.pom-rsvp-l { bottom: 30px; left: 5% }
+.pom-rsvp-r { bottom: 30px; right: 5%; transform: scaleX(-1) }
+.pom-ft { top: 24px; left: 50%; transform: translateX(-50%) }
+
+/* ═══ ORNATE BEADED BORDER ═══ */
 .beaded {
   position: relative;
-  border: 1px solid rgba(191,155,48,.2);
+  border: 2px solid rgba(191,155,48,.5);
   border-radius: 16px;
   overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(191,155,48,.1),
+    inset 0 0 30px rgba(0,0,0,.03),
+    0 2px 12px rgba(0,0,0,.04);
 }
 .beaded::before {
   content: '';
-  position: absolute; inset: 4px;
-  border: 1px dotted rgba(191,155,48,.12);
-  border-radius: 12px;
+  position: absolute; inset: 6px;
+  border: 1.5px solid rgba(191,155,48,.25);
+  border-radius: 11px;
   pointer-events: none;
   z-index: 3;
 }
+.beaded::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 2;
+  background-image:
+    radial-gradient(circle 3px at 16px 0px, rgba(191,155,48,.35) 1.5px, transparent 1.5px),
+    radial-gradient(circle 3px at 36px 0px, rgba(160,0,47,.2) 1.5px, transparent 1.5px),
+    radial-gradient(circle 3px at 56px 0px, rgba(191,155,48,.35) 1.5px, transparent 1.5px),
+    radial-gradient(circle 3px at 16px 100%, rgba(191,155,48,.35) 1.5px, transparent 1.5px),
+    radial-gradient(circle 3px at 36px 100%, rgba(160,0,47,.2) 1.5px, transparent 1.5px),
+    radial-gradient(circle 3px at 56px 100%, rgba(191,155,48,.35) 1.5px, transparent 1.5px);
+  background-size: 60px 100%;
+  background-repeat: repeat-x;
+  background-position: center top, center top, center top, center bottom, center bottom, center bottom;
+}
 
-/* ─ Gold divider ─ */
-.gold-div { width: 180px; height: 24px; color: var(--gold); display: block; margin: 0 auto }
-.gold-div-w { width: 220px }
-.gold-div-lt { color: var(--gold-l); opacity: .6 }
+/* ═══ STAGGER ═══ */
+.stg-i { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease) }
+.stg-v { opacity: 1; transform: none }
 
-/* ─ Botanical ─ */
-.sprig { position: absolute; width: 30px; height: 90px; color: var(--gold); opacity: .25; z-index: 2; pointer-events: none }
-.hero .sprig { bottom: 60px; left: 8% }
-.hero .sprig-flip { left: auto; right: 8%; transform: scaleX(-1) }
-.ft .sprig { top: 50px; left: 10%; opacity: .15 }
-.ft .sprig-flip { left: auto; right: 10%; transform: scaleX(-1) }
+/* ═══ GOLD DIVIDER ═══ */
+.gold-div { width: 200px; height: 28px; color: var(--gold); display: block; margin: 0 auto }
+.gold-div-w { width: 240px }
+.gold-div-lt { color: var(--gold-l); opacity: .7 }
 
-/* ─ NAV ─ */
+/* ═══ BOTANICAL SPRIGS ═══ */
+.sprig { position: absolute; width: 36px; height: 100px; color: var(--gold); opacity: .3; z-index: 2; pointer-events: none }
+.hero .sprig { bottom: 60px; left: 7% }
+.hero .sprig-flip { left: auto; right: 7%; transform: scaleX(-1) }
+.ft .sprig { top: 50px; left: 8%; opacity: .2 }
+.ft .sprig-flip { left: auto; right: 8%; transform: scaleX(-1) }
+
+/* ═══ NAV — BIGGER TEXT ═══ */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all .5s var(--ease) }
-.nav-s { background: rgba(0, 56, 56, .96); backdrop-filter: blur(16px); box-shadow: 0 1px 0 rgba(191, 155, 48, .1) }
-.nav-in { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 18px 36px }
-.nav-logo { font-family: var(--serif); font-size: 20px; letter-spacing: 3px; color: var(--gold); font-weight: 500; cursor: pointer; font-style: italic; transition: opacity .3s }
+.nav-s {
+  background: rgba(0, 56, 56, .96);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(191, 155, 48, .2), 0 4px 20px rgba(0,0,0,.15);
+}
+.nav-in { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 20px 36px }
+.nav-logo { font-family: var(--serif); font-size: 24px; letter-spacing: 3px; color: var(--gold); font-weight: 500; cursor: pointer; font-style: italic; transition: opacity .3s }
 .nav-logo:hover { opacity: .65 }
 .nav:not(.nav-s) .nav-logo { color: var(--gold-l) }
 .nav-lk { display: flex; gap: 28px; align-items: center }
-.nav-a { font-family: var(--sans); font-size: 14px; letter-spacing: 1.5px; text-transform: uppercase; background: none; border: none; cursor: pointer; font-weight: 400; transition: color .3s }
-.nav-s .nav-a { color: rgba(255,253,235,.5) }
-.nav:not(.nav-s) .nav-a { color: rgba(255,255,255,.55) }
+.nav-a { font-family: var(--sans); font-size: 18px; letter-spacing: 1.5px; text-transform: uppercase; background: none; border: none; cursor: pointer; font-weight: 400; transition: color .3s }
+.nav-s .nav-a { color: rgba(255,253,235,.6) }
+.nav:not(.nav-s) .nav-a { color: rgba(255,255,255,.6) }
 .nav-a:hover { color: var(--gold) }
-.lang-b { font-family: var(--sans); font-size: 13px; letter-spacing: 2px; padding: 8px 20px; border: 1px solid var(--gold); border-radius: 50px; background: transparent; color: var(--gold); cursor: pointer; transition: all .4s var(--ease) }
+.lang-b { font-family: var(--sans); font-size: 17px; letter-spacing: 2px; padding: 10px 22px; border: 1.5px solid var(--gold); border-radius: 50px; background: transparent; color: var(--gold); cursor: pointer; transition: all .4s var(--ease) }
 .lang-b:hover { background: var(--gold); color: var(--teal-d) }
-.nav-tog { display: none; background: none; border: none; cursor: pointer; width: 32px; height: 32px; position: relative; z-index: 1001 }
-.ham, .ham::before, .ham::after { display: block; width: 22px; height: 1.5px; position: absolute; transition: all .4s var(--ease-s) }
+.nav-tog { display: none; background: none; border: none; cursor: pointer; width: 36px; height: 36px; position: relative; z-index: 1001 }
+.ham, .ham::before, .ham::after { display: block; width: 24px; height: 2px; position: absolute; transition: all .4s var(--ease-s) }
 .ham { top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(255,255,255,.7) }
 .nav-s .ham { background: var(--gold) }
-.ham::before { content: ''; top: -7px; left: 0; background: inherit }
-.ham::after { content: ''; top: 7px; left: 0; background: inherit }
+.ham::before { content: ''; top: -8px; left: 0; background: inherit }
+.ham::after { content: ''; top: 8px; left: 0; background: inherit }
 .ham-x { background: transparent !important }
 .ham-x::before { top: 0; transform: rotate(45deg); background: var(--gold) !important }
 .ham-x::after { top: 0; transform: rotate(-45deg); background: var(--gold) !important }
 
-/* ─ STICKY RSVP ─ */
+/* ═══ STICKY RSVP ═══ */
 .sticky-rsvp {
   position: fixed; bottom: 28px; right: 28px; z-index: 900;
-  display: flex; align-items: center; gap: 8px;
-  padding: 16px 30px;
-  font-family: var(--sans); font-size: 15px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 18px 34px;
+  font-family: var(--sans); font-size: 16px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
   background: var(--ruby); color: var(--cream);
   border-radius: 50px;
-  box-shadow: 0 4px 20px rgba(160, 0, 47, .3), 0 1px 4px rgba(0,0,0,.1);
+  box-shadow: 0 4px 24px rgba(160, 0, 47, .35), 0 1px 4px rgba(0,0,0,.1);
   transform: translateY(80px); opacity: 0;
   transition: transform .5s var(--ease-s), opacity .5s var(--ease), background .3s, box-shadow .3s;
 }
-.sticky-rsvp:hover { background: var(--ruby-l); box-shadow: 0 6px 28px rgba(160, 0, 47, .4) }
+.sticky-rsvp:hover { background: var(--ruby-l); box-shadow: 0 6px 32px rgba(160, 0, 47, .45) }
 .sticky-show { transform: none; opacity: 1 }
-.sticky-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cream); opacity: .6; animation: pulse 2s ease-in-out infinite }
+.sticky-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--cream); opacity: .6; animation: pulse 2s ease-in-out infinite }
 @keyframes pulse { 0%, 100% { opacity: .6; transform: scale(1) } 50% { opacity: 1; transform: scale(1.3) } }
 
-/* ─ HERO ─ */
+/* ═══ HERO ═══ */
 .hero { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden }
 .hero-bg { position: absolute; inset: -20px; background-size: cover; background-position: center 35%; filter: saturate(1.1) contrast(0.9) brightness(0.55) }
-.hero-ov { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,77,77,.35) 0%, rgba(0,56,56,.55) 50%, rgba(0,38,38,.8) 100%) }
+.hero-ov {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 40%, rgba(0,77,77,.2) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(0,77,77,.35) 0%, rgba(0,56,56,.55) 40%, rgba(0,38,38,.8) 100%);
+}
 
-.hero-ct { position: relative; z-index: 3; color: var(--cream); padding: 100px 32px 80px }
+.hero-ct { position: relative; z-index: 5; color: var(--cream); padding: 100px 32px 80px }
 .hero-ct > * { opacity: 0; transform: translateY(24px); transition: opacity .8s var(--ease), transform .8s var(--ease) }
 .hero-in .h-d1 { opacity: 1; transform: none; transition-delay: .3s }
 .hero-in .h-d2 { opacity: 1; transform: none; transition-delay: .5s }
@@ -722,220 +941,234 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .hero-in .h-d7 { opacity: 1; transform: none; transition-delay: 1.2s }
 .hero-in .h-d8 { opacity: 1; transform: none; transition-delay: 1.4s }
 
-.hero-pre { font-size: 19px; color: rgba(255,253,235,.5); margin-bottom: 22px; font-weight: 400; font-style: italic; line-height: 1.6 }
-.hero-nm { font-size: clamp(32px, 5.5vw, 56px); font-weight: 400; letter-spacing: 1px; line-height: 1.2; font-style: italic }
+.hero-pre { font-size: 20px; color: rgba(255,253,235,.55); margin-bottom: 24px; font-weight: 400; font-style: italic; line-height: 1.6 }
+.hero-nm { font-size: clamp(34px, 5.5vw, 58px); font-weight: 400; letter-spacing: 1px; line-height: 1.2; font-style: italic }
 .hero-n1, .hero-n2 { display: block }
-.hero-amp { display: block; font-size: .55em; color: var(--gold); margin: 8px 0; font-style: italic; font-weight: 400 }
-.hero-divider { margin: 24px auto; display: flex; justify-content: center }
-.hero-dt { font-size: clamp(26px, 4.5vw, 44px); letter-spacing: 0.5px; font-weight: 400 }
-.hero-day { font-family: var(--sans); font-size: 18px; letter-spacing: 3px; color: rgba(255,253,235,.4); margin-top: 6px; font-weight: 300 }
-.hero-vn { font-family: var(--sans); font-size: 17px; letter-spacing: 1.5px; color: rgba(255,253,235,.3); margin-top: 14px; font-weight: 300 }
+.hero-amp { display: block; font-size: .55em; color: var(--gold); margin: 10px 0; font-style: italic; font-weight: 400 }
+.hero-divider { margin: 28px auto; display: flex; justify-content: center }
+.hero-dt { font-size: clamp(28px, 4.5vw, 46px); letter-spacing: 0.5px; font-weight: 400 }
+.hero-day { font-family: var(--sans); font-size: 20px; letter-spacing: 3px; color: rgba(255,253,235,.45); margin-top: 6px; font-weight: 300 }
+.hero-vn { font-family: var(--sans); font-size: 19px; letter-spacing: 1.5px; color: rgba(255,253,235,.5); margin-top: 16px; font-weight: 300 }
 
-.cd { display: flex; gap: 24px; justify-content: center; margin-top: 36px }
-.cd-u { text-align: center; min-width: 52px }
-.cd-n { display: block; font-family: var(--sans); font-size: 30px; font-weight: 300; color: var(--cream) }
-.cd-l { font-family: var(--sans); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: rgba(191,155,48,.5); margin-top: 4px; display: block }
+.cd { display: flex; gap: 28px; justify-content: center; margin-top: 40px }
+.cd-u { text-align: center; min-width: 56px }
+.cd-n { display: block; font-family: var(--sans); font-size: 34px; font-weight: 300; color: var(--cream) }
+.cd-l { font-family: var(--sans); font-size: 16px; letter-spacing: 2px; text-transform: uppercase; color: rgba(191,155,48,.55); margin-top: 6px; display: block }
 
 .hero-btn {
-  display: inline-block; margin-top: 40px; padding: 16px 52px;
-  font-family: var(--sans); font-size: 15px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  display: inline-block; margin-top: 44px; padding: 18px 56px;
+  font-family: var(--sans); font-size: 16px; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none;
   border: 1.5px solid var(--gold); border-radius: 50px;
-  background: rgba(191,155,48,.08); color: var(--gold);
+  background: rgba(191,155,48,.1); color: var(--gold);
   transition: all .4s var(--ease);
 }
 .hero-btn:hover { background: var(--gold); color: var(--teal-d) }
 
-/* ─ GIFT ─ */
+/* ═══ GIFT ═══ */
 .gift-sec { padding: 0 !important }
 .gift {
   position: relative;
   background: var(--teal);
-  text-align: center; padding: 76px 40px;
+  text-align: center; padding: 84px 44px;
   margin: 0; border-radius: 0 !important;
   border-left: none !important; border-right: none !important;
+  border-top: 2px solid rgba(191,155,48,.3) !important;
+  border-bottom: 2px solid rgba(191,155,48,.3) !important;
+  box-shadow: inset 0 0 80px rgba(0,20,20,.3);
 }
-.gift::before { border-radius: 0 !important }
-.gift-t { font-size: 26px; font-weight: 400; color: var(--gold); margin-bottom: 20px; font-style: italic; position: relative; z-index: 4 }
-.gift-b { font-size: 19px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.6); max-width: 600px; margin: 20px auto 0; position: relative; z-index: 4 }
+.gift::before { border-radius: 0 !important; left: 12px !important; right: 12px !important; top: 8px !important; bottom: 8px !important }
+.gift-t { font-size: 28px; font-weight: 400; color: var(--gold); margin-bottom: 22px; font-style: italic; position: relative; z-index: 4 }
+.gift-b { font-size: 20px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.65); max-width: 620px; margin: 22px auto 0; position: relative; z-index: 4 }
 
-/* ─ SECTIONS ─ */
-.sec { padding: 100px 40px; overflow: hidden; position: relative }
+/* ═══ SECTIONS ═══ */
+.sec { padding: 110px 44px; overflow: hidden; position: relative }
 .sec-up { opacity: 0; transform: translateY(36px); transition: opacity .8s var(--ease), transform .8s var(--ease) }
 .sec-fade { opacity: 0; transition: opacity 1s var(--ease) }
 .sec-scale { opacity: 0; transform: scale(.97); transition: opacity .8s var(--ease), transform .8s var(--ease) }
 .sec-v.sec-up, .sec-v.sec-fade, .sec-v.sec-scale { opacity: 1; transform: none }
-.sec-dk { background: var(--teal); color: var(--cream) }
+.sec-dk { background: var(--teal); color: var(--cream); position: relative }
 
-.sec-t { font-size: clamp(30px, 5vw, 44px); font-weight: 400; letter-spacing: 0.5px; text-align: center; margin-bottom: 12px; font-style: italic }
-.sec-dk .sec-t { color: var(--cream) }
-.sec-sub { font-family: var(--sans); font-size: 16px; letter-spacing: 1.5px; text-align: center; color: var(--lt); font-weight: 300 }
-.sec-sub-big { font-family: var(--serif); font-size: 20px; text-align: center; color: var(--mid); font-weight: 400; font-style: italic }
-.sec-dk .sec-sub, .sec-dk .sec-sub-big { color: rgba(255,253,235,.35) }
-
-.sec-orn { display: flex; justify-content: center; margin: 26px auto 52px }
-.sec-dk .sec-orn { opacity: .5 }
-
-/* ─ PHOTOS PLACEHOLDER ─ */
-.photos-sec { background: var(--cream-d); text-align: center }
-.photos-placeholder {
-  max-width: 700px; margin: 0 auto; padding: 76px 40px;
-  border: 1px solid rgba(191,155,48,.2); border-radius: 20px;
-  background: rgba(255,253,235,.5); transition: border-color .4s; position: relative;
+/* Cards get subtle texture */
+.v-card, .exp-c {
+  position: relative;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 30% 30%, rgba(191,155,48,.03) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(255,253,235,.4) 0%, rgba(255,253,235,.1) 100%);
+  background-color: var(--cream);
 }
-.photos-placeholder::before {
-  content: '';
-  position: absolute; inset: 5px;
-  border: 1px dotted rgba(191,155,48,.1);
-  border-radius: 15px;
-  pointer-events: none;
+
+.sec-t { font-size: clamp(32px, 5vw, 48px); font-weight: 400; letter-spacing: 0.5px; text-align: center; margin-bottom: 14px; font-style: italic }
+.sec-dk .sec-t { color: var(--cream) }
+.sec-sub { font-family: var(--sans); font-size: 18px; letter-spacing: 1.5px; text-align: center; color: var(--lt); font-weight: 300 }
+.sec-sub-big { font-family: var(--serif); font-size: 22px; text-align: center; color: var(--mid); font-weight: 400; font-style: italic }
+.sec-dk .sec-sub, .sec-dk .sec-sub-big { color: rgba(255,253,235,.4) }
+
+.sec-orn { display: flex; justify-content: center; margin: 28px auto 56px }
+.sec-dk .sec-orn { opacity: .6 }
+
+/* ═══ PHOTOS ═══ */
+.photos-sec {
+  background:
+    radial-gradient(ellipse 80% 60% at 40% 40%, rgba(191,155,48,.03) 0%, transparent 60%),
+    var(--cream-d);
+  text-align: center;
+}
+.photos-placeholder {
+  max-width: 700px; margin: 0 auto; padding: 80px 44px;
+  background: rgba(255,253,235,.5); transition: border-color .4s;
 }
 .photos-placeholder:hover { border-color: rgba(191,155,48,.4) }
-.photos-msg { font-size: 20px; color: var(--lt); font-style: italic; font-weight: 400 }
+.photos-msg { font-size: 22px; color: var(--lt); font-style: italic; font-weight: 400 }
 
-/* ─ STORY ─ */
-.story-b { max-width: 680px; margin: 0 auto; text-align: center }
-.story-b p { font-size: 19px; line-height: 2.1; color: var(--mid); font-weight: 300; margin-bottom: 28px }
+/* ═══ STORY ═══ */
+.story-b { max-width: 700px; margin: 0 auto; text-align: center }
+.story-b p { font-size: 20px; line-height: 2.1; color: var(--mid); font-weight: 300; margin-bottom: 32px }
 
-/* ─ SCHEDULE ─ */
-.sched { background: var(--teal) }
-.tl { max-width: 720px; margin: 0 auto; position: relative }
-.tl::before { content: ''; position: absolute; left: 122px; top: 12px; bottom: 12px; width: 1px; background: rgba(191,155,48,.15) }
-.tl-i { display: grid; grid-template-columns: 104px 32px 1fr; padding: 28px 0; align-items: start }
-.tl-tm { font-family: var(--sans); font-size: 17px; letter-spacing: 1px; color: var(--gold); text-align: right; padding-top: 4px; font-weight: 500 }
+/* ═══ SCHEDULE ═══ */
+.sched { background: var(--teal); box-shadow: inset 0 0 100px rgba(0,20,20,.25) }
+.tl { max-width: 740px; margin: 0 auto; position: relative }
+.tl::before { content: ''; position: absolute; left: 128px; top: 12px; bottom: 12px; width: 1.5px; background: rgba(191,155,48,.2) }
+.tl-i { display: grid; grid-template-columns: 110px 36px 1fr; padding: 32px 0; align-items: start }
+.tl-tm { font-family: var(--sans); font-size: 18px; letter-spacing: 1px; color: var(--gold); text-align: right; padding-top: 4px; font-weight: 500 }
 .tl-dot { display: flex; justify-content: center; padding-top: 8px }
-.tl-dot-in { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--gold); background: var(--teal); position: relative; z-index: 1; transition: transform .4s var(--ease-s), background .4s }
+.tl-dot-in { width: 13px; height: 13px; border-radius: 50%; border: 2.5px solid var(--gold); background: var(--teal); position: relative; z-index: 1; transition: transform .4s var(--ease-s), background .4s }
 .tl-i:hover .tl-dot-in { transform: scale(1.3); background: var(--gold) }
-.tl-nm { font-size: 22px; font-weight: 500; color: var(--cream); margin-bottom: 6px; transition: color .3s }
+.tl-nm { font-size: 24px; font-weight: 500; color: var(--cream); margin-bottom: 8px; transition: color .3s }
 .tl-i:hover .tl-nm { color: var(--gold-l) }
-.tl-vn { font-size: 17px; color: var(--gold); font-style: italic; margin-bottom: 5px; opacity: .55 }
-.tl-dt { font-size: 18px; color: rgba(255,253,235,.55); font-weight: 300; line-height: 1.8 }
+.tl-vn { font-size: 18px; color: var(--gold); font-style: italic; margin-bottom: 6px; opacity: .6 }
+.tl-dt { font-size: 19px; color: rgba(255,253,235,.55); font-weight: 300; line-height: 1.8 }
 
-/* ─ VENUE ─ */
-.v-addr { text-align: center; font-family: var(--sans); font-size: 17px; color: var(--lt); margin-bottom: 44px; font-weight: 300 }
-.v-grid { max-width: 840px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px }
-.v-card { padding: 36px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
+/* ═══ VENUE ═══ */
+.v-addr { text-align: center; font-family: var(--sans); font-size: 18px; color: var(--lt); margin-bottom: 48px; font-weight: 300 }
+.v-grid { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px }
+.v-card { padding: 40px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
 .v-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.06) }
-.v-card-t { font-family: var(--sans); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-d); margin-bottom: 22px; font-weight: 500 }
+.v-card-t { font-family: var(--sans); font-size: 17px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-d); margin-bottom: 24px; font-weight: 500 }
 .v-steps { list-style: none; padding: 0 }
-.v-steps li { font-size: 18px; color: var(--mid); font-weight: 300; line-height: 1.9; padding-left: 20px; position: relative; margin-bottom: 8px }
-.v-steps li::before { content: ''; position: absolute; left: 0; top: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); opacity: .5 }
-.v-note { font-size: 17px; color: var(--lt); font-style: italic; margin-top: 18px; line-height: 1.8 }
-.v-os { display: flex; flex-direction: column; gap: 4px }
-.os-s { display: flex; align-items: center; gap: 14px; padding: 10px 0; transition: transform .3s var(--ease) }
+.v-steps li { font-size: 18px; color: var(--mid); font-weight: 300; line-height: 1.9; padding-left: 22px; position: relative; margin-bottom: 10px }
+.v-steps li::before { content: ''; position: absolute; left: 0; top: 13px; width: 7px; height: 7px; border-radius: 50%; background: var(--coral); opacity: .55 }
+.v-note { font-size: 18px; color: var(--lt); font-style: italic; margin-top: 20px; line-height: 1.8 }
+.v-os { display: flex; flex-direction: column; gap: 6px }
+.os-s { display: flex; align-items: center; gap: 16px; padding: 12px 0; transition: transform .3s var(--ease) }
 .os-s:hover { transform: translateX(5px) }
-.os-icon { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; flex-shrink: 0; color: var(--gold); transition: color .3s }
+.os-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex-shrink: 0; color: var(--gold); transition: color .3s }
 .os-s:hover .os-icon { color: var(--ruby) }
-.os-icon svg { width: 22px; height: 22px }
+.os-icon svg { width: 24px; height: 24px }
 .os-l { font-size: 18px; color: var(--mid); font-weight: 300; line-height: 1.6 }
-.v-map { width: 100%; max-width: 840px; height: 340px; border: none; margin: 44px auto 0; display: block; border-radius: 16px; opacity: 0; animation: fadeUp .8s var(--ease) .5s forwards }
+.v-map { width: 100%; max-width: 860px; height: 360px; border: none; margin: 48px auto 0; display: block; border-radius: 16px; opacity: 0; animation: fadeUp .8s var(--ease) .5s forwards }
 @keyframes fadeUp { to { opacity: 1 } }
 
-/* ─ RSVP ─ */
-.rsvp-sec { background: var(--teal-d); text-align: center }
+/* ═══ RSVP ═══ */
+.rsvp-sec { background: var(--teal-d); text-align: center; box-shadow: inset 0 0 100px rgba(0,15,15,.3) }
 .rsvp-sec .sec-t { color: var(--cream) }
-.rsvp-d { text-align: center; max-width: 560px; margin: 0 auto 44px; font-size: 19px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.5) }
+.rsvp-d { text-align: center; max-width: 580px; margin: 0 auto 48px; font-size: 20px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.55) }
 .rsvp-btn {
-  display: inline-block; padding: 18px 68px;
-  font-family: var(--sans); font-size: 16px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  display: inline-block; padding: 20px 72px;
+  font-family: var(--sans); font-size: 17px; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none;
   border: none; border-radius: 50px;
   background: var(--gold); color: var(--teal-d);
-  box-shadow: 0 4px 20px rgba(191,155,48,.25);
+  box-shadow: 0 4px 24px rgba(191,155,48,.3);
   transition: all .4s var(--ease); font-weight: 500;
 }
-.rsvp-btn:hover { background: var(--gold-l); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(191,155,48,.35) }
+.rsvp-btn:hover { background: var(--gold-l); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(191,155,48,.4) }
 
-/* ─ FAQ ─ */
+/* ═══ FAQ ═══ */
 .faq-sec { background: var(--cream) }
-.faq-ls { max-width: 720px; margin: 0 auto }
-.faq-i { border-bottom: 1px solid rgba(191,155,48,.1); cursor: pointer; transition: background .3s }
+.faq-ls { max-width: 740px; margin: 0 auto }
+.faq-i { border-bottom: 1.5px solid rgba(191,155,48,.12); cursor: pointer; transition: background .3s }
 .faq-i:hover { background: rgba(191,155,48,.04) }
-.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 26px 4px; gap: 20px }
-.faq-q span:first-child { font-size: 20px; font-weight: 500; color: var(--txt); line-height: 1.5 }
-.faq-ic { font-family: var(--sans); font-size: 24px; color: var(--gold); flex-shrink: 0; transition: transform .4s var(--ease-s); display: inline-block }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 28px 4px; gap: 20px }
+.faq-q span:first-child { font-size: 22px; font-weight: 500; color: var(--txt); line-height: 1.5 }
+.faq-ic { font-family: var(--sans); font-size: 28px; color: var(--gold); flex-shrink: 0; transition: transform .4s var(--ease-s); display: inline-block }
 .faq-ic-open { transform: rotate(45deg) }
 .faq-a { max-height: 0; overflow: hidden; transition: max-height .5s var(--ease), padding .5s }
-.faq-open .faq-a { max-height: 300px; padding: 0 4px 26px }
-.faq-a p { font-size: 18px; line-height: 2; color: var(--mid); font-weight: 300 }
+.faq-open .faq-a { max-height: 300px; padding: 0 4px 28px }
+.faq-a p { font-size: 19px; line-height: 2; color: var(--mid); font-weight: 300 }
 
-/* ─ EXPLORE ─ */
-.exp-sec { background: var(--cream-d) }
-.exp-g { max-width: 920px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px }
-.exp-c { padding: 32px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
+/* ═══ EXPLORE ═══ */
+.exp-sec {
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 30%, rgba(191,155,48,.04) 0%, transparent 60%),
+    var(--cream-d);
+}
+.exp-g { max-width: 940px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px }
+.exp-c { padding: 36px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
 .exp-c::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--coral)); transition: width .5s var(--ease); border-radius: 3px 3px 0 0; z-index: 4 }
 .exp-c:hover::after { width: 100% }
-.exp-c:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,.05) }
-.exp-num { font-family: var(--sans); font-size: 12px; letter-spacing: 2px; color: var(--gold); margin-bottom: 12px; opacity: .45 }
-.exp-n { font-size: 20px; font-weight: 500; color: var(--txt); margin-bottom: 10px; transition: color .3s }
+.exp-c:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(0,0,0,.05) }
+.exp-num { font-family: var(--sans); font-size: 15px; letter-spacing: 2px; color: var(--gold); margin-bottom: 14px; opacity: .6 }
+.exp-n { font-size: 22px; font-weight: 500; color: var(--txt); margin-bottom: 12px; transition: color .3s }
 .exp-c:hover .exp-n { color: var(--gold-d) }
-.exp-d { font-size: 17px; color: var(--mid); font-weight: 300; line-height: 1.8 }
+.exp-d { font-size: 18px; color: var(--mid); font-weight: 300; line-height: 1.9 }
 
-/* ─ FOOTER ─ */
-.ft { text-align: center; padding: 80px 36px; background: var(--teal-x); color: rgba(255,253,235,.6); position: relative; overflow: hidden }
-.ft-nm { font-size: clamp(28px, 4vw, 40px); font-weight: 400; color: var(--cream); letter-spacing: 0.5px; margin-bottom: 8px; font-style: italic; position: relative; z-index: 3; margin-top: 24px }
-.ft-fn { font-family: var(--sans); font-size: 14px; letter-spacing: 1.5px; color: rgba(191,155,48,.3); margin-bottom: 16px; position: relative; z-index: 3 }
-.ft-dt { font-family: var(--sans); font-size: 16px; letter-spacing: 2px; color: var(--gold); margin-bottom: 4px; position: relative; z-index: 3 }
-.ft-sub { font-family: var(--sans); font-size: 14px; letter-spacing: 1.5px; color: rgba(191,155,48,.2); position: relative; z-index: 3 }
-.ft-v { font-size: 18px; font-style: italic; color: rgba(255,253,235,.28); margin-top: 36px; font-weight: 400; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.9; position: relative; z-index: 3 }
-.ft-r { font-family: var(--sans); font-size: 13px; letter-spacing: 2px; color: rgba(191,155,48,.18); margin-top: 8px; position: relative; z-index: 3 }
+/* ═══ FOOTER ═══ */
+.ft { text-align: center; padding: 90px 40px; background: var(--teal-x); color: rgba(255,253,235,.6); position: relative; overflow: hidden; box-shadow: inset 0 0 120px rgba(0,10,10,.4) }
+.ft-ct { position: relative; z-index: 5 }
+.ft-nm { font-size: clamp(30px, 4vw, 44px); font-weight: 400; color: var(--cream); letter-spacing: 0.5px; margin-bottom: 10px; font-style: italic; margin-top: 28px }
+.ft-fn { font-family: var(--sans); font-size: 17px; letter-spacing: 1.5px; color: rgba(191,155,48,.45); margin-bottom: 18px }
+.ft-dt { font-family: var(--sans); font-size: 19px; letter-spacing: 2px; color: var(--gold); margin-bottom: 6px }
+.ft-sub { font-family: var(--sans); font-size: 17px; letter-spacing: 1.5px; color: rgba(191,155,48,.35) }
+.ft-v { font-size: 20px; font-style: italic; color: rgba(255,253,235,.4); margin-top: 40px; font-weight: 400; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.9 }
+.ft-r { font-family: var(--sans); font-size: 16px; letter-spacing: 2px; color: rgba(191,155,48,.3); margin-top: 10px }
 
-/* ─ MOBILE ─ */
+/* ═══ MOBILE ═══ */
 @media (max-width: 768px) {
-  .nav-lk { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,56,56,.98); backdrop-filter: blur(20px); justify-content: center; align-items: center; gap: 28px; z-index: 999 }
+  .nav-lk { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,56,56,.98); backdrop-filter: blur(20px); justify-content: center; align-items: center; gap: 30px; z-index: 999 }
   .nav-lk-open { display: flex }
-  .nav-lk-open .nav-a { color: rgba(255,253,235,.6) !important; font-size: 18px; letter-spacing: 2px }
+  .nav-lk-open .nav-a { color: rgba(255,253,235,.7) !important; font-size: 20px; letter-spacing: 2px }
   .nav-tog { display: block }
-  .sec { padding: 72px 28px }
+  .sec { padding: 80px 28px }
   .nav-in { padding: 16px 24px }
   .v-grid { grid-template-columns: 1fr }
-  .tl::before { left: 96px }
-  .tl-i { grid-template-columns: 80px 28px 1fr }
-  .cd { gap: 18px }
-  .cd-n { font-size: 26px }
-  .hero-btn { padding: 14px 42px; font-size: 14px }
+  .tl::before { left: 100px }
+  .tl-i { grid-template-columns: 84px 30px 1fr }
+  .cd { gap: 20px }
+  .cd-n { font-size: 28px }
+  .hero-btn { padding: 16px 44px; font-size: 16px }
   .exp-g { grid-template-columns: 1fr }
-  .hero-nm { font-size: clamp(28px, 7vw, 46px) }
+  .hero-nm { font-size: clamp(30px, 7vw, 48px) }
   .sprig { display: none }
-  .sticky-rsvp { bottom: 20px; right: 20px; padding: 14px 26px; font-size: 14px }
-  .hero-swallows .sw-1 { left: 6% }
-  .hero-swallows .sw-2 { right: 6% }
-  .hero-swallows .sw-3 { display: none }
-  .sw-sec { display: none }
-  .sw-rsvp-1, .sw-rsvp-2 { display: none }
+  .sticky-rsvp { bottom: 20px; right: 20px; padding: 16px 28px; font-size: 16px }
+  .sw-h3, .sw-h4 { display: none }
+  .sw-float { width: 36px; opacity: .2 }
+  .sw-gift { width: 30px; opacity: .2 }
+  .pom-story, .pom-venue { transform: scale(.7); opacity: .5 }
 }
 @media (max-width: 480px) {
-  .root { font-size: 17px }
+  .root { font-size: 18px }
   .hero-ct { padding: 88px 22px 56px }
-  .hero-pre { font-size: 17px }
-  .hero-dt { font-size: 24px }
-  .hero-day { font-size: 16px }
-  .hero-vn { font-size: 15px }
-  .sec-t { font-size: 26px }
-  .story-b p { font-size: 18px }
-  .tl-i { grid-template-columns: 66px 24px 1fr }
-  .tl::before { left: 78px }
-  .tl-nm { font-size: 20px }
-  .tl-dt { font-size: 17px }
-  .tl-tm { font-size: 16px }
-  .v-card { padding: 28px }
-  .sec { padding: 56px 22px }
-  .sec-orn { margin: 22px auto 38px }
-  .faq-q span:first-child { font-size: 18px }
-  .faq-a p { font-size: 17px }
-  .rsvp-d { font-size: 18px }
-  .rsvp-btn { padding: 16px 48px; font-size: 15px }
-  .gift { padding: 60px 24px }
-  .gift-t { font-size: 24px }
-  .gift-b { font-size: 18px }
-  .ft-v { font-size: 17px }
-  .photos-placeholder { padding: 60px 24px; border-radius: 14px }
+  .hero-pre { font-size: 18px }
+  .hero-dt { font-size: 26px }
+  .hero-day { font-size: 18px }
+  .hero-vn { font-size: 17px }
+  .sec-t { font-size: 28px }
+  .story-b p { font-size: 19px }
+  .tl-i { grid-template-columns: 70px 26px 1fr }
+  .tl::before { left: 82px }
+  .tl-nm { font-size: 22px }
+  .tl-dt { font-size: 18px }
+  .tl-tm { font-size: 17px }
+  .v-card { padding: 30px }
+  .sec { padding: 64px 22px }
+  .sec-orn { margin: 22px auto 40px }
+  .faq-q span:first-child { font-size: 20px }
+  .faq-a p { font-size: 18px }
+  .rsvp-d { font-size: 19px }
+  .rsvp-btn { padding: 18px 52px; font-size: 16px }
+  .gift { padding: 64px 26px }
+  .gift-t { font-size: 26px }
+  .gift-b { font-size: 19px }
+  .ft-v { font-size: 18px }
+  .photos-placeholder { padding: 64px 28px; border-radius: 14px }
   .v-map { border-radius: 10px }
-  .gold-div { width: 140px }
-  .pom-gift-l, .pom-gift-r { display: none }
-  .v-steps li { font-size: 17px }
-  .os-l { font-size: 17px }
-  .v-note { font-size: 16px }
-  .exp-n { font-size: 19px }
-  .exp-d { font-size: 16px }
+  .gold-div { width: 160px }
+  .pom-gift-l, .pom-gift-r { transform: scale(.6) }
+  .pom-rsvp-l, .pom-rsvp-r { transform: scale(.6) }
+  .v-steps li { font-size: 18px }
+  .os-l { font-size: 18px }
+  .v-note { font-size: 17px }
+  .exp-n { font-size: 20px }
+  .exp-d { font-size: 17px }
 }
 
 @media (prefers-reduced-motion: reduce) {
