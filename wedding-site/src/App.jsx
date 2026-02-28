@@ -11,45 +11,7 @@ const Icon = ({ type }) => {
   return <span className="os-icon">{icons[type]}</span>
 }
 
-/* ─── SWALLOW SVG — BOLD, VISIBLE ─── */
-const Swallow = ({ className = '', flip, style }) => (
-  <svg className={`swallow ${className} ${flip ? 'swallow-flip' : ''}`} style={style} viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M40 22 C36 14, 22 4, 2 1 C10 9, 16 16, 18 22 C12 19, 4 16, 0 17 C8 20, 16 24, 22 27 C19 30, 14 36, 8 44 C18 36, 26 30, 36 27 L40 33 L44 27 C54 30, 62 36, 72 44 C66 36, 61 30, 58 27 C64 24, 72 20, 80 17 C76 16, 68 19, 62 22 C64 16, 70 9, 78 1 C58 4, 44 14, 40 22Z" fill="currentColor"/>
-    <path d="M40 33 L38 48 L40 44 L42 48 L40 33Z" fill="currentColor" opacity="0.85"/>
-    <circle cx="32" cy="16" r="1.5" fill="white" opacity="0.4"/>
-  </svg>
-)
-
-/* ─── POMEGRANATE SVG — VISIBLE ─── */
-const Pomegranate = ({ className = '', size = 'md' }) => {
-  const s = size === 'sm' ? 0.7 : size === 'lg' ? 1.3 : 1
-  return (
-    <svg className={`pom ${className}`} viewBox="0 0 60 72" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: `${60 * s}px`, height: `${72 * s}px` }}>
-      {/* stem & leaves */}
-      <path d="M30 12 C28 6, 27 2, 29 0 C31 -0.5, 32 2, 33 0 C35 2, 32 6, 30 12Z" fill="var(--gold)" opacity="0.9"/>
-      <path d="M24 10 C18 8, 14 4, 16 2" stroke="var(--gold)" strokeWidth="1.5" opacity="0.7" fill="none"/>
-      <path d="M36 10 C42 8, 46 4, 44 2" stroke="var(--gold)" strokeWidth="1.5" opacity="0.7" fill="none"/>
-      <ellipse cx="18" cy="6" rx="6" ry="3.5" fill="var(--gold)" opacity="0.4" transform="rotate(-30 18 6)"/>
-      <ellipse cx="42" cy="6" rx="6" ry="3.5" fill="var(--gold)" opacity="0.4" transform="rotate(30 42 6)"/>
-      {/* body */}
-      <ellipse cx="30" cy="40" rx="22" ry="26" fill="var(--ruby)" opacity="0.55"/>
-      <ellipse cx="30" cy="40" rx="22" ry="26" stroke="var(--ruby)" strokeWidth="1.5" opacity="0.7" fill="none"/>
-      {/* crown */}
-      <path d="M24 14 L26 18 L28 15 L30 19 L32 15 L34 18 L36 14" stroke="var(--ruby)" strokeWidth="1.2" opacity="0.65" fill="none"/>
-      {/* seeds */}
-      <circle cx="22" cy="34" r="3.5" fill="var(--ruby)" opacity="0.6"/>
-      <circle cx="30" cy="30" r="3.5" fill="var(--ruby)" opacity="0.65"/>
-      <circle cx="38" cy="34" r="3.5" fill="var(--ruby)" opacity="0.6"/>
-      <circle cx="25" cy="42" r="3" fill="var(--ruby)" opacity="0.5"/>
-      <circle cx="35" cy="42" r="3" fill="var(--ruby)" opacity="0.5"/>
-      <circle cx="30" cy="50" r="3" fill="var(--ruby)" opacity="0.45"/>
-      <circle cx="20" cy="48" r="2.5" fill="var(--ruby)" opacity="0.35"/>
-      <circle cx="40" cy="48" r="2.5" fill="var(--ruby)" opacity="0.35"/>
-      {/* highlight */}
-      <ellipse cx="24" cy="32" rx="8" ry="12" fill="white" opacity="0.08"/>
-    </svg>
-  )
-}
+/* ─── DECORATIVE SVG COMPONENTS ─── */
 
 /* ─── GOLD ORNATE DIVIDER ─── */
 const GoldDivider = ({ light, wide }) => (
@@ -74,22 +36,8 @@ const BeadedBorder = ({ children, className = '' }) => (
   <div className={`beaded ${className}`}>{children}</div>
 )
 
-/* ─── GOLD LEAF SPRIG ─── */
-const Sprig = ({ flip }) => (
-  <svg className={`sprig ${flip ? 'sprig-flip' : ''}`} viewBox="0 0 40 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 110 Q20 60 20 10" stroke="currentColor" strokeWidth="1.2" opacity="0.55"/>
-    <path d="M20 80 Q8 68 6 55" stroke="currentColor" strokeWidth="0.9" opacity="0.5" fill="none"/>
-    <path d="M20 60 Q32 48 35 35" stroke="currentColor" strokeWidth="0.9" opacity="0.5" fill="none"/>
-    <path d="M20 40 Q10 30 8 18" stroke="currentColor" strokeWidth="0.9" opacity="0.5" fill="none"/>
-    <path d="M6 55 Q2 48 6 42 Q11 48 6 55Z" fill="currentColor" opacity="0.35"/>
-    <path d="M35 35 Q39 28 35 22 Q30 28 35 35Z" fill="currentColor" opacity="0.35"/>
-    <path d="M8 18 Q4 11 8 5 Q13 11 8 18Z" fill="currentColor" opacity="0.35"/>
-    <circle cx="20" cy="8" r="2.5" fill="currentColor" opacity="0.3"/>
-  </svg>
-)
-
-/* ─── CANVAS NOISE TEXTURE GENERATOR ─── */
-function useNoiseTexture(size = 256, intensity = 40) {
+/* ─── CANVAS TEXTURE GENERATORS ─── */
+function useNoiseTexture(size = 256, intensity = 50) {
   const [dataUrl, setDataUrl] = useState('')
   useEffect(() => {
     const c = document.createElement('canvas')
@@ -106,17 +54,67 @@ function useNoiseTexture(size = 256, intensity = 40) {
   return dataUrl
 }
 
-/* ─── NOISE OVERLAY COMPONENT ─── */
-const FabricNoise = ({ opacity = 0.12, blend = 'multiply', className = '' }) => {
+function useSilkTexture(size = 300) {
+  const [dataUrl, setDataUrl] = useState('')
+  useEffect(() => {
+    const c = document.createElement('canvas')
+    c.width = size; c.height = size
+    const ctx = c.getContext('2d')
+    // Base fill
+    ctx.fillStyle = 'rgba(128,128,128,0)'
+    ctx.fillRect(0, 0, size, size)
+    // Horizontal silk threads — varying opacity
+    for (let y = 0; y < size; y += 2) {
+      const a = 0.03 + Math.random() * 0.06
+      ctx.fillStyle = `rgba(191,155,48,${a})`
+      ctx.fillRect(0, y, size, 1)
+    }
+    // Vertical weft — slightly darker
+    for (let x = 0; x < size; x += 3) {
+      const a = 0.02 + Math.random() * 0.04
+      ctx.fillStyle = `rgba(0,0,0,${a})`
+      ctx.fillRect(x, 0, 1, size)
+    }
+    // Diagonal sheen bands
+    ctx.globalCompositeOperation = 'screen'
+    for (let i = -size; i < size * 2; i += 40 + Math.random() * 30) {
+      const a = 0.01 + Math.random() * 0.025
+      ctx.strokeStyle = `rgba(255,240,200,${a})`
+      ctx.lineWidth = 8 + Math.random() * 15
+      ctx.beginPath()
+      ctx.moveTo(i, 0)
+      ctx.lineTo(i + size * 0.4, size)
+      ctx.stroke()
+    }
+    setDataUrl(c.toDataURL())
+  }, [size])
+  return dataUrl
+}
+
+/* ─── TEXTURE OVERLAY COMPONENTS ─── */
+const FabricNoise = ({ opacity = 0.12, blend = 'multiply' }) => {
   const noise = useNoiseTexture(256, 50)
   if (!noise) return null
   return (
-    <div className={`fabric-noise ${className}`} style={{
+    <div style={{
       position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1,
-      opacity,
-      mixBlendMode: blend,
+      opacity, mixBlendMode: blend,
       backgroundImage: `url(${noise})`,
       backgroundSize: '256px 256px',
+      backgroundRepeat: 'repeat',
+    }} />
+  )
+}
+
+const SilkWeave = ({ opacity = 0.6 }) => {
+  const silk = useSilkTexture(300)
+  if (!silk) return null
+  return (
+    <div style={{
+      position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1,
+      opacity,
+      backgroundImage: `url(${silk})`,
+      backgroundSize: '300px 300px',
       backgroundRepeat: 'repeat',
     }} />
   )
@@ -438,15 +436,10 @@ export default function App() {
         <div className="hero-ov" />
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <FabricNoise opacity={0.18} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
+        <FabricNoise opacity={0.22} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
         <div className="tex-vignette tex-vignette-dk" />
-        {/* Swallows in hero */}
-        <Swallow className="sw-hero sw-h1" />
-        <Swallow className="sw-hero sw-h2" flip />
-        <Swallow className="sw-hero sw-h3" />
-        <Swallow className="sw-hero sw-h4" flip />
-        <Sprig />
-        <Sprig flip />
         <div className={`hero-ct ${heroLoaded ? 'hero-in' : ''}`}>
           <p className="hero-pre h-d1">{l.hero.pre}</p>
           <h1 className="hero-nm h-d2">
@@ -470,11 +463,8 @@ export default function App() {
         <BeadedBorder className="gift">
           <div className="tex-mottle tex-mottle-dk" />
           <div className="silk-grain silk-grain-s" />
-          <FabricNoise opacity={0.18} blend="soft-light" />
-          <Pomegranate className="pom-abs pom-gift-l" size="sm" />
-          <Pomegranate className="pom-abs pom-gift-r" size="sm" />
-          <Swallow className="sw-gift sw-gift-1" />
-          <Swallow className="sw-gift sw-gift-2" flip />
+          <FabricNoise opacity={0.22} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
           <h3 className="gift-t">{l.noGift.title}</h3>
           <GoldDivider />
           <p className="gift-b">{l.noGift.body}</p>
@@ -484,11 +474,9 @@ export default function App() {
       {/* STORY */}
       <Sec id="story" anim="up">
         <div className="tex-mottle tex-mottle-lt" />
-        <FabricNoise opacity={0.08} blend="multiply" />
+        <FabricNoise opacity={0.1} blend="multiply" />
+        <SilkWeave opacity={0.35} />
         <div className="tex-vignette tex-vignette-lt" />
-        <Swallow className="sw-float sw-f1" />
-        <Swallow className="sw-float sw-f2" flip />
-        <Pomegranate className="pom-abs pom-story" size="sm" />
         <h2 className="sec-t">{l.story.title}</h2>
         <p className="sec-sub">{l.story.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -501,12 +489,12 @@ export default function App() {
 
       {/* PHOTOS */}
       <Sec className="photos-sec" anim="scale">
-        <FabricNoise opacity={0.08} blend="multiply" />
+        <FabricNoise opacity={0.1} blend="multiply" />
+        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.photos.title}</h2>
         <p className="sec-sub">{l.photos.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
         <BeadedBorder className="photos-placeholder">
-          <Pomegranate className="pom-center" size="md" />
           <p className="photos-msg">{lang === 'zh' ? '\u5373\u5C07\u4E0A\u50B3\u6211\u5011\u7684\u5408\u7167' : 'Our photos coming soon'}</p>
         </BeadedBorder>
       </Sec>
@@ -515,12 +503,12 @@ export default function App() {
       <Sec id="schedule" className="sched" dark anim="up">
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <FabricNoise opacity={0.18} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
+        <FabricNoise opacity={0.22} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
         <div className="tex-vignette tex-vignette-dk" />
         <div className="tex-gold-line tex-gold-line-t" />
         <div className="tex-gold-line tex-gold-line-b" />
-        <Swallow className="sw-float sw-f3" />
-        <Swallow className="sw-float sw-f4" flip />
         <h2 className="sec-t">{l.schedule.title}</h2>
         <p className="sec-sub-big">{l.schedule.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -542,8 +530,8 @@ export default function App() {
       {/* VENUE */}
       <Sec id="venue" anim="up">
         <div className="tex-mottle tex-mottle-lt" />
-        <FabricNoise opacity={0.08} blend="multiply" />
-        <Pomegranate className="pom-abs pom-venue" size="sm" />
+        <FabricNoise opacity={0.1} blend="multiply" />
+        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.venue.title}</h2>
         <p className="sec-sub">{l.venue.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -576,13 +564,11 @@ export default function App() {
       <Sec id="rsvp" className="rsvp-sec" dark anim="scale">
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <FabricNoise opacity={0.18} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
+        <FabricNoise opacity={0.22} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
         <div className="tex-vignette tex-vignette-dk" />
         <div className="tex-gold-line tex-gold-line-t" />
-        <Swallow className="sw-float sw-f5" />
-        <Swallow className="sw-float sw-f6" flip />
-        <Pomegranate className="pom-abs pom-rsvp-l" size="sm" />
-        <Pomegranate className="pom-abs pom-rsvp-r" size="sm" />
         <h2 className="sec-t">{l.rsvp.title}</h2>
         <p className="sec-sub-big">{l.rsvp.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -592,7 +578,8 @@ export default function App() {
 
       {/* FAQ */}
       <Sec id="faq" className="faq-sec" anim="up">
-        <FabricNoise opacity={0.08} blend="multiply" />
+        <FabricNoise opacity={0.1} blend="multiply" />
+        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.faq.title}</h2>
         <div className="sec-orn"><GoldDivider /></div>
         <Stagger className="faq-ls" delay={0.1}>
@@ -610,8 +597,8 @@ export default function App() {
 
       {/* EXPLORE */}
       <Sec className="exp-sec" anim="up">
-        <FabricNoise opacity={0.08} blend="multiply" />
-        <Swallow className="sw-float sw-f7" />
+        <FabricNoise opacity={0.1} blend="multiply" />
+        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.explore.title}</h2>
         <p className="sec-sub">{l.explore.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -630,14 +617,11 @@ export default function App() {
       <footer className="ft">
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <FabricNoise opacity={0.18} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
+        <FabricNoise opacity={0.22} blend="soft-light" />
+        <SilkWeave opacity={0.7} />
         <div className="tex-vignette tex-vignette-dk" />
         <div className="tex-gold-line tex-gold-line-t" />
-        <Sprig />
-        <Sprig flip />
-        <Pomegranate className="pom-abs pom-ft" size="sm" />
-        <Swallow className="sw-float sw-ft1" />
-        <Swallow className="sw-float sw-ft2" flip />
         <div className="ft-ct">
           <div className="ft-nm">{l.footer}</div>
           <div className="ft-fn">{l.footerNames}</div>
@@ -758,49 +742,6 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .tex-gold-line-t { top: 0 }
 .tex-gold-line-b { bottom: 0 }
 
-/* ═══ SWALLOW POSITIONS ═══ */
-.swallow { position: absolute; pointer-events: none; z-index: 2 }
-.swallow-flip { transform: scaleX(-1) }
-
-/* Hero swallows — large & visible */
-.sw-hero { color: var(--gold) }
-.sw-h1 { width: 80px; top: 16%; left: 10%; opacity: .5; animation: swFloat 8s ease-in-out infinite }
-.sw-h2 { width: 65px; top: 12%; right: 12%; opacity: .42; animation: swFloat2 10s ease-in-out 2s infinite }
-.sw-h3 { width: 50px; top: 30%; left: 20%; opacity: .35; animation: swFloat 12s ease-in-out 4s infinite }
-.sw-h4 { width: 42px; bottom: 22%; right: 18%; opacity: .3; animation: swFloat2 9s ease-in-out 1s infinite }
-
-/* Floating swallows in sections */
-.sw-float { color: var(--gold); animation: swFloat 10s ease-in-out infinite }
-.sw-f1 { width: 56px; top: 30px; right: 8%; opacity: .35 }
-.sw-f2 { width: 44px; bottom: 40px; left: 5%; opacity: .3; animation-delay: 3s }
-.sw-f3 { width: 50px; top: 24px; right: 10%; opacity: .32; color: var(--gold-l) }
-.sw-f4 { width: 38px; bottom: 50px; left: 8%; opacity: .25; animation-delay: 2s; color: var(--gold-l) }
-.sw-f5 { width: 54px; top: 20px; left: 8%; opacity: .32; color: var(--gold-l) }
-.sw-f6 { width: 42px; top: 40%; right: 6%; opacity: .25; animation-delay: 4s; color: var(--gold-l) }
-.sw-f7 { width: 48px; top: 20px; left: 6%; opacity: .3 }
-.sw-ft1 { width: 40px; top: 20%; left: 15%; opacity: .25; color: var(--gold-l) }
-.sw-ft2 { width: 34px; top: 30%; right: 12%; opacity: .2; color: var(--gold-l); animation-delay: 5s }
-
-/* Gift section swallows */
-.sw-gift { color: var(--gold-l); z-index: 4 }
-.sw-gift-1 { width: 42px; top: 18px; left: 20px; opacity: .38 }
-.sw-gift-2 { width: 34px; top: 22px; right: 20px; opacity: .3 }
-
-@keyframes swFloat { 0%, 100% { transform: translateY(0) rotate(0deg) } 50% { transform: translateY(-14px) rotate(4deg) } }
-@keyframes swFloat2 { 0%, 100% { transform: scaleX(-1) translateY(0) rotate(0deg) } 50% { transform: scaleX(-1) translateY(-12px) rotate(-3deg) } }
-
-/* ═══ POMEGRANATE POSITIONS ═══ */
-.pom { pointer-events: none; z-index: 2 }
-.pom-abs { position: absolute }
-.pom-gift-l { bottom: 14px; left: 20px }
-.pom-gift-r { bottom: 14px; right: 20px; transform: scaleX(-1) }
-.pom-story { top: 60px; right: 5%; opacity: .8 }
-.pom-center { display: block; margin: 0 auto 18px; position: relative }
-.pom-venue { top: 50px; left: 4% }
-.pom-rsvp-l { bottom: 30px; left: 5% }
-.pom-rsvp-r { bottom: 30px; right: 5%; transform: scaleX(-1) }
-.pom-ft { top: 24px; left: 50%; transform: translateX(-50%) }
-
 /* ═══ ORNATE BEADED BORDER ═══ */
 .beaded {
   position: relative;
@@ -847,13 +788,8 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .gold-div-w { width: 240px }
 .gold-div-lt { color: var(--gold-l); opacity: .7 }
 
-/* ═══ BOTANICAL SPRIGS ═══ */
-.sprig { position: absolute; width: 36px; height: 100px; color: var(--gold); opacity: .3; z-index: 2; pointer-events: none }
-.hero .sprig { bottom: 60px; left: 7% }
-.hero .sprig-flip { left: auto; right: 7%; transform: scaleX(-1) }
-.ft .sprig { top: 50px; left: 8%; opacity: .2 }
-.ft .sprig-flip { left: auto; right: 8%; transform: scaleX(-1) }
 
+/* ═══ SECTION STYLES ═══ */
 /* ═══ NAV — BIGGER TEXT ═══ */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: all .5s var(--ease) }
 .nav-s {
@@ -1106,12 +1042,7 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
   .hero-btn { padding: 16px 44px; font-size: 16px }
   .exp-g { grid-template-columns: 1fr }
   .hero-nm { font-size: clamp(30px, 7vw, 48px) }
-  .sprig { display: none }
   .sticky-rsvp { bottom: 20px; right: 20px; padding: 16px 28px; font-size: 16px }
-  .sw-h3, .sw-h4 { display: none }
-  .sw-float { width: 36px; opacity: .2 }
-  .sw-gift { width: 30px; opacity: .2 }
-  .pom-story, .pom-venue { transform: scale(.7); opacity: .5 }
 }
 @media (max-width: 480px) {
   .root { font-size: 18px }
@@ -1141,8 +1072,6 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
   .photos-placeholder { padding: 64px 28px; border-radius: 14px }
   .v-map { border-radius: 10px }
   .gold-div { width: 160px }
-  .pom-gift-l, .pom-gift-r { transform: scale(.6) }
-  .pom-rsvp-l, .pom-rsvp-r { transform: scale(.6) }
   .v-steps li { font-size: 18px }
   .os-l { font-size: 18px }
   .v-note { font-size: 17px }
