@@ -88,45 +88,39 @@ const Sprig = ({ flip }) => (
   </svg>
 )
 
-/* ─── SVG TEXTURE DEFINITIONS (rendered once) ─── */
-const TextureDefs = () => (
-  <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
-    <defs>
-      {/* Fabric noise — organic grain */}
-      <filter id="fabricNoise" x="0%" y="0%" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise" />
-        <feColorMatrix type="saturate" values="0" in="noise" result="gray" />
-        <feComponentTransfer in="gray" result="faint">
-          <feFuncA type="linear" slope="0.12" />
-        </feComponentTransfer>
-        <feBlend in="SourceGraphic" in2="faint" mode="multiply" />
-      </filter>
-      {/* Fine silk weave */}
-      <filter id="silkWeave">
-        <feTurbulence type="turbulence" baseFrequency="1.2 0.3" numOctaves="2" stitchTiles="stitch" result="weave" />
-        <feColorMatrix type="saturate" values="0" in="weave" result="gray" />
-        <feComponentTransfer in="gray" result="subtle">
-          <feFuncA type="linear" slope="0.06" />
-        </feComponentTransfer>
-        <feBlend in="SourceGraphic" in2="subtle" mode="overlay" />
-      </filter>
-      {/* Paper grain for light sections */}
-      <filter id="paperGrain" x="0%" y="0%" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" stitchTiles="stitch" result="noise" />
-        <feColorMatrix type="saturate" values="0" in="noise" result="gray" />
-        <feComponentTransfer in="gray" result="faint">
-          <feFuncA type="linear" slope="0.07" />
-        </feComponentTransfer>
-        <feBlend in="SourceGraphic" in2="faint" mode="multiply" />
-      </filter>
-      {/* Noise texture for overlays */}
-      <filter id="noiseOnly" x="0%" y="0%" width="100%" height="100%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4" stitchTiles="stitch" />
-        <feColorMatrix type="saturate" values="0" />
-      </filter>
-    </defs>
-  </svg>
-)
+/* ─── CANVAS NOISE TEXTURE GENERATOR ─── */
+function useNoiseTexture(size = 256, intensity = 40) {
+  const [dataUrl, setDataUrl] = useState('')
+  useEffect(() => {
+    const c = document.createElement('canvas')
+    c.width = size; c.height = size
+    const ctx = c.getContext('2d')
+    const img = ctx.createImageData(size, size)
+    for (let i = 0; i < img.data.length; i += 4) {
+      const v = Math.random() * intensity | 0
+      img.data[i] = v; img.data[i+1] = v; img.data[i+2] = v; img.data[i+3] = 255
+    }
+    ctx.putImageData(img, 0, 0)
+    setDataUrl(c.toDataURL())
+  }, [size, intensity])
+  return dataUrl
+}
+
+/* ─── NOISE OVERLAY COMPONENT ─── */
+const FabricNoise = ({ opacity = 0.12, blend = 'multiply', className = '' }) => {
+  const noise = useNoiseTexture(256, 50)
+  if (!noise) return null
+  return (
+    <div className={`fabric-noise ${className}`} style={{
+      position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1,
+      opacity,
+      mixBlendMode: blend,
+      backgroundImage: `url(${noise})`,
+      backgroundSize: '256px 256px',
+      backgroundRepeat: 'repeat',
+    }} />
+  )
+}
 
 /* ─── CONTENT ─── */
 const T = {
@@ -412,7 +406,6 @@ export default function App() {
   return (
     <div className="root notranslate" translate="no">
       <style>{CSS}</style>
-      <TextureDefs />
 
       {/* NAV */}
       <nav className={`nav ${scrolled ? 'nav-s' : ''}`}>
@@ -445,7 +438,7 @@ export default function App() {
         <div className="hero-ov" />
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <div className="tex-noise tex-noise-dk" />
+        <FabricNoise opacity={0.18} blend="soft-light" />
         <div className="tex-vignette tex-vignette-dk" />
         {/* Swallows in hero */}
         <Swallow className="sw-hero sw-h1" />
@@ -477,7 +470,7 @@ export default function App() {
         <BeadedBorder className="gift">
           <div className="tex-mottle tex-mottle-dk" />
           <div className="silk-grain silk-grain-s" />
-          <div className="tex-noise tex-noise-dk" />
+          <FabricNoise opacity={0.18} blend="soft-light" />
           <Pomegranate className="pom-abs pom-gift-l" size="sm" />
           <Pomegranate className="pom-abs pom-gift-r" size="sm" />
           <Swallow className="sw-gift sw-gift-1" />
@@ -491,7 +484,8 @@ export default function App() {
       {/* STORY */}
       <Sec id="story" anim="up">
         <div className="tex-mottle tex-mottle-lt" />
-        <div className="tex-noise tex-noise-lt" />
+        <FabricNoise opacity={0.08} blend="multiply" />
+        <div className="tex-vignette tex-vignette-lt" />
         <Swallow className="sw-float sw-f1" />
         <Swallow className="sw-float sw-f2" flip />
         <Pomegranate className="pom-abs pom-story" size="sm" />
@@ -507,7 +501,7 @@ export default function App() {
 
       {/* PHOTOS */}
       <Sec className="photos-sec" anim="scale">
-        <div className="tex-noise tex-noise-lt" />
+        <FabricNoise opacity={0.08} blend="multiply" />
         <h2 className="sec-t">{l.photos.title}</h2>
         <p className="sec-sub">{l.photos.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -521,7 +515,7 @@ export default function App() {
       <Sec id="schedule" className="sched" dark anim="up">
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <div className="tex-noise tex-noise-dk" />
+        <FabricNoise opacity={0.18} blend="soft-light" />
         <div className="tex-vignette tex-vignette-dk" />
         <div className="tex-gold-line tex-gold-line-t" />
         <div className="tex-gold-line tex-gold-line-b" />
@@ -548,7 +542,7 @@ export default function App() {
       {/* VENUE */}
       <Sec id="venue" anim="up">
         <div className="tex-mottle tex-mottle-lt" />
-        <div className="tex-noise tex-noise-lt" />
+        <FabricNoise opacity={0.08} blend="multiply" />
         <Pomegranate className="pom-abs pom-venue" size="sm" />
         <h2 className="sec-t">{l.venue.title}</h2>
         <p className="sec-sub">{l.venue.sub}</p>
@@ -582,7 +576,7 @@ export default function App() {
       <Sec id="rsvp" className="rsvp-sec" dark anim="scale">
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <div className="tex-noise tex-noise-dk" />
+        <FabricNoise opacity={0.18} blend="soft-light" />
         <div className="tex-vignette tex-vignette-dk" />
         <div className="tex-gold-line tex-gold-line-t" />
         <Swallow className="sw-float sw-f5" />
@@ -598,7 +592,7 @@ export default function App() {
 
       {/* FAQ */}
       <Sec id="faq" className="faq-sec" anim="up">
-        <div className="tex-noise tex-noise-lt" />
+        <FabricNoise opacity={0.08} blend="multiply" />
         <h2 className="sec-t">{l.faq.title}</h2>
         <div className="sec-orn"><GoldDivider /></div>
         <Stagger className="faq-ls" delay={0.1}>
@@ -616,7 +610,7 @@ export default function App() {
 
       {/* EXPLORE */}
       <Sec className="exp-sec" anim="up">
-        <div className="tex-noise tex-noise-lt" />
+        <FabricNoise opacity={0.08} blend="multiply" />
         <Swallow className="sw-float sw-f7" />
         <h2 className="sec-t">{l.explore.title}</h2>
         <p className="sec-sub">{l.explore.sub}</p>
@@ -636,7 +630,7 @@ export default function App() {
       <footer className="ft">
         <div className="tex-mottle tex-mottle-dk" />
         <div className="silk-grain" />
-        <div className="tex-noise tex-noise-dk" />
+        <FabricNoise opacity={0.18} blend="soft-light" />
         <div className="tex-vignette tex-vignette-dk" />
         <div className="tex-gold-line tex-gold-line-t" />
         <Sprig />
@@ -689,57 +683,39 @@ const CSS = `
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .root {
   font-family: var(--serif); color: var(--txt); min-height: 100vh; overflow-x: hidden; font-size: 19px;
-  background:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"),
-    var(--cream);
-  background-size: 256px 256px, auto;
+  background: var(--cream);
 }
 
 /* ═══ FABRIC TEXTURE SYSTEM ═══ */
 .silk-grain {
   position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  opacity: .55;
+  opacity: .8;
   background:
     repeating-linear-gradient(
       87deg,
       transparent,
       transparent 2px,
-      rgba(191,155,48,.04) 2px,
-      rgba(191,155,48,.04) 3px
+      rgba(191,155,48,.08) 2px,
+      rgba(191,155,48,.08) 3px
     ),
     repeating-linear-gradient(
       -3deg,
       transparent,
       transparent 4px,
-      rgba(0,0,0,.025) 4px,
-      rgba(0,0,0,.025) 5px
+      rgba(0,0,0,.05) 4px,
+      rgba(0,0,0,.05) 5px
     ),
     repeating-linear-gradient(
       45deg,
       transparent,
       transparent 6px,
-      rgba(191,155,48,.015) 6px,
+      rgba(191,155,48,.035) 6px,
       transparent 7px
     );
 }
-.silk-grain-s { opacity: .4 }
+.silk-grain-s { opacity: .6 }
 
-/* Noise-texture overlay — real fabric feel */
-.tex-noise {
-  position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  opacity: .12;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 512px 512px;
-}
-.tex-noise-lt {
-  opacity: .06;
-  mix-blend-mode: multiply;
-}
-.tex-noise-dk {
-  opacity: .15;
-  mix-blend-mode: soft-light;
-}
+/* Noise is handled by canvas-based FabricNoise component */
 
 /* Mottled color variation — uneven aged fabric */
 .tex-mottle {
@@ -747,17 +723,19 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 }
 .tex-mottle-dk {
   background:
-    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(0,90,80,.35) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(0,50,50,.45) 0%, transparent 60%),
-    radial-gradient(ellipse 90% 50% at 50% 50%, rgba(0,40,40,.25) 0%, transparent 80%),
-    radial-gradient(ellipse 40% 40% at 15% 80%, rgba(0,77,77,.3) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 50% at 85% 20%, rgba(0,56,56,.35) 0%, transparent 65%);
+    radial-gradient(ellipse 70% 50% at 15% 25%, rgba(0,110,100,.5) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 85% 75%, rgba(0,40,35,.6) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 40% at 55% 50%, rgba(0,60,55,.35) 0%, transparent 70%),
+    radial-gradient(ellipse 35% 45% at 10% 85%, rgba(0,85,80,.4) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at 90% 15%, rgba(0,45,40,.5) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 50% 10%, rgba(0,70,65,.3) 0%, transparent 65%);
 }
 .tex-mottle-lt {
   background:
-    radial-gradient(ellipse 70% 60% at 25% 35%, rgba(235,225,195,.35) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 70% at 75% 65%, rgba(191,155,48,.06) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 40% at 50% 90%, rgba(220,210,180,.2) 0%, transparent 70%);
+    radial-gradient(ellipse 65% 55% at 20% 30%, rgba(225,215,180,.45) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 65% at 80% 70%, rgba(191,155,48,.1) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 35% at 55% 85%, rgba(210,200,170,.3) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 70% 20%, rgba(240,230,200,.25) 0%, transparent 55%);
 }
 
 /* Vignette — darkened edges like aged fabric */
@@ -765,16 +743,17 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
   position: absolute; inset: 0; pointer-events: none; z-index: 1;
 }
 .tex-vignette-dk {
-  box-shadow: inset 0 0 120px rgba(0,20,20,.4), inset 0 0 40px rgba(0,30,30,.2);
+  box-shadow: inset 0 0 180px rgba(0,15,15,.55), inset 0 0 60px rgba(0,25,25,.3);
 }
 .tex-vignette-lt {
-  box-shadow: inset 0 0 100px rgba(180,160,120,.08);
+  box-shadow: inset 0 0 120px rgba(170,150,110,.12);
 }
 
 /* Gold shimmer line — section divider accent */
 .tex-gold-line {
-  position: absolute; left: 0; right: 0; height: 1px; pointer-events: none; z-index: 2;
-  background: linear-gradient(90deg, transparent, rgba(191,155,48,.3) 20%, rgba(191,155,48,.5) 50%, rgba(191,155,48,.3) 80%, transparent);
+  position: absolute; left: 0; right: 0; height: 2px; pointer-events: none; z-index: 2;
+  background: linear-gradient(90deg, transparent 5%, rgba(191,155,48,.4) 20%, rgba(191,155,48,.7) 50%, rgba(191,155,48,.4) 80%, transparent 95%);
+  box-shadow: 0 0 8px rgba(191,155,48,.15);
 }
 .tex-gold-line-t { top: 0 }
 .tex-gold-line-b { bottom: 0 }
