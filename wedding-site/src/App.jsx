@@ -225,7 +225,7 @@ const T = {
   },
 }
 
-const NOTION_RSVP = 'https://www.notion.so/tgre/3121cfcfd40f80b3a9f6d8e0251df083?pvs=106'
+const NOTION_RSVP = 'https://tgre.notion.site/3121cfcfd40f80b3a9f6d8e0251df083?pvs=105'
 
 /* ─── HOOKS ─── */
 function useReveal(th = 0.12) {
@@ -349,7 +349,7 @@ export default function App() {
 
       {/* HERO */}
       <header id="home" className="hero">
-        <div className="hero-bg" style={{ backgroundImage: 'url(/photos/proposal.jpg)' }} />
+        <div className="hero-bg" style={{ backgroundImage: 'url(/photos/Proposal.JPG)' }} />
         <div className="hero-ov" />
         <div className={`hero-ct ${heroLoaded ? 'hero-in' : ''}`}>
           <p className="hero-pre h-d1">{l.hero.pre}</p>
@@ -397,10 +397,10 @@ export default function App() {
         <div className="sec-orn"><GoldDivider /></div>
         <div className="photo-grid">
           <div className="photo-item photo-wide">
-            <img src="/photos/proposal.jpg" alt="The proposal" loading="lazy" />
+            <img src="/photos/Proposal.JPG" alt="The proposal" loading="lazy" />
           </div>
           <div className="photo-item">
-            <img src="/photos/family.jpg" alt="Family celebration" loading="lazy" />
+            <img src="/photos/Family.JPEG" alt="Family celebration" loading="lazy" />
           </div>
         </div>
       </Sec>
