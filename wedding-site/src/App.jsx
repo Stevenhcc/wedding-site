@@ -60,17 +60,19 @@ const T = {
     story: {
       title: 'Our Story',
       sub: 'Two lives, two cultures, one love',
-      p1: "What started as a spark across the Pacific grew into something neither of us expected. Steven, from New Jersey, and Bonnie, from Taichung, Taiwan \u2014 we found each other in the best way possible.",
-      p2: "We got legally married in Taiwan, and now we get to throw the party. We can\u2019t wait to celebrate with the people who\u2019ve meant the most to us \u2014 at Sun Moon Lake, one of Taiwan\u2019s most beautiful places.",
-      p3: "We believe marriage is a gift, and we\u2019re so grateful for every person who\u2019s been part of our story. See you there.",
+      timeline: [
+        { year: '2018', text: 'We met at a campus Christian fellowship at Rutgers University in New Jersey. At a summer BBQ, Steven picked up a guitar and Bonnie started singing along to a hymn \u2014 and just like that, we walked into each other\u2019s world.' },
+        { year: '2021', text: 'The pandemic changed the rhythm of the world and sent us to opposite sides of it. Separated by 14 hours and 12,654 km, our shared values and faith kept us grounded \u2014 and with our families\u2019 support, we only grew more certain of each other.' },
+        { year: '2025', text: 'In December, surrounded by both our families, we got engaged in Southern California.' },
+        { year: '2026', text: 'With gratitude and anticipation, and with your blessing, we\u2019re about to begin the next chapter of our lives together.' },
+      ],
     },
     schedule: {
       title: 'The Day',
       sub: 'Saturday, December 19, 2026',
       events: [
-        { time: '10:00 AM', name: 'Ceremony', venue: 'Soaring Cloud Hall \u96F2\u63DA\u5EF3', detail: 'Love, faith, and family.' },
-        { time: '12:30 PM', name: 'Banquet & Celebration', venue: 'Cosmos Cloud B Hall \u96F2\u7FF0B\u5EF3', detail: 'Chinese banquet, toasts, and a whole lot of joy.' },
-        { time: '3:00 PM', name: 'Farewell', venue: '', detail: 'Send-off with gratitude.' },
+        { time: '10:00 AM', name: 'Wedding Ceremony', venue: 'Soaring Cloud Hall \u96F2\u63DA\u5EF3', detail: 'An indoor ceremony at Fleur de Chine Hotel \u2014 all are welcome to witness this moment of love, regardless of faith background.' },
+        { time: '12:30 PM', name: 'Luncheon', venue: 'Cosmos Cloud B Hall \u96F2\u7FF0B\u5EF3', detail: 'Following the ceremony, join us for an intimate lunch celebration.' },
       ],
     },
     venue: {
@@ -86,30 +88,19 @@ const T = {
         ],
         note: "We may arrange a shuttle from Taichung HSR \u2014 let us know on the RSVP if you\u2019re interested.",
       },
-      overseas: {
-        title: 'From Overseas',
-        steps: [
-          { icon: 'plane', label: 'Fly into Taoyuan International Airport (TPE)' },
-          { icon: 'train', label: 'HSR from Taoyuan \u2192 Taichung Station (40 min)' },
-          { icon: 'bus', label: 'Bus or car from Taichung HSR \u2192 Sun Moon Lake (1.5 hrs)' },
-          { icon: 'hotel', label: 'Check in at Fleur de Chine Hotel' },
-        ],
-        note: 'We recommend arriving the day before to settle in and explore.',
-      },
     },
     rsvp: {
       title: 'RSVP',
-      sub: 'Please respond by November 19, 2026',
+      sub: 'Please respond by May 31, 2026',
       desc: "Let us know you\u2019re coming! Takes about 2 minutes \u2014 helps us plan seating, meals, and transport.",
       cta: 'Open RSVP Form',
     },
     faq: {
       title: 'Questions?',
       items: [
-        { q: 'What should I wear?', a: "Formal or semi-formal. December at Sun Moon Lake is cool \u2014 around 12\u201318\u00B0C (54\u201364\u00B0F) \u2014 so bring a warm layer." },
+        { q: 'What should I wear?', a: "Formal attire that makes you feel confident and comfortable. December at Sun Moon Lake is cool \u2014 around 12\u201318\u00B0C (54\u201364\u00B0F) \u2014 so bring a warm layer." },
         { q: 'What about the weather?', a: "Cool and crisp with possible morning mist. Everything\u2019s indoors, but you\u2019ll want warmth for any time outside." },
         { q: 'How do I find the ceremony and banquet halls?', a: 'Both are on the lobby level. Enter the main entrance and follow the signs toward the banquet wing.' },
-        { q: "I\u2019m coming from overseas \u2014 how do I get there?", a: 'Fly into Taoyuan Airport (TPE), HSR to Taichung (40 min), then bus or car to Sun Moon Lake (1.5 hrs). Arrive the day before if you can.' },
       ],
     },
     explore: {
@@ -150,19 +141,21 @@ const T = {
     },
     photos: { title: '\u6211\u5011\u7684\u65C5\u7A0B', sub: '\u4E00\u8DEF\u8D70\u4F86\u7684\u7CBE\u5F69\u7247\u6BB5' },
     story: {
-      title: '\u6211\u5011\u7684\u6545\u4E8B',
-      sub: '\u5169\u500B\u751F\u547D\u3001\u5169\u7A2E\u6587\u5316\u3001\u4E00\u4EFD\u611B',
-      p1: '\u4E00\u6BB5\u8DE8\u8D8A\u592A\u5E73\u6D0B\u7684\u7DE3\u5206\uFF0C\u6210\u9577\u70BA\u4EE5\u4FE1\u4EF0\u3001\u5BB6\u5EAD\u548C\u5171\u540C\u9858\u666F\u70BA\u6839\u57FA\u7684\u611B\u60C5\u3002\u4FAF\u6210\u4F86\u81EA\u7F8E\u570B\u7D10\u6FA4\u897F\uFF0C\u5B50\u82B8\u4F86\u81EA\u53F0\u7063\u53F0\u4E2D\uFF0C\u5169\u4EBA\u5728\u5F7C\u6B64\u8EAB\u4E0A\u627E\u5230\u4E86\u4EBA\u751F\u65C5\u9014\u4E2D\u6700\u597D\u7684\u5925\u4F34\u3002',
-      p2: '\u6211\u5011\u5DF2\u5728\u53F0\u7063\u5B8C\u6210\u7D50\u5A5A\u767B\u8A18\uFF0C\u73FE\u5728\u7121\u6BD4\u559C\u6085\u5730\u9080\u8ACB\u5C0D\u6211\u5011\u6700\u91CD\u8981\u7684\u4EBA\uFF0C\u4E00\u540C\u5728\u7F8E\u9E97\u7684\u65E5\u6708\u6F6D\u6176\u795D\u6211\u5011\u7684\u7D50\u5408\u3002',
-      p3: '\u6211\u5011\u76F8\u4FE1\u5A5A\u59FB\u662F\u6069\u8CDC\uFF0C\u611F\u8B1D\u6BCF\u4E00\u4F4D\u5728\u6211\u5011\u751F\u547D\u4E2D\u7559\u4E0B\u8DB3\u8DE1\u7684\u4EBA\u3002\u671F\u5F85\u8207\u60A8\u4E00\u540C\u6B61\u6176\u3002',
+      title: '我們的故事',
+      sub: '兩個生命、兩種文化、一份愛',
+      timeline: [
+        { year: '2018', text: '我們在美國紐澤西州羅格斯大學的校園基督徒團契相遇。在夏日的一場BBQ中，Steven 隨手彈起了吉他，Bonnie 隨意地跟著旋律唱起了詩歌；兩人在音樂的交流間，走進了彼此的世界。' },
+        { year: '2021', text: '疫情改變了世界的節奏，也讓我們開始了分隔兩地的生活。雖然相隉14個小時的時差與 12,654 公里的距離，但因著共同的價值觀與一致的目標，我們在家人與親友的支持下，更加地確定了彼此。' },
+        { year: '2025', text: '十二月在雙方家人的見證下，我們於南加州完成訂婚。' },
+        { year: '2026', text: '帶著感恩與期待，在您們的祝福中，我們即將展開人生的下一段旅程。' },
+      ],
     },
     schedule: {
       title: '\u5A5A\u79AE\u6D41\u7A0B',
       sub: '2026\u5E7412\u670819\u65E5\uFF08\u661F\u671F\u516D\uFF09',
       events: [
-        { time: '\u4E0A\u5348 10:00', name: '\u8B49\u5A5A\u5100\u5F0F', venue: '\u96F2\u63DA\u5EF3', detail: '\u4EE5\u611B\u3001\u4FE1\u4EF0\u8207\u5BB6\u5EAD\u70BA\u4E3B\u984C\u7684\u6176\u5178\u3002' },
-        { time: '\u4E2D\u5348 12:30', name: '\u559C\u5BB4', venue: '\u96F2\u7FF0B\u5EF3', detail: '\u4E2D\u5F0F\u559C\u5BB4\u3001\u6B61\u6176\u8207\u5718\u5951\u3002' },
-        { time: '\u4E0B\u5348 3:00', name: '\u79AE\u6210', venue: '', detail: '\u6B61\u9001\u8CD3\u5BA2\uFF0C\u611F\u6069\u8207\u559C\u6A02\u3002' },
+        { time: '\u4E0A\u5348 10:00', name: '\u8B49\u5A5A\u5100\u5F0F', venue: '\u96F2\u63DA\u5EF3', detail: '\u6211\u5011\u5C07\u65BC\u96F2\u54C1\u6EAB\u6CC9\u9152\u5E97\u4E2D\u8209\u884C\u5BA4\u5167\u8B49\u5A5A\u5100\u5F0F\uFF1B\u4E0D\u8AD6\u4FE1\u4EF0\u80CC\u666F\uFF0C\u6211\u5011\u671F\u5F85\u8207\u60A8\u4E00\u540C\u898B\u8B49\u9019\u6BB5\u611B\u60C5\u4E26\u5171\u4EAB\u9019\u4EFD\u559C\u6085\u3002' },
+        { time: '\u4E2D\u5348 12:30', name: '\u6EAB\u99A8\u5BB6\u5BB4', venue: '\u96F2\u7FF0B\u5EF3', detail: '\u8B49\u5A5A\u5100\u5F0F\u5F8C\uFF0C\u6B61\u8FCE\u8207\u6211\u5011\u4E00\u540C\u4EAB\u7528\u5348\u9910\u3002' },
       ],
     },
     venue: {
@@ -178,30 +171,19 @@ const T = {
         ],
         note: '\u6211\u5011\u53EF\u80FD\u5B89\u6392\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u51FA\u767C\u7684\u63A5\u99C1\u8ECA\u2014\u2014\u8ACB\u5728\u56DE\u8986\u8868\u55AE\u4E2D\u544A\u77E5\u662F\u5426\u9700\u8981\u3002',
       },
-      overseas: {
-        title: 'From Overseas',
-        steps: [
-          { icon: 'plane', label: '\u98DB\u62B5\u6843\u5712\u570B\u969B\u6A5F\u5834\uFF08TPE\uFF09' },
-          { icon: 'train', label: '\u642D\u4E58\u9AD8\u9435\uFF1A\u6843\u5712\u7AD9 \u2192 \u53F0\u4E2D\u7AD9\uFF08\u7D0440\u5206\u9418\uFF09' },
-          { icon: 'bus', label: '\u5F9E\u53F0\u4E2D\u9AD8\u9435\u7AD9\u642D\u5BA2\u904B\u6216\u5305\u8ECA\u81F3\u65E5\u6708\u6F6D\uFF08\u7D041.5\u5C0F\u6642\uFF09' },
-          { icon: 'hotel', label: '\u5165\u4F4F\u96F2\u54C1\u6EAB\u6CC9\u9152\u5E97' },
-        ],
-        note: '\u5EFA\u8B70\u65BC\u5A5A\u79AE\u524D\u4E00\u5929\u62B5\u9054\uFF0C\u53EF\u9806\u4FBF\u4EAB\u53D7\u65E5\u6708\u6F6D\u7684\u7F8E\u666F\u3002',
-      },
     },
     rsvp: {
       title: '\u51FA\u5E2D\u56DE\u8986',
-      sub: '\u8ACB\u65BC2026\u5E7411\u670819\u65E5\u524D\u56DE\u8986',
+      sub: '\u8ACB\u65BC2026\u5E745\u670831\u65E5\u524D\u56DE\u8986',
       desc: '\u8ACB\u544A\u8A34\u6211\u5011\u60A8\u662F\u5426\u80FD\u51FA\u5E2D\uFF01\u586B\u5BEB\u56DE\u8986\u8868\u55AE\u50C5\u9700\u7D042\u5206\u9418\uFF0C\u6709\u52A9\u65BC\u6211\u5011\u5B89\u6392\u5EA7\u4F4D\u3001\u9910\u9EDE\u53CA\u4EA4\u901A\u3002',
       cta: '\u958B\u555F\u56DE\u8986\u8868\u55AE',
     },
     faq: {
       title: '\u5E38\u898B\u554F\u984C',
       items: [
-        { q: '\u7A7F\u8457\u8981\u6C42\uFF1F', a: '\u8ACB\u8457\u6B63\u5F0F\u670D\u88DD\u3002\u5341\u4E8C\u6708\u7684\u65E5\u6708\u6F6D\u6C23\u6EAB\u8F03\u6DBC\uFF08\u7D0412\u201318\u00B0C\uFF09\uFF0C\u8ACB\u651C\u5E36\u4FDD\u6696\u5916\u5957\u3002' },
+        { q: '\u670D\u88DD\u6307\u5357\uFF1F', a: '\u6B61\u8FCE\u4EE5\u6B63\u5F0F\uFF08\u8B93\u60A8\u611F\u5230\u81EA\u4FE1\u8207\u8212\u9069\uFF09\u7684\u670D\u88DD\u51FA\u5E2D\u3002\u5341\u4E8C\u6708\u7684\u65E5\u6708\u6F6D\u6C23\u6EAB\u8F03\u6DBC\uFF08\u7D0412\u201318\u00B0C\uFF09\uFF0C\u8ACB\u651C\u5E36\u4FDD\u6696\u5916\u5957\u3002' },
         { q: '\u5929\u6C23\u5982\u4F55\uFF1F', a: '\u9810\u8A08\u6DBC\u723D\u6E05\u65B0\uFF0C\u65E9\u6668\u53EF\u80FD\u6709\u8584\u9727\u3002\u8B49\u5A5A\u5100\u5F0F\u53CA\u559C\u5BB4\u7686\u5728\u5BA4\u5167\uFF0C\u4F46\u6236\u5916\u6D3B\u52D5\u9700\u6CE8\u610F\u4FDD\u6696\u3002' },
         { q: '\u5982\u4F55\u627E\u5230\u5100\u5F0F\u53CA\u5BB4\u6703\u5EF3\uFF1F', a: '\u5169\u500B\u5EF3\u7686\u4F4D\u65BC\u9152\u5E97\u5927\u5EF3\u6A13\u5C64\u3002\u5F9E\u5927\u9580\u9032\u5165\u5F8C\uFF0C\u6CBF\u8D70\u5ECA\u524D\u5F80\u5BB4\u6703\u5340\uFF0C\u73FE\u5834\u6703\u6709\u6307\u793A\u6A19\u8A8C\u5F15\u5C0E\u60A8\u3002' },
-        { q: '\u6211\u5F9E\u6D77\u5916\u524D\u4F86\uFF0C\u600E\u9EBC\u5230\u9054\uFF1F', a: '\u98DB\u62B5\u6843\u5712\u6A5F\u5834\uFF08TPE\uFF09\uFF0C\u642D\u9AD8\u9435\u81F3\u53F0\u4E2D\uFF0840\u5206\u9418\uFF09\uFF0C\u518D\u8F49\u4E58\u5BA2\u904B\u6216\u5305\u8ECA\u81F3\u65E5\u6708\u6F6D\uFF081.5\u5C0F\u6642\uFF09\u3002\u5EFA\u8B70\u5A5A\u79AE\u524D\u4E00\u5929\u62B5\u9054\u3002' },
       ],
     },
     explore: {
@@ -383,10 +365,13 @@ export default function App() {
         <h2 className="sec-t">{l.story.title}</h2>
         <p className="sec-sub">{l.story.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
-        <Stagger className="story-b" delay={0.2}>
-          <p>{l.story.p1}</p>
-          <p>{l.story.p2}</p>
-          <p>{l.story.p3}</p>
+        <Stagger className="story-tl" delay={0.15}>
+          {l.story.timeline.map((item, i) => (
+            <div key={i} className="tl-item">
+              <span className="tl-year">{item.year}</span>
+              <p className="tl-text">{item.text}</p>
+            </div>
+          ))}
         </Stagger>
       </Sec>
 
@@ -397,12 +382,10 @@ export default function App() {
         <div className="sec-orn"><GoldDivider /></div>
         <div className="photo-grid">
           <div className="photo-item photo-wide">
-            <img src="/photos/Proposal.JPG" alt="The proposal — December 6, 2025" loading="lazy" />
-            <p className="photo-cap">The proposal · December 6, 2025 · Montage Laguna Beach</p>
+            <img src="/photos/Proposal.JPG" alt="December 6, 2025" loading="lazy" />
           </div>
           <div className="photo-item">
-            <img src="/photos/Family.JPEG" alt="Family celebration — December 6, 2025" loading="lazy" />
-            <p className="photo-cap">Family celebration · December 6, 2025 · Montage Laguna Beach</p>
+            <img src="/photos/Family.JPEG" alt="December 6, 2025" loading="lazy" />
           </div>
           <p className="photo-meta">December 6, 2025 · The Montage, Laguna Beach, California</p>
         </div>
@@ -441,18 +424,6 @@ export default function App() {
             <h4 className="v-card-t">{l.venue.domestic.title}</h4>
             <ul className="v-steps">{l.venue.domestic.steps.map((s, i) => <li key={i}>{s}</li>)}</ul>
             <p className="v-note">{l.venue.domestic.note}</p>
-          </BeadedBorder>
-          <BeadedBorder className="v-card">
-            <h4 className="v-card-t">{l.venue.overseas.title}</h4>
-            <Stagger className="v-os" delay={0.12}>
-              {l.venue.overseas.steps.map((s, i) => (
-                <div key={i} className="os-s">
-                  <Icon type={s.icon} />
-                  <span className="os-l">{s.label}</span>
-                </div>
-              ))}
-            </Stagger>
-            <p className="v-note">{l.venue.overseas.note}</p>
           </BeadedBorder>
         </Stagger>
         <iframe className="v-map"
@@ -774,8 +745,10 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .photo-meta { text-align: center; margin-top: 16px; font-size: .8rem; color: rgba(120,100,60,.55); letter-spacing: .06em; font-style: italic }
 
 /* ═══ STORY ═══ */
-.story-b { max-width: 700px; margin: 0 auto; text-align: center }
-.story-b p { font-size: 20px; line-height: 2.1; color: var(--mid); font-weight: 300; margin-bottom: 32px }
+.story-tl { max-width: 700px; margin: 0 auto; }
+.tl-item { display: flex; gap: 24px; margin-bottom: 36px; align-items: baseline }
+.tl-year { font-family: var(--heading); font-size: 28px; color: var(--gold); min-width: 64px; text-align: right; flex-shrink: 0; letter-spacing: 0.02em }
+.tl-text { font-size: 19px; line-height: 2; color: var(--mid); font-weight: 300; margin: 0 }
 
 /* ═══ SCHEDULE ═══ */
 .sched {
@@ -916,7 +889,9 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
   .hero-day { font-size: 18px }
   .hero-vn { font-size: 17px }
   .sec-t { font-size: 28px }
-  .story-b p { font-size: 19px }
+  .tl-item { flex-direction: column; gap: 8px; text-align: center }
+  .tl-year { text-align: center; min-width: unset }
+  .tl-text { font-size: 17px }
   .tl-i { grid-template-columns: 70px 26px 1fr }
   .tl::before { left: 82px }
   .tl-nm { font-size: 22px }
