@@ -349,7 +349,7 @@ export default function App() {
 
       {/* HERO */}
       <header id="home" className="hero">
-        <div className="hero-bg" style={{ backgroundImage: 'url(/photos/lake-sunset.jpg)' }} />
+        <div className="hero-bg" style={{ backgroundImage: 'url(/photos/proposal.jpg)' }} />
         <div className="hero-ov" />
         <div className={`hero-ct ${heroLoaded ? 'hero-in' : ''}`}>
           <p className="hero-pre h-d1">{l.hero.pre}</p>
@@ -395,9 +395,14 @@ export default function App() {
         <h2 className="sec-t">{l.photos.title}</h2>
         <p className="sec-sub">{l.photos.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
-        <BeadedBorder className="photos-placeholder">
-          <p className="photos-msg">{lang === 'zh' ? '\u5373\u5C07\u4E0A\u50B3\u6211\u5011\u7684\u5408\u7167' : 'Our photos coming soon'}</p>
-        </BeadedBorder>
+        <div className="photo-grid">
+          <div className="photo-item photo-wide">
+            <img src="/photos/proposal.jpg" alt="The proposal" loading="lazy" />
+          </div>
+          <div className="photo-item">
+            <img src="/photos/family.jpg" alt="Family celebration" loading="lazy" />
+          </div>
+        </div>
       </Sec>
 
       {/* SCHEDULE */}
@@ -634,7 +639,7 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 
 /* ═══ HERO ═══ */
 .hero { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden }
-.hero-bg { position: absolute; inset: -20px; background-size: cover; background-position: center 35%; filter: saturate(1.1) contrast(0.9) brightness(0.55) }
+.hero-bg { position: absolute; inset: -20px; background-size: cover; background-position: center 55%; filter: saturate(1.1) contrast(0.95) brightness(0.45) }
 .hero-ov {
   position: absolute; inset: 0;
   background:
@@ -746,12 +751,22 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
     var(--cream-d);
   text-align: center;
 }
-.photos-placeholder {
-  max-width: 700px; margin: 0 auto; padding: 80px 44px;
-  background: rgba(255,253,235,.5); transition: border-color .4s;
+.photo-grid {
+  max-width: 900px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 24px;
 }
-.photos-placeholder:hover { border-color: rgba(191,155,48,.4) }
-.photos-msg { font-size: 22px; color: var(--lt); font-style: italic; font-weight: 400 }
+.photo-item {
+  position: relative; overflow: hidden; border-radius: 12px;
+  border: 1px solid rgba(191,155,48,.2);
+  box-shadow: 0 4px 24px rgba(0,0,0,.06), inset 0 0 0 1px rgba(255,255,255,.3);
+  transition: transform .5s var(--ease), box-shadow .5s;
+}
+.photo-item:hover { transform: translateY(-3px); box-shadow: 0 8px 36px rgba(0,0,0,.1) }
+.photo-item img {
+  width: 100%; display: block;
+  transition: transform .6s var(--ease);
+}
+.photo-item:hover img { transform: scale(1.02) }
 
 /* ═══ STORY ═══ */
 .story-b { max-width: 700px; margin: 0 auto; text-align: center }
@@ -913,7 +928,7 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
   .gift-t { font-size: 26px }
   .gift-b { font-size: 19px }
   .ft-v { font-size: 18px }
-  .photos-placeholder { padding: 64px 28px; border-radius: 14px }
+  .photo-grid { gap: 16px }
   .v-map { border-radius: 10px }
   .gold-div { width: 160px }
   .v-steps li { font-size: 18px }
