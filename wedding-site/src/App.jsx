@@ -36,89 +36,6 @@ const BeadedBorder = ({ children, className = '' }) => (
   <div className={`beaded ${className}`}>{children}</div>
 )
 
-/* ─── CANVAS TEXTURE GENERATORS ─── */
-function useNoiseTexture(size = 256, intensity = 50) {
-  const [dataUrl, setDataUrl] = useState('')
-  useEffect(() => {
-    const c = document.createElement('canvas')
-    c.width = size; c.height = size
-    const ctx = c.getContext('2d')
-    const img = ctx.createImageData(size, size)
-    for (let i = 0; i < img.data.length; i += 4) {
-      const v = Math.random() * intensity | 0
-      img.data[i] = v; img.data[i+1] = v; img.data[i+2] = v; img.data[i+3] = 255
-    }
-    ctx.putImageData(img, 0, 0)
-    setDataUrl(c.toDataURL())
-  }, [size, intensity])
-  return dataUrl
-}
-
-function useSilkTexture(size = 300) {
-  const [dataUrl, setDataUrl] = useState('')
-  useEffect(() => {
-    const c = document.createElement('canvas')
-    c.width = size; c.height = size
-    const ctx = c.getContext('2d')
-    // Base fill
-    ctx.fillStyle = 'rgba(128,128,128,0)'
-    ctx.fillRect(0, 0, size, size)
-    // Horizontal silk threads — varying opacity
-    for (let y = 0; y < size; y += 2) {
-      const a = 0.03 + Math.random() * 0.06
-      ctx.fillStyle = `rgba(191,155,48,${a})`
-      ctx.fillRect(0, y, size, 1)
-    }
-    // Vertical weft — slightly darker
-    for (let x = 0; x < size; x += 3) {
-      const a = 0.02 + Math.random() * 0.04
-      ctx.fillStyle = `rgba(0,0,0,${a})`
-      ctx.fillRect(x, 0, 1, size)
-    }
-    // Diagonal sheen bands
-    ctx.globalCompositeOperation = 'screen'
-    for (let i = -size; i < size * 2; i += 40 + Math.random() * 30) {
-      const a = 0.01 + Math.random() * 0.025
-      ctx.strokeStyle = `rgba(255,240,200,${a})`
-      ctx.lineWidth = 8 + Math.random() * 15
-      ctx.beginPath()
-      ctx.moveTo(i, 0)
-      ctx.lineTo(i + size * 0.4, size)
-      ctx.stroke()
-    }
-    setDataUrl(c.toDataURL())
-  }, [size])
-  return dataUrl
-}
-
-/* ─── TEXTURE OVERLAY COMPONENTS ─── */
-const FabricNoise = ({ opacity = 0.12, blend = 'multiply' }) => {
-  const noise = useNoiseTexture(256, 50)
-  if (!noise) return null
-  return (
-    <div style={{
-      position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1,
-      opacity, mixBlendMode: blend,
-      backgroundImage: `url(${noise})`,
-      backgroundSize: '256px 256px',
-      backgroundRepeat: 'repeat',
-    }} />
-  )
-}
-
-const SilkWeave = ({ opacity = 0.6 }) => {
-  const silk = useSilkTexture(300)
-  if (!silk) return null
-  return (
-    <div style={{
-      position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 1,
-      opacity,
-      backgroundImage: `url(${silk})`,
-      backgroundSize: '300px 300px',
-      backgroundRepeat: 'repeat',
-    }} />
-  )
-}
 
 /* ─── CONTENT ─── */
 const T = {
@@ -434,12 +351,6 @@ export default function App() {
       <header id="home" className="hero">
         <div className="hero-bg" style={{ backgroundImage: 'url(/photos/lake-sunset.jpg)' }} />
         <div className="hero-ov" />
-        <div className="tex-mottle tex-mottle-dk" />
-        <div className="silk-grain" />
-        <SilkWeave opacity={0.7} />
-        <FabricNoise opacity={0.22} blend="soft-light" />
-        <SilkWeave opacity={0.7} />
-        <div className="tex-vignette tex-vignette-dk" />
         <div className={`hero-ct ${heroLoaded ? 'hero-in' : ''}`}>
           <p className="hero-pre h-d1">{l.hero.pre}</p>
           <h1 className="hero-nm h-d2">
@@ -461,10 +372,6 @@ export default function App() {
       {/* GIFT NOTE */}
       <Sec className="gift-sec" anim="fade">
         <BeadedBorder className="gift">
-          <div className="tex-mottle tex-mottle-dk" />
-          <div className="silk-grain silk-grain-s" />
-          <FabricNoise opacity={0.22} blend="soft-light" />
-        <SilkWeave opacity={0.7} />
           <h3 className="gift-t">{l.noGift.title}</h3>
           <GoldDivider />
           <p className="gift-b">{l.noGift.body}</p>
@@ -473,10 +380,6 @@ export default function App() {
 
       {/* STORY */}
       <Sec id="story" anim="up">
-        <div className="tex-mottle tex-mottle-lt" />
-        <FabricNoise opacity={0.1} blend="multiply" />
-        <SilkWeave opacity={0.35} />
-        <div className="tex-vignette tex-vignette-lt" />
         <h2 className="sec-t">{l.story.title}</h2>
         <p className="sec-sub">{l.story.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -489,8 +392,6 @@ export default function App() {
 
       {/* PHOTOS */}
       <Sec className="photos-sec" anim="scale">
-        <FabricNoise opacity={0.1} blend="multiply" />
-        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.photos.title}</h2>
         <p className="sec-sub">{l.photos.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -501,14 +402,8 @@ export default function App() {
 
       {/* SCHEDULE */}
       <Sec id="schedule" className="sched" dark anim="up">
-        <div className="tex-mottle tex-mottle-dk" />
-        <div className="silk-grain" />
-        <SilkWeave opacity={0.7} />
-        <FabricNoise opacity={0.22} blend="soft-light" />
-        <SilkWeave opacity={0.7} />
-        <div className="tex-vignette tex-vignette-dk" />
-        <div className="tex-gold-line tex-gold-line-t" />
-        <div className="tex-gold-line tex-gold-line-b" />
+        <div className="gold-line gold-line-t" />
+        <div className="gold-line gold-line-b" />
         <h2 className="sec-t">{l.schedule.title}</h2>
         <p className="sec-sub-big">{l.schedule.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -529,9 +424,6 @@ export default function App() {
 
       {/* VENUE */}
       <Sec id="venue" anim="up">
-        <div className="tex-mottle tex-mottle-lt" />
-        <FabricNoise opacity={0.1} blend="multiply" />
-        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.venue.title}</h2>
         <p className="sec-sub">{l.venue.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -562,13 +454,8 @@ export default function App() {
 
       {/* RSVP */}
       <Sec id="rsvp" className="rsvp-sec" dark anim="scale">
-        <div className="tex-mottle tex-mottle-dk" />
-        <div className="silk-grain" />
-        <SilkWeave opacity={0.7} />
-        <FabricNoise opacity={0.22} blend="soft-light" />
-        <SilkWeave opacity={0.7} />
-        <div className="tex-vignette tex-vignette-dk" />
-        <div className="tex-gold-line tex-gold-line-t" />
+        <div className="gold-line gold-line-t" />
+        <div className="gold-line gold-line-b" />
         <h2 className="sec-t">{l.rsvp.title}</h2>
         <p className="sec-sub-big">{l.rsvp.sub}</p>
         <div className="sec-orn"><GoldDivider light /></div>
@@ -578,8 +465,6 @@ export default function App() {
 
       {/* FAQ */}
       <Sec id="faq" className="faq-sec" anim="up">
-        <FabricNoise opacity={0.1} blend="multiply" />
-        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.faq.title}</h2>
         <div className="sec-orn"><GoldDivider /></div>
         <Stagger className="faq-ls" delay={0.1}>
@@ -597,8 +482,6 @@ export default function App() {
 
       {/* EXPLORE */}
       <Sec className="exp-sec" anim="up">
-        <FabricNoise opacity={0.1} blend="multiply" />
-        <SilkWeave opacity={0.35} />
         <h2 className="sec-t">{l.explore.title}</h2>
         <p className="sec-sub">{l.explore.sub}</p>
         <div className="sec-orn"><GoldDivider /></div>
@@ -615,13 +498,6 @@ export default function App() {
 
       {/* FOOTER */}
       <footer className="ft">
-        <div className="tex-mottle tex-mottle-dk" />
-        <div className="silk-grain" />
-        <SilkWeave opacity={0.7} />
-        <FabricNoise opacity={0.22} blend="soft-light" />
-        <SilkWeave opacity={0.7} />
-        <div className="tex-vignette tex-vignette-dk" />
-        <div className="tex-gold-line tex-gold-line-t" />
         <div className="ft-ct">
           <div className="ft-nm">{l.footer}</div>
           <div className="ft-fn">{l.footerNames}</div>
@@ -670,113 +546,34 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
   background: var(--cream);
 }
 
-/* ═══ FABRIC TEXTURE SYSTEM ═══ */
-.silk-grain {
-  position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  opacity: .8;
-  background:
-    repeating-linear-gradient(
-      87deg,
-      transparent,
-      transparent 2px,
-      rgba(191,155,48,.08) 2px,
-      rgba(191,155,48,.08) 3px
-    ),
-    repeating-linear-gradient(
-      -3deg,
-      transparent,
-      transparent 4px,
-      rgba(0,0,0,.05) 4px,
-      rgba(0,0,0,.05) 5px
-    ),
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 6px,
-      rgba(191,155,48,.035) 6px,
-      transparent 7px
-    );
+/* ═══ ELEGANT DEPTH SYSTEM ═══ */
+/* Ambient light and vignettes — no pixel noise, no fake grain */
+.gold-line {
+  position: absolute; left: 10%; right: 10%; height: 1px; pointer-events: none; z-index: 2;
+  background: linear-gradient(90deg, transparent, rgba(191,155,48,.3) 25%, rgba(191,155,48,.45) 50%, rgba(191,155,48,.3) 75%, transparent);
 }
-.silk-grain-s { opacity: .6 }
+.gold-line-t { top: 0 }
+.gold-line-b { bottom: 0 }
 
-/* Noise is handled by canvas-based FabricNoise component */
 
-/* Mottled color variation — uneven aged fabric */
-.tex-mottle {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-}
-.tex-mottle-dk {
-  background:
-    radial-gradient(ellipse 70% 50% at 15% 25%, rgba(0,110,100,.5) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 70% at 85% 75%, rgba(0,40,35,.6) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 40% at 55% 50%, rgba(0,60,55,.35) 0%, transparent 70%),
-    radial-gradient(ellipse 35% 45% at 10% 85%, rgba(0,85,80,.4) 0%, transparent 55%),
-    radial-gradient(ellipse 45% 40% at 90% 15%, rgba(0,45,40,.5) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 60% at 50% 10%, rgba(0,70,65,.3) 0%, transparent 65%);
-}
-.tex-mottle-lt {
-  background:
-    radial-gradient(ellipse 65% 55% at 20% 30%, rgba(225,215,180,.45) 0%, transparent 65%),
-    radial-gradient(ellipse 45% 65% at 80% 70%, rgba(191,155,48,.1) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 35% at 55% 85%, rgba(210,200,170,.3) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 70% 20%, rgba(240,230,200,.25) 0%, transparent 55%);
-}
-
-/* Vignette — darkened edges like aged fabric */
-.tex-vignette {
-  position: absolute; inset: 0; pointer-events: none; z-index: 1;
-}
-.tex-vignette-dk {
-  box-shadow: inset 0 0 180px rgba(0,15,15,.55), inset 0 0 60px rgba(0,25,25,.3);
-}
-.tex-vignette-lt {
-  box-shadow: inset 0 0 120px rgba(170,150,110,.12);
-}
-
-/* Gold shimmer line — section divider accent */
-.tex-gold-line {
-  position: absolute; left: 0; right: 0; height: 2px; pointer-events: none; z-index: 2;
-  background: linear-gradient(90deg, transparent 5%, rgba(191,155,48,.4) 20%, rgba(191,155,48,.7) 50%, rgba(191,155,48,.4) 80%, transparent 95%);
-  box-shadow: 0 0 8px rgba(191,155,48,.15);
-}
-.tex-gold-line-t { top: 0 }
-.tex-gold-line-b { bottom: 0 }
-
-/* ═══ ORNATE BEADED BORDER ═══ */
+/* ═══ ELEGANT FRAME BORDER ═══ */
 .beaded {
   position: relative;
-  border: 2px solid rgba(191,155,48,.5);
-  border-radius: 16px;
+  border: 1px solid rgba(191,155,48,.35);
+  border-radius: 14px;
   overflow: hidden;
   box-shadow:
-    0 0 0 1px rgba(191,155,48,.1),
-    inset 0 0 30px rgba(0,0,0,.03),
-    0 2px 12px rgba(0,0,0,.04);
+    0 0 0 1px rgba(191,155,48,.08),
+    inset 0 0 40px rgba(0,0,0,.03),
+    0 4px 20px rgba(0,0,0,.04);
 }
 .beaded::before {
   content: '';
-  position: absolute; inset: 6px;
-  border: 1.5px solid rgba(191,155,48,.25);
-  border-radius: 11px;
+  position: absolute; inset: 5px;
+  border: 1px solid rgba(191,155,48,.18);
+  border-radius: 10px;
   pointer-events: none;
   z-index: 3;
-}
-.beaded::after {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 16px;
-  pointer-events: none;
-  z-index: 2;
-  background-image:
-    radial-gradient(circle 3px at 16px 0px, rgba(191,155,48,.35) 1.5px, transparent 1.5px),
-    radial-gradient(circle 3px at 36px 0px, rgba(160,0,47,.2) 1.5px, transparent 1.5px),
-    radial-gradient(circle 3px at 56px 0px, rgba(191,155,48,.35) 1.5px, transparent 1.5px),
-    radial-gradient(circle 3px at 16px 100%, rgba(191,155,48,.35) 1.5px, transparent 1.5px),
-    radial-gradient(circle 3px at 36px 100%, rgba(160,0,47,.2) 1.5px, transparent 1.5px),
-    radial-gradient(circle 3px at 56px 100%, rgba(191,155,48,.35) 1.5px, transparent 1.5px);
-  background-size: 60px 100%;
-  background-repeat: repeat-x;
-  background-position: center top, center top, center top, center bottom, center bottom, center bottom;
 }
 
 /* ═══ STAGGER ═══ */
@@ -841,8 +638,11 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .hero-ov {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 120% 80% at 50% 40%, rgba(0,77,77,.2) 0%, transparent 70%),
-    linear-gradient(180deg, rgba(0,77,77,.35) 0%, rgba(0,56,56,.55) 40%, rgba(0,38,38,.8) 100%);
+    radial-gradient(ellipse 100% 70% at 50% 35%, rgba(0,77,77,.15) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,40,38,.25) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,40,38,.2) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(0,60,60,.3) 0%, rgba(0,50,50,.5) 35%, rgba(0,35,35,.75) 100%);
+  box-shadow: inset 0 0 200px rgba(0,15,15,.3);
 }
 
 .hero-ct { position: relative; z-index: 5; color: var(--cream); padding: 100px 32px 80px }
@@ -883,25 +683,43 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .gift-sec { padding: 0 !important }
 .gift {
   position: relative;
-  background: var(--teal);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 40%, rgba(0,85,80,.2) 0%, transparent 65%),
+    var(--teal);
   text-align: center; padding: 84px 44px;
   margin: 0; border-radius: 0 !important;
   border-left: none !important; border-right: none !important;
-  border-top: 2px solid rgba(191,155,48,.3) !important;
-  border-bottom: 2px solid rgba(191,155,48,.3) !important;
-  box-shadow: inset 0 0 80px rgba(0,20,20,.3);
+  border-top: 1px solid rgba(191,155,48,.25) !important;
+  border-bottom: 1px solid rgba(191,155,48,.25) !important;
+  box-shadow: inset 0 0 120px rgba(0,18,18,.35);
 }
 .gift::before { border-radius: 0 !important; left: 12px !important; right: 12px !important; top: 8px !important; bottom: 8px !important }
 .gift-t { font-size: 28px; font-weight: 400; color: var(--gold); margin-bottom: 22px; font-style: italic; position: relative; z-index: 4 }
 .gift-b { font-size: 20px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.65); max-width: 620px; margin: 22px auto 0; position: relative; z-index: 4 }
 
 /* ═══ SECTIONS ═══ */
-.sec { padding: 110px 44px; overflow: hidden; position: relative }
+.sec {
+  padding: 110px 44px; overflow: hidden; position: relative;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 40%, rgba(255,250,235,.6) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 25% 70%, rgba(240,230,205,.3) 0%, transparent 60%),
+    var(--cream);
+  box-shadow: inset 0 1px 0 rgba(191,155,48,.1);
+}
 .sec-up { opacity: 0; transform: translateY(36px); transition: opacity .8s var(--ease), transform .8s var(--ease) }
 .sec-fade { opacity: 0; transition: opacity 1s var(--ease) }
 .sec-scale { opacity: 0; transform: scale(.97); transition: opacity .8s var(--ease), transform .8s var(--ease) }
 .sec-v.sec-up, .sec-v.sec-fade, .sec-v.sec-scale { opacity: 1; transform: none }
-.sec-dk { background: var(--teal); color: var(--cream); position: relative }
+.sec-dk {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 30%, rgba(0,90,80,.25) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 20% 70%, rgba(0,60,55,.2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 60%, rgba(0,50,45,.15) 0%, transparent 60%),
+    var(--teal);
+  color: var(--cream);
+  position: relative;
+  box-shadow: inset 0 0 150px rgba(0,20,18,.4), inset 0 1px 0 rgba(191,155,48,.15);
+}
 
 /* Cards get subtle texture */
 .v-card, .exp-c {
@@ -940,7 +758,13 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .story-b p { font-size: 20px; line-height: 2.1; color: var(--mid); font-weight: 300; margin-bottom: 32px }
 
 /* ═══ SCHEDULE ═══ */
-.sched { background: var(--teal); box-shadow: inset 0 0 100px rgba(0,20,20,.25) }
+.sched {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 25%, rgba(0,85,80,.2) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 15% 75%, rgba(0,55,50,.15) 0%, transparent 55%),
+    var(--teal);
+  box-shadow: inset 0 0 140px rgba(0,15,15,.3);
+}
 .tl { max-width: 740px; margin: 0 auto; position: relative }
 .tl::before { content: ''; position: absolute; left: 128px; top: 12px; bottom: 12px; width: 1.5px; background: rgba(191,155,48,.2) }
 .tl-i { display: grid; grid-template-columns: 110px 36px 1fr; padding: 32px 0; align-items: start }
@@ -956,7 +780,11 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 /* ═══ VENUE ═══ */
 .v-addr { text-align: center; font-family: var(--sans); font-size: 18px; color: var(--lt); margin-bottom: 48px; font-weight: 300 }
 .v-grid { max-width: 860px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px }
-.v-card { padding: 40px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
+.v-card {
+  padding: 40px;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,250,240,.5) 0%, transparent 70%), var(--cream);
+  transition: transform .4s var(--ease), box-shadow .4s;
+}
 .v-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.06) }
 .v-card-t { font-family: var(--sans); font-size: 17px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-d); margin-bottom: 24px; font-weight: 500 }
 .v-steps { list-style: none; padding: 0 }
@@ -974,7 +802,13 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 @keyframes fadeUp { to { opacity: 1 } }
 
 /* ═══ RSVP ═══ */
-.rsvp-sec { background: var(--teal-d); text-align: center; box-shadow: inset 0 0 100px rgba(0,15,15,.3) }
+.rsvp-sec {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 35%, rgba(0,65,60,.2) 0%, transparent 60%),
+    var(--teal-d);
+  text-align: center;
+  box-shadow: inset 0 0 140px rgba(0,12,12,.35);
+}
 .rsvp-sec .sec-t { color: var(--cream) }
 .rsvp-d { text-align: center; max-width: 580px; margin: 0 auto 48px; font-size: 20px; line-height: 2; font-weight: 300; color: rgba(255,253,235,.55) }
 .rsvp-btn {
@@ -1007,7 +841,11 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
     var(--cream-d);
 }
 .exp-g { max-width: 940px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px }
-.exp-c { padding: 36px; background: var(--cream); transition: transform .4s var(--ease), box-shadow .4s }
+.exp-c {
+  padding: 36px;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,250,240,.4) 0%, transparent 70%), var(--cream);
+  transition: transform .4s var(--ease), box-shadow .4s;
+}
 .exp-c::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--coral)); transition: width .5s var(--ease); border-radius: 3px 3px 0 0; z-index: 4 }
 .exp-c:hover::after { width: 100% }
 .exp-c:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(0,0,0,.05) }
@@ -1017,7 +855,13 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 .exp-d { font-size: 18px; color: var(--mid); font-weight: 300; line-height: 1.9 }
 
 /* ═══ FOOTER ═══ */
-.ft { text-align: center; padding: 90px 40px; background: var(--teal-x); color: rgba(255,253,235,.6); position: relative; overflow: hidden; box-shadow: inset 0 0 120px rgba(0,10,10,.4) }
+.ft {
+  text-align: center; padding: 90px 40px; color: rgba(255,253,235,.6); position: relative; overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,55,50,.25) 0%, transparent 65%),
+    var(--teal-x);
+  box-shadow: inset 0 0 160px rgba(0,8,8,.45), inset 0 1px 0 rgba(191,155,48,.12);
+}
 .ft-ct { position: relative; z-index: 5 }
 .ft-nm { font-size: clamp(30px, 4vw, 44px); font-weight: 400; color: var(--cream); letter-spacing: 0.5px; margin-bottom: 10px; font-style: italic; margin-top: 28px }
 .ft-fn { font-family: var(--sans); font-size: 17px; letter-spacing: 1.5px; color: rgba(191,155,48,.45); margin-bottom: 18px }
