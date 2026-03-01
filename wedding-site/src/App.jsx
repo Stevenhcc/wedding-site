@@ -349,7 +349,7 @@ export default function App() {
 
       {/* HERO */}
       <header id="home" className="hero">
-        <div className="hero-bg" style={{ backgroundImage: 'url(/photos/Proposal.JPG)' }} />
+        <div className="hero-bg" style={{ backgroundImage: 'url(/photos/lake-sunset.jpg)' }} />
         <div className="hero-ov" />
         <div className={`hero-ct ${heroLoaded ? 'hero-in' : ''}`}>
           <p className="hero-pre h-d1">{l.hero.pre}</p>
@@ -397,11 +397,14 @@ export default function App() {
         <div className="sec-orn"><GoldDivider /></div>
         <div className="photo-grid">
           <div className="photo-item photo-wide">
-            <img src="/photos/Proposal.JPG" alt="The proposal" loading="lazy" />
+            <img src="/photos/Proposal.JPG" alt="The proposal — December 6, 2025" loading="lazy" />
+            <p className="photo-cap">The proposal · December 6, 2025 · Montage Laguna Beach</p>
           </div>
           <div className="photo-item">
-            <img src="/photos/Family.JPEG" alt="Family celebration" loading="lazy" />
+            <img src="/photos/Family.JPEG" alt="Family celebration — December 6, 2025" loading="lazy" />
+            <p className="photo-cap">Family celebration · December 6, 2025 · Montage Laguna Beach</p>
           </div>
+          <p className="photo-meta">December 6, 2025 · The Montage, Laguna Beach, California</p>
         </div>
       </Sec>
 
@@ -639,7 +642,7 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
 
 /* ═══ HERO ═══ */
 .hero { position: relative; min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden }
-.hero-bg { position: absolute; inset: -20px; background-size: cover; background-position: center 55%; filter: saturate(1.1) contrast(0.95) brightness(0.45) }
+.hero-bg { position: absolute; inset: -20px; background-size: cover; background-position: center 55%; filter: saturate(1.1) contrast(0.95) brightness(0.5) }
 .hero-ov {
   position: absolute; inset: 0;
   background:
@@ -767,6 +770,8 @@ html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased }
   transition: transform .6s var(--ease);
 }
 .photo-item:hover img { transform: scale(1.02) }
+.photo-cap { text-align: center; margin: 10px 0 0; font-family: var(--font-serif); font-size: .95rem; color: var(--gold); letter-spacing: .03em }
+.photo-meta { text-align: center; margin-top: 16px; font-size: .8rem; color: rgba(120,100,60,.55); letter-spacing: .06em; font-style: italic }
 
 /* ═══ STORY ═══ */
 .story-b { max-width: 700px; margin: 0 auto; text-align: center }
